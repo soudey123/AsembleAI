@@ -6,6 +6,26 @@ import Parser from "rss-parser";
 const RSS_FEED_URL = "https://media.rss.com/inside-asembleai/feed.xml";
 const YOUTUBE_CHANNEL_HANDLE = "@asembleaiyt";
 
+const NEWS_RSS_FEEDS = [
+  { url: "https://techcrunch.com/category/artificial-intelligence/feed/", source: "TechCrunch", tag: "AI" },
+  { url: "https://www.wired.com/feed/category/artificial-intelligence/latest/rss", source: "Wired", tag: "AI" },
+  { url: "https://feeds.arstechnica.com/arstechnica/technology-lab", source: "Ars Technica", tag: "Technology" },
+  { url: "https://www.theverge.com/ai-artificial-intelligence/rss/index.xml", source: "The Verge", tag: "AI" },
+  { url: "https://venturebeat.com/category/ai/feed/", source: "VentureBeat", tag: "Enterprise AI" },
+];
+
+interface NewsArticle {
+  title: string;
+  source: string;
+  date: string;
+  summary: string;
+  link: string;
+  tag: string;
+}
+
+let newsCache: { articles: NewsArticle[], timestamp: number } | null = null;
+const NEWS_CACHE_TTL = 15 * 60 * 1000;
+
 interface PodcastEpisode {
   slug: string;
   title: string;
@@ -204,6 +224,63 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error fetching YouTube videos:", error);
       res.status(500).json({ error: "Failed to fetch YouTube videos" });
+    }
+  });
+
+  app.get("/api/news", async (req, res) => {
+    try {
+      if (newsCache && Date.now() - newsCache.timestamp < NEWS_CACHE_TTL) {
+        return res.json({ articles: newsCache.articles, cached: true, lastUpdated: new Date(newsCache.timestamp).toISOString() });
+      }
+
+      const parser = new Parser({
+        timeout: 10000,
+        headers: {
+          'User-Agent': 'AsembleAI News Aggregator/1.0'
+        }
+      });
+
+      const feedPromises = NEWS_RSS_FEEDS.map(async (feedConfig) => {
+        try {
+          const feed = await parser.parseURL(feedConfig.url);
+          return (feed.items || []).slice(0, 5).map((item: any) => ({
+            title: item.title || 'Untitled',
+            source: feedConfig.source,
+            date: formatDate(item.pubDate || item.isoDate || new Date().toISOString()),
+            summary: (item.contentSnippet || item.content || item.description || '').replace(/<[^>]*>/g, '').slice(0, 200),
+            link: item.link || '',
+            tag: feedConfig.tag
+          }));
+        } catch (err) {
+          console.error(`Failed to fetch ${feedConfig.source}:`, err);
+          return [];
+        }
+      });
+
+      const results = await Promise.all(feedPromises);
+      const allArticles = results.flat();
+      
+      allArticles.sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        return dateB - dateA;
+      });
+
+      const uniqueArticles = allArticles.filter((article, index, self) =>
+        index === self.findIndex((a) => a.title === article.title)
+      ).slice(0, 20);
+
+      newsCache = { articles: uniqueArticles, timestamp: Date.now() };
+
+      res.json({ articles: uniqueArticles, cached: false, lastUpdated: new Date().toISOString() });
+    } catch (error) {
+      console.error("Error fetching news:", error);
+      
+      if (newsCache) {
+        return res.json({ articles: newsCache.articles, cached: true, lastUpdated: new Date(newsCache.timestamp).toISOString(), stale: true });
+      }
+      
+      res.status(500).json({ error: "Failed to fetch news articles" });
     }
   });
 
