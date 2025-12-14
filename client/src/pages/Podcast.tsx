@@ -7,6 +7,7 @@ import { Play, Search, Mic, Youtube, Headphones, Clock, Calendar, ExternalLink, 
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
+import podcastBg from "@assets/stock_images/podcast_microphone_s_6aab3979.jpg";
 
 interface PodcastEpisode {
   slug: string;
@@ -70,7 +71,13 @@ export default function Podcast() {
 
   return (
     <Layout>
-      <div className="pt-20">
+      {/* Background Image */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <img src={podcastBg} alt="" className="w-full h-full object-cover opacity-[0.08]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
+      </div>
+
+      <div className="relative z-10 pt-20">
         <Section className="pb-10 text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-6">
             <Mic className="w-8 h-8 text-primary" />

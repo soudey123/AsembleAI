@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, RefreshCw, Loader2, AlertCircle } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import newsBg from "@assets/stock_images/newspaper_technology_195b7080.jpg";
 
 interface NewsArticle {
   title: string;
@@ -48,7 +49,13 @@ export default function News() {
 
   return (
     <Layout>
-      <div className="pt-20">
+      {/* Background Image */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <img src={newsBg} alt="" className="w-full h-full object-cover opacity-[0.08]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
+      </div>
+
+      <div className="relative z-10 pt-20">
         <Section className="pb-10">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-6">
             <div>

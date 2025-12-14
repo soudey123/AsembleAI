@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ArrowUpRight } from "lucide-react";
 import { useState } from "react";
+import useCasesBg from "@assets/stock_images/artificial_intellige_fc16285f.jpg";
 
 export default function UseCases() {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -18,7 +19,13 @@ export default function UseCases() {
 
   return (
     <Layout>
-      <div className="pt-20">
+      {/* Background Image */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <img src={useCasesBg} alt="" className="w-full h-full object-cover opacity-[0.08]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
+      </div>
+
+      <div className="relative z-10 pt-20">
         <Section className="pb-10">
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">Applied Intelligence</h1>
           <p className="text-xl text-muted-foreground max-w-2xl">
