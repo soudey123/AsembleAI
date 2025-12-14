@@ -1,0 +1,135 @@
+Build a production-ready website for an AI consultancy + podcast brand called AsembleAI.
+
+Tech Stack (Required)
+
+Framework: Next.js 14+ (App Router)
+
+Language: TypeScript
+
+Styling: Tailwind CSS
+
+UI: shadcn/ui components where helpful
+
+Content: MDX for static pages (About, Use Cases) + JSON/CMS-ready structure for podcast + news
+
+SEO: next/metadata on every page
+
+Hosting: Must run on Replit (npm run dev)
+
+Branding & Design
+
+Theme: Deep blue / navy background accents, clean white text, subtle gradients
+
+Look: modern, futuristic, minimal, enterprise-grade
+
+Add subtle abstract AI visuals (SVG patterns), light animations (optional)
+
+Fully responsive, mobile-first
+
+Site Structure (Pages + Routes)
+1) Home (/)
+
+Sections:
+
+Hero: “AsembleAI — Where Intelligence Becomes Impact.”
+Subheadline: “AI consulting, agent development, and applied intelligence for the modern world.”
+CTAs: “Explore AI Solutions” → /services or /use-cases and “Listen to the Podcast” → /podcast
+
+Services preview (4 cards):
+
+AI Strategy & Advisory
+
+AI Agent Design & Automation
+
+Data & AI Architecture
+
+AI Enablement & Training
+
+Podcast spotlight: show latest 1–3 episodes (from local data)
+
+AI Agent Use Cases preview: show 6 cards + CTA
+
+AI & Technology News preview: show latest 6 articles + CTA
+
+Footer with social links + contact CTA
+
+2) About (/about)
+
+Mission and story
+
+Founders section (2+ profiles)
+
+Values section
+
+3) Podcast (/podcast)
+
+Clean episode grid with search + filter (guest/topic)
+
+Each episode card includes:
+
+title, guest, date, short description, thumbnail
+
+buttons linking out to YouTube, Spotify, Apple Podcasts, and any other platforms
+
+Episode detail page: /podcast/[slug]
+
+Data model: store episodes in content/podcast/episodes.json (or MDX files) with:
+slug, title, guest, date, description, tags, youtubeUrl, spotifyUrl, appleUrl, image
+
+4) AI Agent Use Cases (/use-cases)
+
+Categories + filters:
+
+Enterprise automation
+
+Research & intelligence
+
+Data & analytics
+
+Customer experience
+
+Use case detail page: /use-cases/[slug]
+
+Each use case includes: problem, solution, impact, tools/stack
+
+Data model: content/use-cases/useCases.json with:
+slug, title, category, problem, solution, impact, tools, tags
+
+5) AI & Technology News (/news)
+
+Goal: refreshed daily.
+Implement one of these options (choose best for Replit without paid keys):
+
+Option A (Preferred): Use an RSS-based approach from reputable sources (e.g., OpenAI blog, NVIDIA blog, MIT Tech Review AI, The Verge AI, etc.) and aggregate into a unified feed.
+
+Parse RSS server-side on request and cache results for ~6 hours.
+
+Show news list with:
+
+title, source, date, short summary, link to original
+
+Provide filters (LLMs, Agents, Policy, Enterprise AI)
+
+Add a “Last updated” timestamp
+
+6) Contact (/contact)
+
+Contact form with fields: name, email, company, message
+
+Backend API route: /api/contact
+
+For now: log submissions to server console + store in a local JSON file data/contact_submissions.json
+
+Include success/error UI state
+
+Global Requirements
+
+Navigation header with links: Home, About, Podcast, Use Cases, News, Contact
+
+Consistent layout and reusable components
+
+Dark-blue theme, accessible contrast, nice spacing
+
+Add basic analytics placeholder (no external keys required)
+
+Add README.md with run instructions for Replit
