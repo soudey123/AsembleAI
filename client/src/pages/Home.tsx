@@ -1,27 +1,65 @@
 import { Layout } from "@/components/layout/Layout";
 import { Hero } from "@/components/ui/Hero";
 import { Section } from "@/components/ui/Section";
-import { services, podcasts, useCases, news } from "@/lib/data";
+import { services } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { ArrowRight, Play, ExternalLink } from "lucide-react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowRight, Sparkles, Zap, Brain, Rocket } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
 
+function AnimatedTitle({ children, gradient = "from-cyan-400 via-blue-500 to-purple-500" }: { children: React.ReactNode; gradient?: string }) {
+  return (
+    <motion.span
+      className={`bg-gradient-to-r ${gradient} bg-clip-text text-transparent bg-[length:200%_auto]`}
+      animate={{ backgroundPosition: ["0% center", "200% center"] }}
+      transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+    >
+      {children}
+    </motion.span>
+  );
+}
+
+function GlowingBadge({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
+  return (
+    <motion.div
+      className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30"
+      animate={{ 
+        boxShadow: [
+          "0 0 10px rgba(59,130,246,0.3)",
+          "0 0 20px rgba(59,130,246,0.5)",
+          "0 0 10px rgba(59,130,246,0.3)"
+        ]
+      }}
+      transition={{ duration: 2, repeat: Infinity }}
+    >
+      <Icon className="w-4 h-4 text-primary" />
+      <span className="text-sm font-medium text-primary">{text}</span>
+    </motion.div>
+  );
+}
+
 export default function Home() {
+  const highlights = [
+    { icon: Brain, title: "AI Strategy", desc: "Transform your business with intelligent automation" },
+    { icon: Zap, title: "Fast Deployment", desc: "From concept to production in weeks, not months" },
+    { icon: Rocket, title: "Scale Ready", desc: "Enterprise-grade solutions built for growth" },
+  ];
+
   return (
     <Layout>
       <Hero />
 
-      {/* Services Section */}
+      {/* Services Section - Streamlined */}
       <Section className="bg-background">
-        <div className="mb-16 md:flex justify-between items-end">
-          <div className="max-w-2xl">
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Strategic AI Integration</h2>
-            <p className="text-muted-foreground text-lg">
-              We don't just implement models; we build intelligent ecosystems that drive measurable business outcomes.
-            </p>
-          </div>
+        <div className="text-center mb-16">
+          <GlowingBadge icon={Sparkles} text="Our Expertise" />
+          <h2 className="text-4xl md:text-5xl font-bold text-white mt-6 mb-4">
+            <AnimatedTitle>Strategic AI Integration</AnimatedTitle>
+          </h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            We build intelligent ecosystems that drive measurable business outcomes.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -33,7 +71,7 @@ export default function Home() {
               transition={{ delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full glass-card border-white/5 hover:border-primary/50 transition-all duration-300 group">
+              <Card className="h-full glass-card border-white/5 hover:border-primary/50 transition-all duration-300 group" data-testid={`card-service-${index}`}>
                 <CardHeader>
                   <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                     <service.icon className="w-6 h-6 text-primary" />
@@ -51,112 +89,102 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Podcast Spotlight */}
-      <Section className="bg-secondary/20 border-y border-white/5 relative">
-        <div className="absolute inset-0 bg-grid-pattern opacity-[0.05] pointer-events-none" />
-        
-        <div className="flex flex-col md:flex-row justify-between items-center mb-12">
-          <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">AsembleAI Podcast</h2>
-            <p className="text-muted-foreground">Conversations with the architects of the future.</p>
-          </div>
-          <Link href="/podcast">
-            <Button variant="outline" className="mt-4 md:mt-0 border-white/10 hover:bg-white/5">
-              View All Episodes <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
-          </Link>
+      {/* Quick Impact Section - Replacing verbose sections */}
+      <Section className="bg-secondary/20 border-y border-white/5">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            Why Choose <AnimatedTitle gradient="from-orange-400 via-red-500 to-pink-500">AsembleAI</AnimatedTitle>?
+          </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {podcasts.slice(0, 3).map((episode, index) => (
-            <Card key={index} className="bg-background border-white/5 overflow-hidden hover:border-primary/50 transition-all group">
-              <div className="relative h-48 overflow-hidden">
-                <img 
-                  src={episode.thumbnail} 
-                  alt={episode.title} 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
-                  <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center">
-                    <Play className="w-5 h-5 text-white ml-1" />
-                  </div>
-                </div>
-              </div>
-              <CardHeader>
-                <div className="text-xs text-primary font-medium mb-2">{episode.date}</div>
-                <CardTitle className="text-lg text-white line-clamp-2 leading-tight">{episode.title}</CardTitle>
-                <CardDescription className="text-sm">ft. {episode.guest}</CardDescription>
-              </CardHeader>
-            </Card>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          {highlights.map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ delay: index * 0.15 }}
+              viewport={{ once: true }}
+              className="text-center"
+              data-testid={`highlight-${index}`}
+            >
+              <motion.div 
+                className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-primary/20 to-purple-500/20 flex items-center justify-center mb-6 border border-white/10"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <item.icon className="w-10 h-10 text-primary" />
+              </motion.div>
+              <h3 className="text-2xl font-bold text-white mb-3">{item.title}</h3>
+              <p className="text-muted-foreground">{item.desc}</p>
+            </motion.div>
           ))}
         </div>
       </Section>
 
-      {/* Use Cases Preview */}
+      {/* Explore More - Clean Navigation */}
       <Section>
-        <div className="flex flex-col md:flex-row justify-between items-center mb-12">
-           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">Applied Intelligence</h2>
-            <p className="text-muted-foreground">Real-world impact across industries.</p>
-          </div>
-          <Link href="/use-cases">
-            <Button variant="outline" className="mt-4 md:mt-0 border-white/10 hover:bg-white/5">
-              Explore Case Studies <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
-          </Link>
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <AnimatedTitle gradient="from-green-400 via-emerald-500 to-teal-500">Explore Our World</AnimatedTitle>
+          </h2>
+          <p className="text-muted-foreground text-lg">Discover insights, case studies, and the latest in AI innovation.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {useCases.slice(0, 6).map((useCase, index) => (
-             <Link key={index} href={`/use-cases/${useCase.slug}`}>
-              <Card className="h-full glass-card hover:bg-white/5 cursor-pointer transition-all group">
-                <CardHeader>
-                  <div className="text-xs font-mono text-primary mb-2 uppercase tracking-wider">{useCase.category}</div>
-                  <CardTitle className="text-xl text-white group-hover:text-primary transition-colors">{useCase.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm line-clamp-3 mb-4">{useCase.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {useCase.tags.slice(0, 2).map(tag => (
-                      <span key={tag} className="text-xs px-2 py-1 rounded-full bg-white/5 text-muted-foreground border border-white/5">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <Link href="/podcast">
+            <motion.div
+              whileHover={{ y: -5 }}
+              className="group cursor-pointer"
+            >
+              <Card className="h-full bg-gradient-to-br from-purple-500/10 to-blue-500/10 border-white/10 hover:border-purple-500/50 transition-all" data-testid="link-podcast-home">
+                <CardContent className="p-8 text-center">
+                  <div className="text-4xl mb-4">🎙️</div>
+                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">Podcast</h3>
+                  <p className="text-sm text-muted-foreground mb-4">Conversations with AI pioneers</p>
+                  <span className="text-purple-400 text-sm font-medium inline-flex items-center">
+                    Listen Now <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
                 </CardContent>
               </Card>
-            </Link>
-          ))}
-        </div>
-      </Section>
-
-      {/* News Preview */}
-      <Section className="bg-secondary/10 border-t border-white/5">
-         <div className="flex flex-col md:flex-row justify-between items-center mb-12">
-           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">Intelligence Briefing</h2>
-            <p className="text-muted-foreground">Latest updates from the frontier of AI.</p>
-          </div>
-          <Link href="/news">
-            <Button variant="outline" className="mt-4 md:mt-0 border-white/10 hover:bg-white/5">
-              Read All News <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
+            </motion.div>
           </Link>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {news.slice(0, 6).map((article, index) => (
-             <a key={index} href={article.link} target="_blank" rel="noopener noreferrer">
-              <Card className="h-full bg-transparent border-none shadow-none hover:bg-white/5 transition-colors p-4 rounded-xl">
-                 <div className="flex items-start justify-between mb-2">
-                    <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded">{article.source}</span>
-                    <span className="text-xs text-muted-foreground">{article.date}</span>
-                 </div>
-                 <h3 className="text-lg font-bold text-white mb-2 leading-tight group-hover:text-primary">{article.title}</h3>
-                 <p className="text-sm text-muted-foreground line-clamp-2">{article.summary}</p>
+          <Link href="/use-cases">
+            <motion.div
+              whileHover={{ y: -5 }}
+              className="group cursor-pointer"
+            >
+              <Card className="h-full bg-gradient-to-br from-orange-500/10 to-red-500/10 border-white/10 hover:border-orange-500/50 transition-all" data-testid="link-usecases-home">
+                <CardContent className="p-8 text-center">
+                  <div className="text-4xl mb-4">💡</div>
+                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">AI Use Cases</h3>
+                  <p className="text-sm text-muted-foreground mb-4">Real-world AI applications</p>
+                  <span className="text-orange-400 text-sm font-medium inline-flex items-center">
+                    Explore <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </CardContent>
               </Card>
-            </a>
-          ))}
+            </motion.div>
+          </Link>
+
+          <Link href="/news">
+            <motion.div
+              whileHover={{ y: -5 }}
+              className="group cursor-pointer"
+            >
+              <Card className="h-full bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border-white/10 hover:border-cyan-500/50 transition-all" data-testid="link-news-home">
+                <CardContent className="p-8 text-center">
+                  <div className="text-4xl mb-4">📰</div>
+                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">AI & Tech News</h3>
+                  <p className="text-sm text-muted-foreground mb-4">Latest industry updates</p>
+                  <span className="text-cyan-400 text-sm font-medium inline-flex items-center">
+                    Read More <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </Link>
         </div>
       </Section>
 
@@ -164,12 +192,19 @@ export default function Home() {
       <Section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-primary/10 blur-[100px] rounded-full pointer-events-none transform translate-y-1/2" />
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">Ready to Assemble Your Future?</h2>
+          <motion.h2 
+            className="text-4xl md:text-6xl font-bold text-white mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            Ready to <AnimatedTitle gradient="from-yellow-400 via-orange-500 to-red-500">Assemble Your Future</AnimatedTitle>?
+          </motion.h2>
           <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
             Partner with us to build intelligent systems that define your competitive edge.
           </p>
           <Link href="/contact">
-            <Button size="lg" className="h-14 px-10 text-lg rounded-full bg-white text-black hover:bg-white/90">
+            <Button size="lg" className="h-14 px-10 text-lg rounded-full bg-white text-black hover:bg-white/90 shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:shadow-[0_0_50px_rgba(255,255,255,0.5)] transition-all" data-testid="button-start-project">
               Start a Project
             </Button>
           </Link>
