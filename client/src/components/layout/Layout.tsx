@@ -1,7 +1,7 @@
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import { ReactNode } from "react";
-import logoBg from "@assets/Logo_1_1765680163383.png";
+import logoBg from "@assets/generated_images/abstract_blue_geometric_logo_symbol.png";
 
 interface LayoutProps {
   children: ReactNode;
@@ -22,11 +22,7 @@ export function Layout({ children }: LayoutProps) {
         <img 
           src={logoBg} 
           alt="" 
-          className="w-[600px] h-auto opacity-20"
-          style={{ 
-            mixBlendMode: 'multiply',
-            filter: 'brightness(0.8) contrast(1.2)',
-          }}
+          className="w-[700px] h-auto opacity-15"
         />
       </div>
       
