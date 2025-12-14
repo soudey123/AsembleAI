@@ -42,7 +42,7 @@ export function Hero() {
             <span className="w-3 h-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 animate-pulse shadow-[0_0_10px_rgba(168,85,247,0.8)]" />
           </motion.div>
 
-          <h1 className="text-5xl md:text-7xl font-bold font-heading tracking-tight leading-tight text-white drop-shadow-xl">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold font-heading tracking-tight leading-tight text-white drop-shadow-xl">
             Asemble<span className="text-primary">AI</span> — Where Intelligence Becomes Impact.
           </h1>
 
