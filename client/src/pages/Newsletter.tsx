@@ -32,13 +32,7 @@ export default function Newsletter() {
 
   return (
     <Layout>
-      {/* Background Image */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <img src={newsletterBg} alt="" className="w-full h-full object-cover opacity-[0.08]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
-      </div>
-
-      <div className="relative z-10 pt-20">
+      <div className="pt-20">
         <Section className="pb-10 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
