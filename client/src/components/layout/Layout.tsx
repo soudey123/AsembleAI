@@ -14,21 +14,18 @@ export function Layout({ children }: LayoutProps) {
       <div 
         className="fixed inset-0 pointer-events-none z-0"
         style={{
-          background: 'linear-gradient(135deg, rgba(15, 23, 42, 1) 0%, rgba(30, 58, 138, 0.6) 50%, rgba(15, 23, 42, 1) 100%)',
+          background: 'linear-gradient(135deg, rgba(15, 23, 42, 1) 0%, rgba(30, 58, 138, 0.5) 50%, rgba(15, 23, 42, 1) 100%)',
         }}
       />
-      {/* Logo Background Pattern */}
-      <div 
-        className="fixed inset-0 pointer-events-none z-0"
-        style={{
-          backgroundImage: `url(${logoBg})`,
-          backgroundRepeat: 'repeat',
-          backgroundSize: '200px',
-          backgroundPosition: 'center',
-          opacity: 0.15,
-          mixBlendMode: 'soft-light',
-        }}
-      />
+      {/* Single Centered Logo */}
+      <div className="fixed inset-0 pointer-events-none z-0 flex items-center justify-center">
+        <img 
+          src={logoBg} 
+          alt="" 
+          className="w-[500px] h-auto opacity-[0.08]"
+          style={{ mixBlendMode: 'soft-light' }}
+        />
+      </div>
       
       <Navbar />
       <main className="flex-grow pt-24 md:pt-0 relative z-10">
