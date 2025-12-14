@@ -1,89 +1,95 @@
 import { Share2, Cpu, Database, Zap, Brain, Shield, BarChart3, Users } from "lucide-react";
+import biologicalComputing from "@assets/stock_images/biological_computing_60b959d6.jpg";
+import techJobs from "@assets/stock_images/future_of_tech_jobs__291b924f.jpg";
+import leadership from "@assets/stock_images/executive_leadership_832b6d86.jpg";
 
 export const podcasts = [
+  // Video Episodes (YouTube)
   {
-    slug: "future-of-agents",
-    title: "The Future of Autonomous Agents",
-    guest: "Dr. Elena Vance",
-    date: "Dec 12, 2025",
-    description: "Exploring how autonomous agents are reshaping enterprise workflows and the ethical considerations of AI delegation.",
-    thumbnail: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
+    slug: "beyond-silicon",
+    title: "Beyond Silicon: Building Computers from Human Neurons",
+    guest: "Dr. Ewelina Kurtys",
+    date: "Nov 25, 2025",
+    description: "What if the future of computing isn't silicon or quantum—but living neurons? We explore the world of biological computing.",
+    thumbnail: biologicalComputing,
     youtubeUrl: "https://www.youtube.com/@asembleaiyt",
-    spotifyUrl: "https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU?si=72ad1dc67ac04f3c",
+    spotifyUrl: "https://open.spotify.com/episode/634coEouNNV17sXsaZBTIp",
     appleUrl: "#",
-    tags: ["Agents", "Automation", "Ethics"],
+    tags: ["Biocomputing", "Neuroscience", "DeepTech"],
     type: "video",
-    duration: "45:20"
+    duration: "38:44"
   },
   {
-    slug: "generative-architecture",
-    title: "Generative Architecture at Scale",
-    guest: "Marcus Chen",
-    date: "Nov 28, 2025",
-    description: "How to build scalable infrastructure for large language models in production environments.",
-    thumbnail: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800",
+    slug: "future-of-tech-jobs",
+    title: "AI and the Future of Tech Jobs",
+    guest: "Tegan Bartos",
+    date: "Nov 08, 2025",
+    description: "Is AI a job killer or a career catalyst? We dive deep into the seismic shifts happening in the tech employment landscape.",
+    thumbnail: techJobs,
     youtubeUrl: "https://www.youtube.com/@asembleaiyt",
-    spotifyUrl: "https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU?si=72ad1dc67ac04f3c",
+    spotifyUrl: "https://open.spotify.com/episode/5aY9g1TNkiBx6LG27MdqSc",
     appleUrl: "#",
-    tags: ["Infrastructure", "LLMs", "Scaling"],
+    tags: ["Careers", "Future of Work", "Reskilling"],
     type: "video",
-    duration: "52:15"
+    duration: "52:07"
   },
   {
-    slug: "ai-governance",
-    title: "Navigating AI Governance",
-    guest: "Sarah Miller",
-    date: "Nov 15, 2025",
-    description: "A deep dive into the regulatory landscape and how companies can prepare for upcoming AI policies.",
-    thumbnail: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800",
+    slug: "ai-growth-leadership",
+    title: "AI-Enabled Growth Leadership",
+    guest: "Greg Mester",
+    date: "Oct 08, 2025",
+    description: "Achieving next-level performance across profit, people, and purpose without trading one off against the others.",
+    thumbnail: leadership,
     youtubeUrl: "https://www.youtube.com/@asembleaiyt",
-    spotifyUrl: "https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU?si=72ad1dc67ac04f3c",
+    spotifyUrl: "https://open.spotify.com/episode/6JDFeMqtugp7ItivGl7gwp",
     appleUrl: "#",
-    tags: ["Governance", "Policy", "Compliance"],
-    type: "audio",
-    duration: "38:45"
-  },
-  {
-    slug: "enterprise-rag",
-    title: "RAG in the Enterprise",
-    guest: "David Cohen",
-    date: "Nov 02, 2025",
-    description: "Best practices for implementing Retrieval Augmented Generation securely.",
-    thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800",
-    youtubeUrl: "https://www.youtube.com/@asembleaiyt",
-    spotifyUrl: "https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU?si=72ad1dc67ac04f3c",
-    appleUrl: "#",
-    tags: ["RAG", "Enterprise"],
-    type: "audio",
-    duration: "41:10"
-  },
-  {
-    slug: "multimodal-models",
-    title: "The Rise of Multimodal Models",
-    guest: "Dr. Aris Thorne",
-    date: "Oct 25, 2025",
-    description: "Understanding the capabilities of models that can see, hear, and speak.",
-    thumbnail: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800",
-    youtubeUrl: "https://www.youtube.com/@asembleaiyt",
-    spotifyUrl: "https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU?si=72ad1dc67ac04f3c",
-    appleUrl: "#",
-    tags: ["Multimodal", "Vision"],
+    tags: ["Leadership", "Growth", "Strategy"],
     type: "video",
-    duration: "58:30"
+    duration: "1:01:00"
+  },
+
+  // Audio Episodes (Spotify) - Using the same ones as they are the latest, but formatted for Audio section
+  {
+    slug: "beyond-silicon-audio",
+    title: "Beyond Silicon: Building Computers from Human Neurons",
+    guest: "Dr. Ewelina Kurtys",
+    date: "Nov 25, 2025",
+    description: "What if the future of computing isn't silicon or quantum—but living neurons? We explore the world of biological computing.",
+    thumbnail: biologicalComputing,
+    youtubeUrl: "https://www.youtube.com/@asembleaiyt",
+    spotifyUrl: "https://open.spotify.com/episode/634coEouNNV17sXsaZBTIp",
+    appleUrl: "#",
+    tags: ["Biocomputing", "Neuroscience"],
+    type: "audio",
+    duration: "38:44"
   },
   {
-    slug: "fintech-ai",
-    title: "AI in Financial Services",
-    guest: "Jennifer Wu",
-    date: "Oct 10, 2025",
-    description: "Detecting fraud and personalizing banking experiences with AI.",
-    thumbnail: "https://images.unsplash.com/photo-1611974765270-ca1258634369?auto=format&fit=crop&q=80&w=800",
+    slug: "future-of-tech-jobs-audio",
+    title: "AI and the Future of Tech Jobs",
+    guest: "Tegan Bartos",
+    date: "Nov 08, 2025",
+    description: "Is AI a job killer or a career catalyst? We dive deep into the seismic shifts happening in the tech employment landscape.",
+    thumbnail: techJobs,
     youtubeUrl: "https://www.youtube.com/@asembleaiyt",
-    spotifyUrl: "https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU?si=72ad1dc67ac04f3c",
+    spotifyUrl: "https://open.spotify.com/episode/5aY9g1TNkiBx6LG27MdqSc",
     appleUrl: "#",
-    tags: ["Fintech", "Security"],
+    tags: ["Careers", "Future of Work"],
     type: "audio",
-    duration: "34:20"
+    duration: "52:07"
+  },
+  {
+    slug: "ai-growth-leadership-audio",
+    title: "AI-Enabled Growth Leadership",
+    guest: "Greg Mester",
+    date: "Oct 08, 2025",
+    description: "Achieving next-level performance across profit, people, and purpose without trading one off against the others.",
+    thumbnail: leadership,
+    youtubeUrl: "https://www.youtube.com/@asembleaiyt",
+    spotifyUrl: "https://open.spotify.com/episode/6JDFeMqtugp7ItivGl7gwp",
+    appleUrl: "#",
+    tags: ["Leadership", "Strategy"],
+    type: "audio",
+    duration: "1:01:00"
   }
 ];
 
