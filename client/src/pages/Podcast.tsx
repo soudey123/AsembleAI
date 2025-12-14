@@ -62,11 +62,11 @@ export default function Podcast() {
                   <div className="absolute top-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
                     <Clock className="w-3 h-3" /> {episode.duration}
                   </div>
-                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
+                  <a href={episode.youtubeUrl} target="_blank" rel="noopener noreferrer" className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
                     <Button size="icon" className="rounded-full w-14 h-14 bg-red-600 hover:bg-red-700 text-white border-none">
                       <Play className="w-6 h-6 ml-1 fill-current" />
                     </Button>
-                  </div>
+                  </a>
                 </div>
                 <CardHeader>
                   <div className="flex justify-between items-center mb-2">
@@ -80,9 +80,11 @@ export default function Podcast() {
                   <p className="text-muted-foreground text-sm line-clamp-2 mb-4">
                     {episode.description}
                   </p>
-                  <Button variant="outline" size="sm" className="w-full text-xs border-white/10 hover:bg-white/5 group-hover:border-red-500/20">
-                    <Youtube className="w-4 h-4 mr-2 text-red-500" /> Watch on YouTube
-                  </Button>
+                  <a href={episode.youtubeUrl} target="_blank" rel="noopener noreferrer" className="w-full">
+                    <Button variant="outline" size="sm" className="w-full text-xs border-white/10 hover:bg-white/5 group-hover:border-red-500/20">
+                      <Youtube className="w-4 h-4 mr-2 text-red-500" /> Watch on YouTube
+                    </Button>
+                  </a>
                 </CardContent>
               </Card>
             ))}
@@ -147,9 +149,11 @@ export default function Podcast() {
                   </div>
 
                   <div className="shrink-0 w-full md:w-auto">
-                    <Button className="w-full md:w-auto bg-green-600 hover:bg-green-700 text-black font-medium">
-                      <ExternalLink className="w-4 h-4 mr-2" /> Listen on Spotify
-                    </Button>
+                    <a href={episode.spotifyUrl} target="_blank" rel="noopener noreferrer" className="block w-full">
+                      <Button className="w-full md:w-auto bg-green-600 hover:bg-green-700 text-black font-medium">
+                        <ExternalLink className="w-4 h-4 mr-2" /> Listen on Spotify
+                      </Button>
+                    </a>
                   </div>
                 </div>
               </Card>
