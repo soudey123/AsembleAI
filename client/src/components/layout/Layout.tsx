@@ -22,8 +22,11 @@ export function Layout({ children }: LayoutProps) {
         <img 
           src={logoBg} 
           alt="" 
-          className="w-[500px] h-auto opacity-[0.08]"
-          style={{ mixBlendMode: 'soft-light' }}
+          className="w-[600px] h-auto opacity-20"
+          style={{ 
+            mixBlendMode: 'multiply',
+            filter: 'brightness(0.8) contrast(1.2)',
+          }}
         />
       </div>
       
