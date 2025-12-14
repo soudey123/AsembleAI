@@ -24,10 +24,23 @@ export function Hero() {
           transition={{ duration: 0.8 }}
           className="max-w-4xl mx-auto space-y-8"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-4">
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-xs font-medium text-primary-foreground tracking-wide uppercase">New Era of Intelligence</span>
-          </div>
+          <motion.div 
+            className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-purple-500/20 border border-cyan-400/50 backdrop-blur-md mb-4 shadow-[0_0_30px_rgba(34,211,238,0.3)] hover:shadow-[0_0_50px_rgba(34,211,238,0.5)] transition-all duration-500 cursor-default"
+            animate={{ 
+              boxShadow: [
+                "0 0 20px rgba(34,211,238,0.3), 0 0 40px rgba(59,130,246,0.2)",
+                "0 0 30px rgba(168,85,247,0.4), 0 0 60px rgba(34,211,238,0.3)",
+                "0 0 20px rgba(34,211,238,0.3), 0 0 40px rgba(59,130,246,0.2)"
+              ]
+            }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <span className="w-3 h-3 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
+            <span className="text-sm font-bold tracking-widest uppercase bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400 bg-clip-text text-transparent drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]">
+              New Era of Intelligence
+            </span>
+            <span className="w-3 h-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 animate-pulse shadow-[0_0_10px_rgba(168,85,247,0.8)]" />
+          </motion.div>
 
           <h1 className="text-5xl md:text-7xl font-bold font-heading tracking-tight leading-tight text-white drop-shadow-xl">
             Asemble<span className="text-primary">AI</span> — Where Intelligence Becomes Impact.
