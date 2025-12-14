@@ -2,11 +2,29 @@ import { Layout } from "@/components/layout/Layout";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Mail, ArrowRight, Sparkles, Brain, Zap, TrendingUp } from "lucide-react";
+import { Mail, ArrowRight, Sparkles, Brain, Zap, TrendingUp, Calendar, ExternalLink, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
-import newsletterBg from "@assets/stock_images/email_newsletter_sub_9cf1c337.jpg";
+import { useQuery } from "@tanstack/react-query";
+
+interface SubstackArticle {
+  title: string;
+  date: string;
+  summary: string;
+  link: string;
+  image: string | null;
+}
 
 export default function Newsletter() {
+  const { data, isLoading, error } = useQuery<{ articles: SubstackArticle[] }>({
+    queryKey: ["/api/newsletter/articles"],
+    queryFn: async () => {
+      const res = await fetch("/api/newsletter/articles");
+      if (!res.ok) throw new Error("Failed to fetch articles");
+      return res.json();
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+
   const features = [
     {
       icon: Brain,
@@ -63,6 +81,79 @@ export default function Newsletter() {
               </Button>
             </a>
           </motion.div>
+        </Section>
+
+        <Section>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-white mb-4">Latest Articles</h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              Read our most recent newsletter posts on AI insights and industry trends.
+            </p>
+          </div>
+          
+          {isLoading ? (
+            <div className="flex justify-center py-12">
+              <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
+            </div>
+          ) : error || !data?.articles?.length ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground mb-4">
+                {error ? "Unable to load articles right now." : "No articles available yet."}
+              </p>
+              <a 
+                href="https://substack.com/@asembleai" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                <Button variant="outline" className="border-orange-500/30 text-orange-500 hover:bg-orange-500/10">
+                  Visit our Substack <ExternalLink className="ml-2 w-4 h-4" />
+                </Button>
+              </a>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {data.articles.map((article, index) => (
+                <motion.a
+                  key={article.link}
+                  href={article.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="group"
+                  data-testid={`card-article-${index}`}
+                >
+                  <Card className="bg-card/50 border-white/5 hover:border-orange-500/30 transition-all h-full overflow-hidden">
+                    {article.image && (
+                      <div className="aspect-video overflow-hidden">
+                        <img 
+                          src={article.image} 
+                          alt={article.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    )}
+                    <CardContent className="p-6">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+                        <Calendar className="w-4 h-4" />
+                        <span>{article.date}</span>
+                      </div>
+                      <h3 className="text-lg font-bold text-white mb-3 group-hover:text-orange-500 transition-colors line-clamp-2">
+                        {article.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground line-clamp-3">
+                        {article.summary}
+                      </p>
+                      <div className="mt-4 flex items-center text-orange-500 text-sm font-medium">
+                        Read more <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.a>
+              ))}
+            </div>
+          )}
         </Section>
 
         <Section className="bg-secondary/10">

@@ -6,6 +6,8 @@ import Parser from "rss-parser";
 const RSS_FEED_URL = "https://media.rss.com/inside-asembleai/feed.xml";
 const YOUTUBE_CHANNEL_HANDLE = "@asembleaiyt";
 
+const SUBSTACK_RSS_URL = "https://asembleai.substack.com/feed";
+
 const NEWS_RSS_FEEDS = [
   { url: "https://techcrunch.com/category/artificial-intelligence/feed/", source: "TechCrunch", tag: "AI" },
   { url: "https://www.wired.com/feed/category/artificial-intelligence/latest/rss", source: "Wired", tag: "AI" },
@@ -281,6 +283,32 @@ export async function registerRoutes(
       }
       
       res.status(500).json({ error: "Failed to fetch news articles" });
+    }
+  });
+
+  app.get("/api/newsletter/articles", async (req, res) => {
+    try {
+      const parser = new Parser({
+        timeout: 10000,
+        headers: {
+          'User-Agent': 'AsembleAI Newsletter/1.0'
+        }
+      });
+
+      const feed = await parser.parseURL(SUBSTACK_RSS_URL);
+      
+      const articles = (feed.items || []).slice(0, 3).map((item: any) => ({
+        title: item.title || 'Untitled',
+        date: formatDate(item.pubDate || item.isoDate || new Date().toISOString()),
+        summary: (item.contentSnippet || item.content || item.description || '').replace(/<[^>]*>/g, '').slice(0, 200),
+        link: item.link || '',
+        image: item.enclosure?.url || item['media:content']?.$.url || null
+      }));
+
+      res.json({ articles, feedTitle: feed.title });
+    } catch (error) {
+      console.error("Error fetching Substack feed:", error);
+      res.status(500).json({ error: "Failed to fetch newsletter articles", articles: [] });
     }
   });
 
