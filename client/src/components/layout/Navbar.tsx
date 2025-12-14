@@ -21,6 +21,7 @@ export function Navbar() {
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/podcast", label: "Podcast" },
+    { href: "/newsletter", label: "Newsletter" },
     { href: "/use-cases", label: "Use Cases" },
     { href: "/news", label: "News" },
   ];

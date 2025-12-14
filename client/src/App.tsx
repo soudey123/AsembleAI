@@ -7,6 +7,7 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Podcast from "@/pages/Podcast";
+import Newsletter from "@/pages/Newsletter";
 import UseCases from "@/pages/UseCases";
 import UseCasesDetail from "@/pages/UseCasesDetail";
 import News from "@/pages/News";
@@ -18,6 +19,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/about" component={About} />
       <Route path="/podcast" component={Podcast} />
+      <Route path="/newsletter" component={Newsletter} />
       <Route path="/use-cases" component={UseCases} />
       <Route path="/use-cases/:slug" component={UseCasesDetail} />
       <Route path="/news" component={News} />
