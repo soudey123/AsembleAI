@@ -1,9 +1,10 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Brain, Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import logoImage from "@assets/Logo_1_1765679359359.png";
 
 export function Navbar() {
   const [location] = useLocation();
@@ -22,8 +23,8 @@ export function Navbar() {
     { href: "/about", label: "About" },
     { href: "/podcast", label: "Podcast" },
     { href: "/newsletter", label: "Newsletter" },
-    { href: "/use-cases", label: "Use Cases" },
-    { href: "/news", label: "News" },
+    { href: "/use-cases", label: "AI Use Cases" },
+    { href: "/news", label: "AI & Tech News" },
   ];
 
   return (
@@ -36,13 +37,7 @@ export function Navbar() {
       <div className="container mx-auto px-4 flex items-center justify-between">
         <Link href="/">
           <div className="flex items-center gap-2 cursor-pointer group">
-            <div className="relative">
-              <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full group-hover:bg-primary/40 transition-all" />
-              <Brain className="w-8 h-8 text-primary relative z-10" />
-            </div>
-            <span className="text-xl font-bold font-heading tracking-tight text-white">
-              Asemble<span className="text-primary">AI</span>
-            </span>
+            <img src={logoImage} alt="AsembleAI" className="h-10 w-auto" />
           </div>
         </Link>
 
