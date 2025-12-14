@@ -11,7 +11,9 @@ export const podcasts = [
     youtubeUrl: "#",
     spotifyUrl: "#",
     appleUrl: "#",
-    tags: ["Agents", "Automation", "Ethics"]
+    tags: ["Agents", "Automation", "Ethics"],
+    type: "video",
+    duration: "45:20"
   },
   {
     slug: "generative-architecture",
@@ -23,7 +25,9 @@ export const podcasts = [
     youtubeUrl: "#",
     spotifyUrl: "#",
     appleUrl: "#",
-    tags: ["Infrastructure", "LLMs", "Scaling"]
+    tags: ["Infrastructure", "LLMs", "Scaling"],
+    type: "video",
+    duration: "52:15"
   },
   {
     slug: "ai-governance",
@@ -35,7 +39,51 @@ export const podcasts = [
     youtubeUrl: "#",
     spotifyUrl: "#",
     appleUrl: "#",
-    tags: ["Governance", "Policy", "Compliance"]
+    tags: ["Governance", "Policy", "Compliance"],
+    type: "audio",
+    duration: "38:45"
+  },
+  {
+    slug: "enterprise-rag",
+    title: "RAG in the Enterprise",
+    guest: "David Cohen",
+    date: "Nov 02, 2025",
+    description: "Best practices for implementing Retrieval Augmented Generation securely.",
+    thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800",
+    youtubeUrl: "#",
+    spotifyUrl: "#",
+    appleUrl: "#",
+    tags: ["RAG", "Enterprise"],
+    type: "audio",
+    duration: "41:10"
+  },
+  {
+    slug: "multimodal-models",
+    title: "The Rise of Multimodal Models",
+    guest: "Dr. Aris Thorne",
+    date: "Oct 25, 2025",
+    description: "Understanding the capabilities of models that can see, hear, and speak.",
+    thumbnail: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800",
+    youtubeUrl: "#",
+    spotifyUrl: "#",
+    appleUrl: "#",
+    tags: ["Multimodal", "Vision"],
+    type: "video",
+    duration: "58:30"
+  },
+  {
+    slug: "fintech-ai",
+    title: "AI in Financial Services",
+    guest: "Jennifer Wu",
+    date: "Oct 10, 2025",
+    description: "Detecting fraud and personalizing banking experiences with AI.",
+    thumbnail: "https://images.unsplash.com/photo-1611974765270-ca1258634369?auto=format&fit=crop&q=80&w=800",
+    youtubeUrl: "#",
+    spotifyUrl: "#",
+    appleUrl: "#",
+    tags: ["Fintech", "Security"],
+    type: "audio",
+    duration: "34:20"
   }
 ];
 

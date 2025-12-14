@@ -4,8 +4,9 @@ import { podcasts } from "@/lib/data";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Play, Search, Mic } from "lucide-react";
+import { Play, Search, Mic, Youtube, Music, Headphones, Clock, Calendar, ExternalLink } from "lucide-react";
 import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
 
 export default function Podcast() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -14,6 +15,9 @@ export default function Podcast() {
     podcast.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     podcast.guest.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const videoEpisodes = filteredPodcasts.filter(p => p.type === 'video');
+  const audioEpisodes = filteredPodcasts.filter(p => p.type === 'audio');
 
   return (
     <Layout>
@@ -38,19 +42,29 @@ export default function Podcast() {
           </div>
         </Section>
 
+        {/* Video Section */}
         <Section className="bg-secondary/10">
+          <div className="flex items-center gap-3 mb-8">
+            <Youtube className="w-6 h-6 text-red-500" />
+            <h2 className="text-3xl font-bold text-white">Video Episodes</h2>
+            <Badge variant="outline" className="ml-2 border-red-500/20 text-red-500">YouTube</Badge>
+          </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredPodcasts.map((episode, index) => (
-              <Card key={index} className="bg-card border-white/5 overflow-hidden hover:border-primary/50 transition-all group">
+            {videoEpisodes.map((episode, index) => (
+              <Card key={index} className="bg-card border-white/5 overflow-hidden hover:border-red-500/30 transition-all group">
                 <div className="relative h-56 overflow-hidden">
                   <img 
                     src={episode.thumbnail} 
                     alt={episode.title} 
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
+                  <div className="absolute top-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
+                    <Clock className="w-3 h-3" /> {episode.duration}
+                  </div>
                   <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
-                    <Button size="icon" className="rounded-full w-14 h-14 bg-primary hover:bg-primary/90">
-                      <Play className="w-6 h-6 ml-1" />
+                    <Button size="icon" className="rounded-full w-14 h-14 bg-red-600 hover:bg-red-700 text-white border-none">
+                      <Play className="w-6 h-6 ml-1 fill-current" />
                     </Button>
                   </div>
                 </div>
@@ -59,21 +73,92 @@ export default function Podcast() {
                     <span className="text-xs text-primary font-medium">{episode.date}</span>
                     <span className="text-xs text-muted-foreground bg-white/5 px-2 py-1 rounded-full">{episode.tags[0]}</span>
                   </div>
-                  <CardTitle className="text-xl text-white leading-tight">{episode.title}</CardTitle>
+                  <CardTitle className="text-xl text-white leading-tight line-clamp-2">{episode.title}</CardTitle>
                   <CardDescription className="text-sm">ft. {episode.guest}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground text-sm line-clamp-2 mb-4">
                     {episode.description}
                   </p>
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="sm" className="w-full text-xs border-white/10 hover:bg-white/5">Spotify</Button>
-                    <Button variant="outline" size="sm" className="w-full text-xs border-white/10 hover:bg-white/5">Apple</Button>
-                    <Button variant="outline" size="sm" className="w-full text-xs border-white/10 hover:bg-white/5">YouTube</Button>
-                  </div>
+                  <Button variant="outline" size="sm" className="w-full text-xs border-white/10 hover:bg-white/5 group-hover:border-red-500/20">
+                    <Youtube className="w-4 h-4 mr-2 text-red-500" /> Watch on YouTube
+                  </Button>
                 </CardContent>
               </Card>
             ))}
+            {videoEpisodes.length === 0 && (
+              <div className="col-span-full text-center py-10 text-muted-foreground">
+                No video episodes found matching your search.
+              </div>
+            )}
+          </div>
+        </Section>
+
+        {/* Audio Section */}
+        <Section>
+          <div className="flex items-center gap-3 mb-8">
+            <Headphones className="w-6 h-6 text-green-500" />
+            <h2 className="text-3xl font-bold text-white">Audio Episodes</h2>
+            <Badge variant="outline" className="ml-2 border-green-500/20 text-green-500">Spotify</Badge>
+          </div>
+
+          <div className="space-y-4">
+            {audioEpisodes.map((episode, index) => (
+              <Card key={index} className="bg-card/50 border-white/5 hover:border-green-500/30 transition-all group overflow-hidden">
+                <div className="flex flex-col md:flex-row gap-6 p-6 items-center md:items-start">
+                  <div className="relative shrink-0 w-full md:w-32 h-32 rounded-lg overflow-hidden">
+                    <img 
+                      src={episode.thumbnail} 
+                      alt={episode.title} 
+                      className="w-full h-full object-cover"
+                    />
+                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center">
+                        <Play className="w-4 h-4 text-black ml-1 fill-current" />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex-grow text-center md:text-left">
+                    <div className="flex flex-col md:flex-row md:items-center gap-2 mb-2 justify-center md:justify-start">
+                      <span className="text-xs font-mono text-green-500 uppercase tracking-wider">Audio Only</span>
+                      <span className="hidden md:inline text-muted-foreground">•</span>
+                      <span className="text-xs text-muted-foreground flex items-center justify-center md:justify-start gap-1">
+                        <Calendar className="w-3 h-3" /> {episode.date}
+                      </span>
+                      <span className="hidden md:inline text-muted-foreground">•</span>
+                      <span className="text-xs text-muted-foreground flex items-center justify-center md:justify-start gap-1">
+                        <Clock className="w-3 h-3" /> {episode.duration}
+                      </span>
+                    </div>
+                    
+                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-green-400 transition-colors">{episode.title}</h3>
+                    <p className="text-sm text-muted-foreground mb-4 max-w-2xl">
+                      {episode.description} <span className="text-primary/70">ft. {episode.guest}</span>
+                    </p>
+                    
+                    <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+                      {episode.tags.map(tag => (
+                        <span key={tag} className="text-[10px] px-2 py-1 rounded-full bg-white/5 text-muted-foreground border border-white/5">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="shrink-0 w-full md:w-auto">
+                    <Button className="w-full md:w-auto bg-green-600 hover:bg-green-700 text-black font-medium">
+                      <ExternalLink className="w-4 h-4 mr-2" /> Listen on Spotify
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            ))}
+             {audioEpisodes.length === 0 && (
+              <div className="text-center py-10 text-muted-foreground">
+                No audio episodes found matching your search.
+              </div>
+            )}
           </div>
         </Section>
       </div>
