@@ -10,22 +10,23 @@ interface LayoutProps {
 export function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen bg-background flex flex-col font-sans text-foreground overflow-x-hidden selection:bg-primary/30 selection:text-white relative">
+      {/* Blue Gradient Base */}
+      <div 
+        className="fixed inset-0 pointer-events-none z-0"
+        style={{
+          background: 'linear-gradient(135deg, rgba(15, 23, 42, 1) 0%, rgba(30, 58, 138, 0.6) 50%, rgba(15, 23, 42, 1) 100%)',
+        }}
+      />
       {/* Logo Background Pattern */}
       <div 
         className="fixed inset-0 pointer-events-none z-0"
         style={{
           backgroundImage: `url(${logoBg})`,
           backgroundRepeat: 'repeat',
-          backgroundSize: '250px',
+          backgroundSize: '200px',
           backgroundPosition: 'center',
-          opacity: 0.04,
-        }}
-      />
-      {/* Blue Gradient Overlay */}
-      <div 
-        className="fixed inset-0 pointer-events-none z-0"
-        style={{
-          background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 58, 138, 0.75) 50%, rgba(15, 23, 42, 0.92) 100%)',
+          opacity: 0.15,
+          mixBlendMode: 'soft-light',
         }}
       />
       
