@@ -168,18 +168,18 @@ export default function Home() {
             </motion.div>
           </Link>
 
-          <Link href="/news">
+          <Link href="/newsletter">
             <motion.div
               whileHover={{ y: -5 }}
               className="group cursor-pointer"
             >
-              <Card className="h-full bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border-white/10 hover:border-cyan-500/50 transition-all" data-testid="link-news-home">
+              <Card className="h-full bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border-white/10 hover:border-cyan-500/50 transition-all" data-testid="link-newsletter-home">
                 <CardContent className="p-8 text-center">
-                  <div className="text-4xl mb-4">📰</div>
-                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">AI & Tech News</h3>
-                  <p className="text-sm text-muted-foreground mb-4">Latest industry updates</p>
+                  <div className="text-4xl mb-4">📧</div>
+                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">Newsletter</h3>
+                  <p className="text-sm text-muted-foreground mb-4">AI insights delivered weekly</p>
                   <span className="text-cyan-400 text-sm font-medium inline-flex items-center">
-                    Read More <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    Subscribe <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </CardContent>
               </Card>

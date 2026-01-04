@@ -10,7 +10,6 @@ import Podcast from "@/pages/Podcast";
 import Newsletter from "@/pages/Newsletter";
 import UseCases from "@/pages/UseCases";
 import UseCasesDetail from "@/pages/UseCasesDetail";
-import News from "@/pages/News";
 import Contact from "@/pages/Contact";
 
 function Router() {
@@ -22,7 +21,6 @@ function Router() {
       <Route path="/newsletter" component={Newsletter} />
       <Route path="/use-cases" component={UseCases} />
       <Route path="/use-cases/:slug" component={UseCasesDetail} />
-      <Route path="/news" component={News} />
       <Route path="/contact" component={Contact} />
       <Route component={NotFound} />
     </Switch>

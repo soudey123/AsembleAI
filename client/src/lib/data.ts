@@ -4,7 +4,6 @@ import techJobs from "@assets/stock_images/future_of_tech_jobs__291b924f.jpg";
 import leadership from "@assets/stock_images/executive_leadership_832b6d86.jpg";
 
 export const podcasts = [
-  // Video Episodes (YouTube)
   {
     slug: "beyond-silicon",
     title: "Beyond Silicon: Building Computers from Human Neurons",
@@ -47,8 +46,6 @@ export const podcasts = [
     type: "video",
     duration: "1:01:00"
   },
-
-  // Audio Episodes (Spotify) - Using the same ones as they are the latest, but formatted for Audio section
   {
     slug: "beyond-silicon-audio",
     title: "Beyond Silicon: Building Computers from Human Neurons",
@@ -95,70 +92,52 @@ export const podcasts = [
 
 export const useCases = [
   {
-    slug: "fintech-fraud-detection",
-    title: "Real-time Fraud Detection",
-    category: "Enterprise Automation",
-    description: "Reducing false positives by 40% with hybrid AI models.",
-    problem: "Traditional rule-based systems were flagging too many legitimate transactions.",
-    solution: "Implemented a hybrid model combining anomaly detection with supervised learning.",
-    impact: "40% reduction in false positives, saving $2M annually.",
-    tools: ["Python", "PyTorch", "Kafka"],
-    tags: ["Fintech", "Security"]
-  },
-  {
-    slug: "medical-research-assistant",
-    title: "Medical Research Assistant",
+    slug: "ai-news-digest",
+    title: "AI News Digest",
     category: "Research & Intelligence",
-    description: "Accelerating drug discovery with semantic search agents.",
-    problem: "Researchers spent 30% of their time searching through literature.",
-    solution: "Built a semantic search engine using RAG to query millions of papers.",
-    impact: "Reduced literature review time by 60%.",
-    tools: ["LangChain", "Pinecone", "OpenAI"],
-    tags: ["Healthcare", "RAG"]
+    description: "Automated AI-powered news aggregation and summarization agent.",
+    problem: "Keeping up with the rapidly evolving AI landscape requires hours of daily reading across multiple sources, making it impossible to stay informed while focusing on core work.",
+    solution: "Built an autonomous n8n workflow agent that automatically scans, curates, and summarizes AI news from trusted sources, delivering personalized digests on schedule.",
+    impact: "Saves 5+ hours weekly on news consumption while ensuring no critical AI developments are missed.",
+    tools: ["n8n", "AI/LLM", "RSS", "Automation"],
+    tags: ["Automation", "News", "AI Agent"],
+    githubUrl: "https://asembleai.app.n8n.cloud/workflow/pH03vc5nMJm0n1B9"
   },
   {
-    slug: "customer-support-agent",
-    title: "Tier 1 Support Agent",
-    category: "Customer Experience",
-    description: "Automating 70% of support tickets with empathetic AI.",
-    problem: "Support team was overwhelmed with repetitive queries.",
-    solution: "Deployed a fine-tuned LLM agent to handle Tier 1 support.",
-    impact: "70% automation rate, CSAT scores improved by 15%.",
-    tools: ["OpenAI", "React", "Node.js"],
-    tags: ["Support", "Automation"]
+    slug: "ai-research-agent",
+    title: "AI Research Agent",
+    category: "Research & Intelligence",
+    description: "Intelligent research assistant that autonomously gathers and synthesizes information.",
+    problem: "Research tasks require extensive manual effort to search, read, and synthesize information from multiple sources, often taking days for comprehensive analysis.",
+    solution: "Developed an AI research agent using n8n that autonomously queries multiple sources, cross-references findings, and generates comprehensive research reports with citations.",
+    impact: "Reduces research time by 80% while improving coverage and accuracy of findings.",
+    tools: ["n8n", "AI/LLM", "Web Scraping", "RAG"],
+    tags: ["Research", "AI Agent", "Automation"],
+    githubUrl: "https://asembleai.app.n8n.cloud/workflow/mez75sSu3NsRfNYg"
   },
   {
-    slug: "supply-chain-optimization",
-    title: "Supply Chain Optimization",
+    slug: "ai-data-intelligence-agent",
+    title: "AI Data Intelligence Agent Using Pandas AI",
     category: "Data & Analytics",
-    description: "Predicting inventory needs with 95% accuracy.",
-    problem: "Overstocking and stockouts were costing millions.",
-    solution: "Predictive analytics model using historical sales and external factors.",
-    impact: "Inventory costs reduced by 25%.",
-    tools: ["Python", "TensorFlow", "Snowflake"],
-    tags: ["Supply Chain", "Predictive Analytics"]
-  },
-   {
-    slug: "legal-contract-review",
-    title: "Automated Contract Review",
-    category: "Enterprise Automation",
-    description: "Cutting contract review time from hours to minutes.",
-    problem: "Legal team was a bottleneck for deal closings.",
-    solution: "AI system to flag risks and non-standard clauses.",
-    impact: "Review time reduced by 90%.",
-    tools: ["NLP", "Python", "React"],
-    tags: ["Legal", "Automation"]
+    description: "Natural language interface for data analysis powered by PandasAI.",
+    problem: "Data analysis requires specialized SQL and Python skills, creating bottlenecks when business users need quick insights from complex datasets.",
+    solution: "Implemented a PandasAI-powered agent that understands natural language queries and automatically generates, executes, and visualizes data analysis results.",
+    impact: "Enables non-technical users to perform complex data analysis in seconds, democratizing data access across the organization.",
+    tools: ["Python", "PandasAI", "Claude", "Streamlit"],
+    tags: ["Data Analytics", "AI Agent", "NLP"],
+    githubUrl: "https://github.com/soudey123/AIAgentLab/tree/main/Data%20Intelligence%20Application"
   },
   {
-    slug: "marketing-content-engine",
-    title: "Personalized Marketing Engine",
-    category: "Customer Experience",
-    description: "Generating personalized campaigns at scale.",
-    problem: "Generic marketing was seeing low engagement.",
-    solution: "Generative AI to create personalized content for segments.",
-    impact: "Click-through rates increased by 50%.",
-    tools: ["Generative AI", "Marketing API"],
-    tags: ["Marketing", "Personalization"]
+    slug: "ai-financial-analyst-agent",
+    title: "AI Financial Analyst Agent Using Vertex AI",
+    category: "Enterprise Automation",
+    description: "Intelligent financial analysis agent powered by Google Vertex AI.",
+    problem: "Financial analysis requires extensive manual data gathering, calculation, and report generation, with analysts spending 60% of time on repetitive tasks.",
+    solution: "Built an AI financial analyst agent using Google Vertex AI that autonomously analyzes market data, generates insights, and produces investment recommendations.",
+    impact: "Automates 70% of routine financial analysis work, enabling analysts to focus on strategic decision-making and client relationships.",
+    tools: ["Python", "Google Vertex AI", "Financial APIs", "Streamlit"],
+    tags: ["Finance", "AI Agent", "Vertex AI"],
+    githubUrl: "https://github.com/soudey123/AIAgentLab/tree/main/ai-financial-analyst-VertexAI"
   }
 ];
 

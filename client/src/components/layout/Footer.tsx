@@ -18,10 +18,9 @@ export function Footer() {
             <h4 className="font-heading font-bold text-white mb-6">Explore</h4>
             <ul className="space-y-3">
               <li><Link href="/about"><span className="text-muted-foreground hover:text-primary transition-colors cursor-pointer text-sm">About Us</span></Link></li>
-              <li><Link href="/services"><span className="text-muted-foreground hover:text-primary transition-colors cursor-pointer text-sm">Services</span></Link></li>
+              <li><Link href="/use-cases"><span className="text-muted-foreground hover:text-primary transition-colors cursor-pointer text-sm">AI Use Cases</span></Link></li>
               <li><Link href="/podcast"><span className="text-muted-foreground hover:text-primary transition-colors cursor-pointer text-sm">Podcast</span></Link></li>
               <li><Link href="/newsletter"><span className="text-muted-foreground hover:text-primary transition-colors cursor-pointer text-sm">Newsletter</span></Link></li>
-              <li><Link href="/news"><span className="text-muted-foreground hover:text-primary transition-colors cursor-pointer text-sm">AI & Tech News</span></Link></li>
             </ul>
           </div>
 

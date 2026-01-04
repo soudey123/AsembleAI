@@ -3,7 +3,7 @@ import { Section } from "@/components/ui/Section";
 import { useCases } from "@/lib/data";
 import { useRoute } from "wouter";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, CheckCircle2, Layers, Zap } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Layers, Zap, Github, ExternalLink } from "lucide-react";
 import NotFound from "./not-found";
 import { Link } from "wouter";
 
@@ -97,6 +97,24 @@ export default function UseCasesDetail() {
                   ))}
                 </div>
               </div>
+
+              {useCase.githubUrl && (
+                <div className="bg-card border border-white/10 rounded-xl p-6">
+                  <h4 className="text-white font-bold mb-4 flex items-center gap-2">
+                    <Github className="w-4 h-4 text-primary" /> Project Link
+                  </h4>
+                  <a 
+                    href={useCase.githubUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors text-sm break-all"
+                    data-testid="link-github"
+                  >
+                    <ExternalLink className="w-4 h-4 flex-shrink-0" />
+                    View Project
+                  </a>
+                </div>
+              )}
               
               <div className="bg-gradient-to-br from-primary/20 to-purple-500/20 rounded-xl p-6 border border-white/10 text-center">
                 <h4 className="text-white font-bold mb-2">Need similar results?</h4>

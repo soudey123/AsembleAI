@@ -297,7 +297,7 @@ export async function registerRoutes(
 
       const feed = await parser.parseURL(SUBSTACK_RSS_URL);
       
-      const articles = (feed.items || []).slice(0, 3).map((item: any) => ({
+      const articles = (feed.items || []).slice(0, 5).map((item: any) => ({
         title: item.title || 'Untitled',
         date: formatDate(item.pubDate || item.isoDate || new Date().toISOString()),
         summary: (item.contentSnippet || item.content || item.description || '').replace(/<[^>]*>/g, '').slice(0, 200),

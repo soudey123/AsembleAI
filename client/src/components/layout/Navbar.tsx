@@ -24,7 +24,6 @@ export function Navbar() {
     { href: "/podcast", label: "Podcast" },
     { href: "/newsletter", label: "Newsletter" },
     { href: "/use-cases", label: "AI Use Cases" },
-    { href: "/news", label: "AI & Tech News" },
   ];
 
   return (
