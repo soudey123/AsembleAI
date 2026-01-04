@@ -40,7 +40,7 @@ export default function About() {
     {
       name: "Soumava 'Sam' Dey",
       role: "Co-Founder",
-      bio: "Associate Director of Data Analytics at CMI Media Group (WPP Agency), managing $10M data analytics strategic initiatives. Data & AI Expert with expertise in ML algorithms, cloud computing, and AI agent development. Top 5% Mentor on Topmate and published COVID-19 computer vision researcher.",
+      bio: "Associate Director of Data Analytics at CMI Media Group (WPP), bringing over 15 years of enterprise experience in data analytics and AI/ML algorithm development. Published COVID-19 researcher in MedRxiv, creator of the DataScienceWithSam YouTube channel and podcast, and co-host of AsembleAI. Recognized as a Top 5% Creator on Topmate and LinkedIn, and featured in Voyage Denver as a successful immigrant entrepreneur.",
       linkedin: "https://www.linkedin.com/in/soumava-dey-441294ab/",
       website: "https://www.soumavadey87.com/",
       image: null
