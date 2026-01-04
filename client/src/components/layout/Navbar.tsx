@@ -54,9 +54,6 @@ export function Navbar() {
               </span>
             </Link>
           ))}
-        </div>
-
-        <div className="hidden md:block">
           <Link href="/contact">
             <Button variant="default" className="bg-primary hover:bg-primary/90 text-white shadow-[0_0_20px_rgba(59,130,246,0.5)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] transition-all">
               Contact Us
