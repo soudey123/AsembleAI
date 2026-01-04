@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import Parser from "rss-parser";
+import { getUncachableSendGridClient } from "./sendgrid";
 
 const RSS_FEED_URL = "https://media.rss.com/inside-asembleai/feed.xml";
 const YOUTUBE_CHANNEL_HANDLE = "@asembleaiyt";
@@ -309,6 +310,41 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error fetching Substack feed:", error);
       res.status(500).json({ error: "Failed to fetch newsletter articles", articles: [] });
+    }
+  });
+
+  app.post("/api/contact", async (req, res) => {
+    try {
+      const { name, email, company, message } = req.body;
+
+      if (!name || !email || !message) {
+        return res.status(400).json({ error: "Name, email, and message are required" });
+      }
+
+      const { client, fromEmail } = await getUncachableSendGridClient();
+
+      const msg = {
+        to: 'asembleai@gmail.com',
+        from: fromEmail,
+        replyTo: email,
+        subject: `New Contact Form Submission from ${name}`,
+        text: `Name: ${name}\nEmail: ${email}\nCompany: ${company || 'Not provided'}\n\nMessage:\n${message}`,
+        html: `
+          <h2>New Contact Form Submission</h2>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Company:</strong> ${company || 'Not provided'}</p>
+          <hr>
+          <p><strong>Message:</strong></p>
+          <p>${message.replace(/\n/g, '<br>')}</p>
+        `
+      };
+
+      await client.send(msg);
+      res.json({ success: true, message: "Your message has been sent successfully!" });
+    } catch (error) {
+      console.error("Error sending contact email:", error);
+      res.status(500).json({ error: "Failed to send message. Please try again later." });
     }
   });
 
