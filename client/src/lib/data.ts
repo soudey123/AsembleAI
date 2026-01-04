@@ -105,7 +105,8 @@ export const useCases = [
     impact: "Saves 5+ hours weekly on news consumption while ensuring no critical AI developments are missed.",
     tools: ["n8n", "AI/LLM", "RSS", "Automation"],
     tags: ["Automation", "News", "AI Agent"],
-    githubUrl: "https://asembleai.app.n8n.cloud/workflow/pH03vc5nMJm0n1B9",
+    githubUrl: "/workflows/ai-news-digest.json",
+    isN8nWorkflow: true,
     image: newsDigestImage
   },
   {
@@ -118,7 +119,8 @@ export const useCases = [
     impact: "Reduces research time by 80% while improving coverage and accuracy of findings.",
     tools: ["n8n", "AI/LLM", "Web Scraping", "RAG"],
     tags: ["Research", "AI Agent", "Automation"],
-    githubUrl: "https://asembleai.app.n8n.cloud/workflow/mez75sSu3NsRfNYg",
+    githubUrl: "/workflows/ai-research-agent.json",
+    isN8nWorkflow: true,
     image: researchAgentImage
   },
   {

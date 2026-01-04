@@ -3,7 +3,7 @@ import { Section } from "@/components/ui/Section";
 import { useCases } from "@/lib/data";
 import { useRoute } from "wouter";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, CheckCircle2, Layers, Zap, Github, ExternalLink } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Layers, Zap, Github, ExternalLink, Download } from "lucide-react";
 import NotFound from "./not-found";
 import { Link } from "wouter";
 
@@ -101,17 +101,27 @@ export default function UseCasesDetail() {
               {useCase.githubUrl && (
                 <div className="bg-card border border-white/10 rounded-xl p-6">
                   <h4 className="text-white font-bold mb-4 flex items-center gap-2">
-                    <Github className="w-4 h-4 text-primary" /> Project Link
+                    {(useCase as any).isN8nWorkflow ? (
+                      <span className="w-4 h-4 text-primary font-bold text-xs">n8n</span>
+                    ) : (
+                      <Github className="w-4 h-4 text-primary" />
+                    )}
+                    {(useCase as any).isN8nWorkflow ? "n8n Workflow" : "Project Link"}
                   </h4>
                   <a 
                     href={useCase.githubUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
+                    download={(useCase as any).isN8nWorkflow ? `${useCase.slug}.json` : undefined}
+                    target={(useCase as any).isN8nWorkflow ? undefined : "_blank"}
+                    rel={(useCase as any).isN8nWorkflow ? undefined : "noopener noreferrer"}
                     className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors text-sm break-all"
-                    data-testid="link-github"
+                    data-testid="link-project"
                   >
-                    <ExternalLink className="w-4 h-4 flex-shrink-0" />
-                    View Project
+                    {(useCase as any).isN8nWorkflow ? (
+                      <Download className="w-4 h-4 flex-shrink-0" />
+                    ) : (
+                      <ExternalLink className="w-4 h-4 flex-shrink-0" />
+                    )}
+                    {(useCase as any).isN8nWorkflow ? "Download Workflow JSON" : "View Project"}
                   </a>
                 </div>
               )}
