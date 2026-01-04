@@ -1,7 +1,7 @@
 import { Layout } from "@/components/layout/Layout";
 import { Section } from "@/components/ui/Section";
 import { Card, CardContent } from "@/components/ui/card";
-import { Brain, Target, Users, Zap, Linkedin, Globe, ExternalLink } from "lucide-react";
+import { Brain, Target, Users, Zap, Linkedin, Globe } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function About() {
@@ -33,7 +33,7 @@ export default function About() {
       name: "Mac Goswami",
       role: "Co-Founder",
       bio: "Senior Technical Program Manager in Fintech with 15+ years enterprise experience. Co-host of the AsembleAI podcast, Tech Advisor to Microsoft AI Community, Top 1% Creator on Topmate, and startup mentor at Founder Institute. Graduate of the MIT Sloan AI Executive Program.",
-      linkedin: "https://www.linkedin.com/",
+      linkedin: "https://www.linkedin.com/in/macgoswami/",
       website: "https://macgenventures.com/",
       image: null
     },
