@@ -46,7 +46,17 @@ export default function UseCases() {
               <Link key={index} href={`/use-cases/${useCase.slug}`}>
                 <div className="group cursor-pointer">
                   <Card className="h-full bg-card border-white/5 hover:border-primary/50 transition-all duration-300 overflow-hidden">
-                    <CardHeader>
+                    {useCase.image && (
+                      <div className="relative h-48 overflow-hidden">
+                        <img 
+                          src={useCase.image} 
+                          alt={useCase.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" />
+                      </div>
+                    )}
+                    <CardHeader className={useCase.image ? "pt-4" : ""}>
                       <div className="flex justify-between items-start mb-4">
                         <span className="text-sm font-mono text-primary uppercase tracking-wider">{useCase.category}</span>
                         <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
