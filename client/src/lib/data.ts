@@ -2,7 +2,7 @@ import { Share2, Cpu, Database, Zap, Brain, Shield, BarChart3, Users } from "luc
 import biologicalComputing from "@assets/stock_images/biological_computing_60b959d6.jpg";
 import techJobs from "@assets/stock_images/future_of_tech_jobs__291b924f.jpg";
 import leadership from "@assets/stock_images/executive_leadership_832b6d86.jpg";
-import newsDigestImage from "@assets/generated_images/ai_news_digest_agent.png";
+import newsDigestImage from "@assets/ai_news_digest_workflow.png";
 import researchAgentImage from "@assets/generated_images/ai_research_agent.png";
 import dataIntelligenceImage from "@assets/generated_images/ai_data_intelligence_agent.png";
 import financialAnalystImage from "@assets/generated_images/ai_financial_analyst_agent.png";
