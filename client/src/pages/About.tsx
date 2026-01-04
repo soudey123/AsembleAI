@@ -33,7 +33,7 @@ export default function About() {
       name: "Mac Goswami",
       role: "Co-Founder",
       bio: "Senior Technical Program Manager in Fintech with 15+ years enterprise experience. Co-host of the AsembleAI podcast, Tech Advisor to Microsoft AI Community, Top 1% Creator on Topmate, and startup mentor at Founder Institute. Graduate of the MIT Sloan AI Executive Program.",
-      linkedin: "https://www.linkedin.com/in/macgoswami/",
+      linkedin: "https://www.linkedin.com/in/macgos/",
       website: "https://macgenventures.com/",
       image: null
     },

@@ -1,0 +1,31 @@
+2:39:18 AM [vite] (client) Re-optimizing dependencies because lockfile has changed
+2:39:18 AM [express] serving on port 5000
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+2:40:23 AM [express] GET /api/newsletter/articles 304 in 157ms :: {"articles":[{"title":"AI for Everyone: How Autonomous Agents Will Reshape Healthcare, Finance, Education & Consumer Life","date":"Dec 28, 2025","summary":"DeepTech • AI • Science • Podcast","link":"https://asembleai.substack.com/p/ai-for-everyone-how-autonomous-agents","image":"https://substackcdn.com/image/fetch/$s_!h54l!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2595146d-b08e-4ce6-bb7d-6d9155ada41d_1536x1024.png"},{"title":"The Business Case for AI: How Organizations Can Capture Value in the Agentic Era","date":"Dec 26, 2025","summary":"DeepTech • AI • Science","link":"https://asembleai.substack.com/p/the-business-case-for-ai-how-organizations","image":"https://substackcdn.com/image/fetch/$s_!yMuW!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F73991481-2e54-48d0-bbad-78453b538ec4_1536x1024.png"},{"title":"Ethics in the Age of Autonomous AI: Accountability, Risk, and the Future of Decision Rights","date":"Dec 24, 2025","summary":"DeepTech • AI • Podcast","link":"https://asembleai.substack.com/p/ethics-in-the-age-of-autonomous-ai","image":"https://substackcdn.com/image/fetch/$s_!QVPQ!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F69446f5a-fffa-47a3-b349-9508846606c4_1536x1024.png"},{"title":"The End of the App Economy? Why Agent-First Interfaces Will Replace Screens and Buttons","date":"Dec 22, 2025","summary":"DeepTech • AI • Science","link":"https://asembleai.substack.com/p/the-end-of-the-app-economy-why-agent","image":"https://substackcdn.com/image/fetch/$s_!zpSt!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F502120f7-9d11-4c74-9093-3d63b0ac7fad_2752x1536.png"},{"title":"AI Meets Macroeconomics: How Autonomous Systems Will Reshape GDP, Labor Markets & Global Competition","date":"Dec 20, 2025","summary":"DeepTech • AI • Science","link":"https://asembleai.substack.com/p/ai-meets-macroeconomics-how-autonomous","image":"https://substackcdn.com/image/fetch/$s_!YEoQ!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2d3ae3f5-3a98-4fe8-ada1-6e7745cce769_2752x1536.png"}],"feedTitle":"AsembleAI"}
+API key does not start with "SG.".
+Error sending contact email: ResponseError: Unauthorized
+    at node_modules/@sendgrid/client/src/classes/client.js:167:29
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+  code: 401,
+  response: {
+    headers: Object [AxiosHeaders] {
+      server: 'nginx',
+      date: 'Sun, 04 Jan 2026 02:41:28 GMT',
+      'content-type': 'application/json',
+      'content-length': '116',
+      connection: 'keep-alive',
+      'access-control-allow-origin': 'https://sendgrid.api-docs.io',
+      'access-control-allow-methods': 'POST',
+      'access-control-allow-headers': 'Authorization, Content-Type, On-behalf-of, x-sg-elas-acl',
+      'access-control-max-age': '600',
+      'x-no-cors-reason': 'https://sendgrid.com/docs/Classroom/Basics/API/cors.html',
+      'strict-transport-security': 'max-age=31536000; includeSubDomains',
+      'content-security-policy': "frame-ancestors 'none'",
+      'cache-control': 'no-cache',
+      'x-content-type-options': 'no-sniff',
+      'referrer-policy': 'strict-origin-when-cross-origin'
+    },
+    body: { errors: [Array] }
+  }
+}
+2:41:28 AM [express] POST /api/contact 500 in 370ms :: {"error":"Failed to send message. Please try again later."}
