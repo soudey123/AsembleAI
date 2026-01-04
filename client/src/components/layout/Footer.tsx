@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Linkedin, Twitter, Github, Mail } from "lucide-react";
+import { Linkedin, Twitter, Mail } from "lucide-react";
 import logoImage from "@assets/Logo_1_1765679359359.png";
 
 export function Footer() {
@@ -37,18 +37,15 @@ export function Footer() {
           <div>
             <h4 className="font-heading font-bold text-white mb-6">Connect</h4>
             <div className="flex gap-4 mb-6">
-              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-all text-muted-foreground">
+              <a href="https://x.com/AsembleAI" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-all text-muted-foreground">
                 <Twitter className="w-5 h-5" />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-all text-muted-foreground">
+              <a href="https://www.linkedin.com/company/asembleai" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-all text-muted-foreground">
                 <Linkedin className="w-5 h-5" />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-all text-muted-foreground">
-                <Github className="w-5 h-5" />
-              </a>
             </div>
-            <a href="/contact" className="text-primary hover:text-primary/80 text-sm font-medium flex items-center gap-2">
-              <Mail className="w-4 h-4" /> contact@asemble.ai
+            <a href="mailto:asembleai@gmail.com" className="text-primary hover:text-primary/80 text-sm font-medium flex items-center gap-2">
+              <Mail className="w-4 h-4" /> asembleai@gmail.com
             </a>
           </div>
         </div>
