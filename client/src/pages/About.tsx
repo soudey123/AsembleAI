@@ -1,7 +1,7 @@
 import { Layout } from "@/components/layout/Layout";
 import { Section } from "@/components/ui/Section";
 import { Card, CardContent } from "@/components/ui/card";
-import { Brain, Target, Users, Zap, Linkedin, Globe } from "lucide-react";
+import { Brain, Target, Users, Zap, Linkedin } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function About() {
@@ -34,7 +34,6 @@ export default function About() {
       role: "Co-Founder",
       bio: "Senior Technical Program Manager in Fintech with 15+ years enterprise experience. Co-host of the AsembleAI podcast, Tech Advisor to Microsoft AI Community, Top 1% Creator on Topmate, and startup mentor at Founder Institute. Graduate of the MIT Sloan AI Executive Program.",
       linkedin: "https://www.linkedin.com/in/macgos/",
-      website: "https://macgenventures.com/",
       image: null
     },
     {
@@ -42,7 +41,6 @@ export default function About() {
       role: "Co-Founder",
       bio: "Data analytics leader with 15+ years in enterprise AI/ML, currently Associate Director at CMI Media Group (WPP). Public Ivy UIUC alumnus and published researcher. Creator of DataScienceWithSam, co-host of AsembleAI podcast, Top 5% Topmate and LinkedIn creator, and Voyage Denver featured entrepreneur.",
       linkedin: "https://www.linkedin.com/in/soumava-dey-441294ab/",
-      website: "https://www.soumavadey87.com/",
       image: null
     }
   ];
@@ -70,13 +68,13 @@ export default function About() {
               <h2 className="text-3xl font-bold text-white mb-6">Our Story</h2>
               <div className="space-y-4 text-muted-foreground text-lg">
                 <p>
-                  Founded in 2024 by a technologist and a data scientist, AsembleAI emerged from a simple observation: there was a widening gap between what AI could do in the lab and what it was doing in enterprise settings.
+                  Founded in 2025 by a technologist and a data scientist, AsembleAI emerged from a simple observation: there was a widening gap between what AI could do in the lab and what it was doing in enterprise settings.
                 </p>
                 <p>
-                  While the world was captivated by chatbots, we saw the real revolution coming in the form of autonomous agents, software that doesn't just talk, but acts. What started as podcast conversations exploring AI's potential evolved into a mission to bridge research and real-world implementation through practical agent development.
+                  While the world was captivated by chatbots, we saw the real revolution coming in the form of autonomous agents—software that doesn't just talk, but acts. What started as podcast conversations exploring AI's potential evolved into a mission to bridge research and real-world implementation through practical agent development.
                 </p>
                 <p>
-                  We partner with forward-thinking organizations to build agentic workflow systems within their core ecosystems that accelerate technological adoption and drive business growth.
+                  Today, we partner with forward-thinking organizations to build agentic workflow systems within their core ecosystems that accelerate technological adoption and drive business growth.
                 </p>
               </div>
             </div>
@@ -113,14 +111,6 @@ export default function About() {
                                 className="text-muted-foreground hover:text-primary transition-colors"
                               >
                                 <Linkedin className="w-5 h-5" />
-                              </a>
-                              <a 
-                                href={founder.website} 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="text-muted-foreground hover:text-primary transition-colors"
-                              >
-                                <Globe className="w-5 h-5" />
                               </a>
                             </div>
                           </div>

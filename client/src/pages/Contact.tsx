@@ -94,8 +94,8 @@ export default function Contact() {
                   <div>
                     <h3 className="text-lg font-bold text-white mb-1">Office</h3>
                     <p className="text-muted-foreground">
-                      100 Innovation Drive<br />
-                      San Francisco, CA 94103
+                      4387 W. Swamp Road<br />
+                      Doylestown, PA 18902
                     </p>
                   </div>
                 </div>

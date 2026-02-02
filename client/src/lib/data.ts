@@ -6,6 +6,7 @@ import newsDigestImage from "@assets/ai_news_digest_workflow.png";
 import researchAgentImage from "@assets/ai_research_agent_workflow.png";
 import dataIntelligenceImage from "@assets/generated_images/ai_data_intelligence_agent.png";
 import financialAnalystImage from "@assets/generated_images/ai_financial_analyst_agent.png";
+import callChatAgentImage from "@assets/Screenshot_2026-02-02_at_9.54.51_AM_1770051455113.png";
 
 export const podcasts = [
   {
@@ -148,6 +149,19 @@ export const useCases = [
     tags: ["Finance", "AI Agent", "Vertex AI"],
     githubUrl: "https://github.com/soudey123/AIAgentLab/tree/main/ai-financial-analyst-VertexAI",
     image: financialAnalystImage
+  },
+  {
+    slug: "ai-call-chat-agent",
+    title: "AI Call and Chat Agent for Restaurants",
+    category: "Enterprise Automation",
+    description: "Voice and chat AI agent for restaurant customer service and reservations.",
+    problem: "Restaurants lose revenue from missed calls and struggle to handle high volumes of reservation requests, especially during peak hours.",
+    solution: "Developed an AI-powered call and chat agent using n8n that handles customer inquiries, takes reservations, answers menu questions, and provides 24/7 automated customer service.",
+    impact: "Reduces missed calls by 90% and handles unlimited concurrent conversations, improving customer satisfaction and increasing reservations.",
+    tools: ["n8n", "AI/LLM", "Voice AI", "Automation"],
+    tags: ["Voice AI", "Customer Service", "Restaurants"],
+    githubUrl: "https://github.com/asembleAI/AI-Call-Chat-Agent",
+    image: callChatAgentImage
   }
 ];
 
