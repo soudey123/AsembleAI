@@ -97,6 +97,19 @@ export const podcasts = [
 
 export const useCases = [
   {
+    slug: "ai-call-chat-agent",
+    title: "AI Call and Chat Agent for Restaurants",
+    category: "Enterprise Automation",
+    description: "Voice and chat AI agent for restaurant customer service and reservations.",
+    problem: "Restaurants lose revenue from missed calls and struggle to handle high volumes of reservation requests, especially during peak hours.",
+    solution: "Developed an AI-powered call and chat agent using n8n that handles customer inquiries, takes reservations, answers menu questions, and provides 24/7 automated customer service.",
+    impact: "Reduces missed calls by 90% and handles unlimited concurrent conversations, improving customer satisfaction and increasing reservations.",
+    tools: ["n8n", "AI/LLM", "Voice AI", "Automation"],
+    tags: ["Voice AI", "Customer Service", "Restaurants"],
+    githubUrl: "https://github.com/asembleAI/AI-Call-Chat-Agent",
+    image: callChatAgentImage
+  },
+  {
     slug: "ai-news-digest",
     title: "AI News Digest",
     category: "Research & Intelligence",
@@ -149,19 +162,6 @@ export const useCases = [
     tags: ["Finance", "AI Agent", "Vertex AI"],
     githubUrl: "https://github.com/soudey123/AIAgentLab/tree/main/ai-financial-analyst-VertexAI",
     image: financialAnalystImage
-  },
-  {
-    slug: "ai-call-chat-agent",
-    title: "AI Call and Chat Agent for Restaurants",
-    category: "Enterprise Automation",
-    description: "Voice and chat AI agent for restaurant customer service and reservations.",
-    problem: "Restaurants lose revenue from missed calls and struggle to handle high volumes of reservation requests, especially during peak hours.",
-    solution: "Developed an AI-powered call and chat agent using n8n that handles customer inquiries, takes reservations, answers menu questions, and provides 24/7 automated customer service.",
-    impact: "Reduces missed calls by 90% and handles unlimited concurrent conversations, improving customer satisfaction and increasing reservations.",
-    tools: ["n8n", "AI/LLM", "Voice AI", "Automation"],
-    tags: ["Voice AI", "Customer Service", "Restaurants"],
-    githubUrl: "https://github.com/asembleAI/AI-Call-Chat-Agent",
-    image: callChatAgentImage
   }
 ];
 
