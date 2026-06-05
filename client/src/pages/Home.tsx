@@ -17,6 +17,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 
+/* ─────────────────────────────────────────────────────────
+   SHARED UTILITIES
+───────────────────────────────────────────────────────── */
 function AnimatedTitle({
   children,
   gradient = "from-cyan-400 via-blue-500 to-purple-500",
@@ -42,9 +45,7 @@ function AnimatedCounter({ value, display }: { value: number; display: string })
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !started) setStarted(true);
-      },
+      ([entry]) => { if (entry.isIntersecting && !started) setStarted(true); },
       { threshold: 0.3 }
     );
     if (ref.current) observer.observe(ref.current);
@@ -53,31 +54,21 @@ function AnimatedCounter({ value, display }: { value: number; display: string })
 
   useEffect(() => {
     if (!started) return;
-    const duration = 2000;
     const steps = 60;
     const increment = value / steps;
     let current = 0;
     const timer = setInterval(() => {
       current += increment;
-      if (current >= value) {
-        setCount(value);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(current));
-      }
-    }, duration / steps);
+      if (current >= value) { setCount(value); clearInterval(timer); }
+      else setCount(Math.floor(current));
+    }, 2000 / steps);
     return () => clearInterval(timer);
   }, [started, value]);
 
   const formatted = count >= 1000 ? `${Math.floor(count / 1000)}K` : count.toString();
-  const hasPlus = display.includes("+");
-  const hasMo = display.includes(" mo");
-
   return (
     <div ref={ref} className="text-4xl md:text-5xl font-bold text-white font-heading">
-      {formatted}
-      {hasPlus ? "+" : ""}
-      {hasMo ? " mo" : ""}
+      {formatted}{display.includes("+") ? "+" : ""}{display.includes(" mo") ? " mo" : ""}
     </div>
   );
 }
@@ -89,28 +80,17 @@ function TestimonialsCarousel() {
 
   useEffect(() => {
     if (length <= 1) return;
-    const timer = setInterval(() => {
-      setDirection(1);
-      setCurrent((c) => (c + 1) % length);
-    }, 7000);
+    const timer = setInterval(() => { setDirection(1); setCurrent((c) => (c + 1) % length); }, 7000);
     return () => clearInterval(timer);
   }, [length]);
 
-  const prev = () => {
-    setDirection(-1);
-    setCurrent((c) => (c - 1 + length) % length);
-  };
-  const next = () => {
-    setDirection(1);
-    setCurrent((c) => (c + 1) % length);
-  };
-
+  const prev = () => { setDirection(-1); setCurrent((c) => (c - 1 + length) % length); };
+  const next = () => { setDirection(1); setCurrent((c) => (c + 1) % length); };
   const variants = {
     enter: (d: number) => ({ x: d > 0 ? 60 : -60, opacity: 0 }),
     center: { x: 0, opacity: 1 },
     exit: (d: number) => ({ x: d < 0 ? 60 : -60, opacity: 0 }),
   };
-
   const t = testimonials[current];
 
   return (
@@ -118,14 +98,9 @@ function TestimonialsCarousel() {
       <div className="overflow-hidden min-h-[240px] flex items-center">
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
-            key={current}
-            custom={direction}
-            variants={variants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="w-full"
+            key={current} custom={direction} variants={variants}
+            initial="enter" animate="center" exit="exit"
+            transition={{ duration: 0.4, ease: "easeInOut" }} className="w-full"
           >
             <blockquote className="text-lg md:text-xl text-muted-foreground leading-relaxed italic mb-8">
               "{t.quote}"
@@ -135,13 +110,9 @@ function TestimonialsCarousel() {
                 {t.name.charAt(0)}
               </div>
               <div>
-                <a
-                  href={t.linkedinUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <a href={t.linkedinUrl} target="_blank" rel="noopener noreferrer"
                   className="font-semibold text-white hover:text-primary transition-colors inline-flex items-center gap-1"
-                  data-testid={`link-testimonial-linkedin-${current}`}
-                >
+                  data-testid={`link-testimonial-linkedin-${current}`}>
                   {t.name} <ExternalLink className="w-3 h-3" />
                 </a>
                 <p className="text-sm text-muted-foreground">{t.title}</p>
@@ -150,36 +121,19 @@ function TestimonialsCarousel() {
           </motion.div>
         </AnimatePresence>
       </div>
-
       {length > 1 && (
         <div className="flex items-center justify-center gap-4 mt-8">
-          <button
-            onClick={prev}
-            className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-muted-foreground hover:text-white transition-all"
-            data-testid="button-testimonial-prev"
-          >
+          <button onClick={prev} className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-muted-foreground hover:text-white transition-all" data-testid="button-testimonial-prev">
             <ChevronLeft className="w-5 h-5" />
           </button>
           <div className="flex gap-2">
             {testimonials.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => {
-                  setDirection(i > current ? 1 : -1);
-                  setCurrent(i);
-                }}
-                className={`h-2 rounded-full transition-all ${
-                  i === current ? "bg-primary w-6" : "bg-white/20 w-2"
-                }`}
-                data-testid={`button-testimonial-dot-${i}`}
-              />
+              <button key={i} onClick={() => { setDirection(i > current ? 1 : -1); setCurrent(i); }}
+                className={`h-2 rounded-full transition-all ${i === current ? "bg-primary w-6" : "bg-white/20 w-2"}`}
+                data-testid={`button-testimonial-dot-${i}`} />
             ))}
           </div>
-          <button
-            onClick={next}
-            className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-muted-foreground hover:text-white transition-all"
-            data-testid="button-testimonial-next"
-          >
+          <button onClick={next} className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-muted-foreground hover:text-white transition-all" data-testid="button-testimonial-next">
             <ChevronRight className="w-5 h-5" />
           </button>
         </div>
@@ -198,69 +152,263 @@ function NewsletterForm() {
     setStatus("loading");
     try {
       const res = await fetch("/api/newsletter/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-      if (res.ok) {
-        setStatus("success");
-        setEmail("");
-      } else {
-        throw new Error();
-      }
+      if (res.ok) { setStatus("success"); setEmail(""); } else throw new Error();
     } catch {
-      window.open(`https://substack.com/@asembleai`, "_blank");
+      window.open("https://substack.com/@asembleai", "_blank");
       setStatus("idle");
     }
   };
 
   if (status === "success") {
     return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="text-center py-4"
-      >
+      <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-4">
         <div className="text-3xl mb-3">🎉</div>
         <p className="text-white font-semibold text-lg">You're in!</p>
-        <p className="text-muted-foreground text-sm mt-1">
-          Check your inbox for a confirmation.
-        </p>
+        <p className="text-muted-foreground text-sm mt-1">Check your inbox for a confirmation.</p>
       </motion.div>
     );
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
-      data-testid="form-newsletter"
-    >
-      <Input
-        type="email"
-        placeholder="Enter your email address"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
+    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" data-testid="form-newsletter">
+      <Input type="email" placeholder="Enter your email address" value={email}
+        onChange={(e) => setEmail(e.target.value)} required
         className="h-12 bg-white/5 border-white/15 text-white placeholder:text-muted-foreground/60 focus:border-primary rounded-full px-5"
-        data-testid="input-newsletter-email"
-      />
-      <Button
-        type="submit"
-        disabled={status === "loading"}
+        data-testid="input-newsletter-email" />
+      <Button type="submit" disabled={status === "loading"}
         className="h-12 px-7 rounded-full bg-white text-black hover:bg-white/90 font-semibold shrink-0 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]"
-        data-testid="button-newsletter-submit"
-      >
-        {status === "loading" ? (
-          <Loader2 className="w-4 h-4 animate-spin" />
-        ) : (
-          <>Subscribe <ArrowRight className="ml-1 w-4 h-4" /></>
-        )}
+        data-testid="button-newsletter-submit">
+        {status === "loading" ? <Loader2 className="w-4 h-4 animate-spin" /> : <>Subscribe <ArrowRight className="ml-1 w-4 h-4" /></>}
       </Button>
     </form>
   );
 }
 
+/* ─────────────────────────────────────────────────────────
+   SECTION BACKGROUNDS
+───────────────────────────────────────────────────────── */
+
+/** Episodes — audio waveform bars + floating cyan orbs */
+function EpisodesBg() {
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {/* Cyan orb top-right */}
+      <motion.div className="absolute w-[500px] h-[500px] rounded-full"
+        style={{ background: "radial-gradient(circle, rgba(34,211,238,0.10) 0%, transparent 65%)", top: "-120px", right: "-100px", filter: "blur(60px)" }}
+        animate={{ scale: [1, 1.1, 1], opacity: [0.6, 1, 0.6] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }} />
+      {/* Blue orb bottom-left */}
+      <motion.div className="absolute w-[400px] h-[400px] rounded-full"
+        style={{ background: "radial-gradient(circle, rgba(59,130,246,0.10) 0%, transparent 65%)", bottom: "-80px", left: "-80px", filter: "blur(60px)" }}
+        animate={{ scale: [1, 1.15, 1] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }} />
+
+      {/* Waveform bars along the bottom */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 flex items-end justify-center gap-1 px-8 opacity-[0.07]">
+        {Array.from({ length: 80 }).map((_, i) => {
+          const h = 20 + Math.sin(i * 0.45) * 30 + Math.sin(i * 0.2) * 20;
+          return (
+            <motion.div key={i} className="w-1 rounded-t bg-cyan-400 shrink-0"
+              style={{ height: `${h}%` }}
+              animate={{ scaleY: [1, 1.3 + Math.random() * 0.4, 1] }}
+              transition={{ duration: 1.5 + (i % 5) * 0.3, repeat: Infinity, ease: "easeInOut", delay: i * 0.04 }} />
+          );
+        })}
+      </div>
+
+      {/* Floating particles */}
+      {[...Array(8)].map((_, i) => (
+        <motion.div key={i} className="absolute w-1.5 h-1.5 rounded-full bg-cyan-400/40"
+          style={{ left: `${10 + i * 11}%`, top: `${20 + (i % 3) * 25}%` }}
+          animate={{ y: [0, -16, 0], opacity: [0.2, 0.6, 0.2] }}
+          transition={{ duration: 4 + i, repeat: Infinity, ease: "easeInOut", delay: i * 0.6 }} />
+      ))}
+    </div>
+  );
+}
+
+/** Audience — animated constellation network + teal glow */
+function AudienceBg() {
+  const nodes = [
+    { x: 12, y: 20 }, { x: 88, y: 15 }, { x: 50, y: 8 },
+    { x: 25, y: 75 }, { x: 75, y: 80 }, { x: 8, y: 50 },
+    { x: 92, y: 55 }, { x: 40, y: 90 }, { x: 62, y: 45 },
+  ];
+  const edges = [[0,2],[1,2],[2,8],[0,5],[1,6],[3,4],[3,7],[4,7],[5,3],[6,4],[8,1],[8,6]];
+
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {/* Central teal glow */}
+      <motion.div className="absolute w-[700px] h-[700px] rounded-full"
+        style={{ background: "radial-gradient(circle, rgba(20,184,166,0.10) 0%, transparent 60%)", top: "50%", left: "50%", transform: "translate(-50%,-50%)", filter: "blur(80px)" }}
+        animate={{ scale: [1, 1.12, 1], opacity: [0.5, 0.9, 0.5] }}
+        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }} />
+
+      {/* SVG constellation */}
+      <svg className="absolute inset-0 w-full h-full opacity-[0.12]" preserveAspectRatio="none">
+        {edges.map(([a, b], i) => (
+          <motion.line key={i}
+            x1={`${nodes[a].x}%`} y1={`${nodes[a].y}%`}
+            x2={`${nodes[b].x}%`} y2={`${nodes[b].y}%`}
+            stroke="rgb(20,184,166)" strokeWidth="1"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: [0, 1, 1, 0], opacity: [0, 0.8, 0.8, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 }} />
+        ))}
+        {nodes.map((n, i) => (
+          <motion.circle key={i} cx={`${n.x}%`} cy={`${n.y}%`} r="4" fill="rgb(20,184,166)"
+            animate={{ opacity: [0.2, 1, 0.2] }}
+            transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }} />
+        ))}
+      </svg>
+
+      {/* Subtle grid */}
+      <div className="absolute inset-0 opacity-[0.025]"
+        style={{ backgroundImage: "linear-gradient(rgba(20,184,166,1) 1px, transparent 1px), linear-gradient(90deg, rgba(20,184,166,1) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
+    </div>
+  );
+}
+
+/** Testimonials — giant quote marks + purple bloom */
+function TestimonialsBg() {
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {/* Giant faint quote mark */}
+      <div className="absolute -top-8 left-1/2 -translate-x-1/2 text-[320px] leading-none font-serif font-bold text-purple-500/[0.04] select-none">
+        "
+      </div>
+
+      {/* Purple orb center */}
+      <motion.div className="absolute w-[600px] h-[600px] rounded-full"
+        style={{ background: "radial-gradient(circle, rgba(168,85,247,0.10) 0%, transparent 60%)", top: "50%", left: "50%", transform: "translate(-50%,-50%)", filter: "blur(80px)" }}
+        animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.8, 0.4] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }} />
+
+      {/* Pink accent top-right */}
+      <motion.div className="absolute w-[300px] h-[300px] rounded-full"
+        style={{ background: "radial-gradient(circle, rgba(236,72,153,0.08) 0%, transparent 65%)", top: "-60px", right: "10%", filter: "blur(50px)" }}
+        animate={{ x: [0, -20, 0], y: [0, 15, 0] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }} />
+
+      {/* Sparkle dots */}
+      {[...Array(12)].map((_, i) => (
+        <motion.div key={i}
+          className="absolute rounded-full"
+          style={{
+            width: i % 3 === 0 ? "3px" : "2px",
+            height: i % 3 === 0 ? "3px" : "2px",
+            background: i % 2 === 0 ? "rgba(168,85,247,0.5)" : "rgba(236,72,153,0.5)",
+            left: `${5 + (i * 8.5) % 90}%`,
+            top: `${10 + (i * 13) % 80}%`,
+          }}
+          animate={{ scale: [0, 1.5, 0], opacity: [0, 1, 0] }}
+          transition={{ duration: 2.5 + (i % 4) * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.35 }} />
+      ))}
+    </div>
+  );
+}
+
+/** Services — diagonal scan streaks + orange/amber glow */
+function ServicesBg() {
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {/* Orange glow bottom-left */}
+      <motion.div className="absolute w-[500px] h-[500px] rounded-full"
+        style={{ background: "radial-gradient(circle, rgba(251,146,60,0.10) 0%, transparent 65%)", bottom: "-100px", left: "-60px", filter: "blur(70px)" }}
+        animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }} />
+
+      {/* Red/pink glow top-right */}
+      <motion.div className="absolute w-[400px] h-[400px] rounded-full"
+        style={{ background: "radial-gradient(circle, rgba(239,68,68,0.08) 0%, transparent 65%)", top: "-80px", right: "-40px", filter: "blur(70px)" }}
+        animate={{ scale: [1, 1.1, 1] }}
+        transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 3 }} />
+
+      {/* Diagonal scan streaks */}
+      {[...Array(5)].map((_, i) => (
+        <motion.div key={i}
+          className="absolute"
+          style={{
+            width: "2px",
+            height: "180px",
+            background: "linear-gradient(to bottom, transparent, rgba(251,146,60,0.25), transparent)",
+            left: `${15 + i * 18}%`,
+            top: "-30px",
+            transform: "rotate(25deg)",
+            transformOrigin: "top",
+          }}
+          animate={{ y: [0, "110vh"], opacity: [0, 0.8, 0] }}
+          transition={{ duration: 4 + i * 0.8, repeat: Infinity, ease: "easeIn", delay: i * 1.2 }} />
+      ))}
+
+      {/* Horizontal glow lines */}
+      {[...Array(3)].map((_, i) => (
+        <motion.div key={i}
+          className="absolute left-0 right-0 h-px"
+          style={{ top: `${25 + i * 28}%`, background: "linear-gradient(to right, transparent, rgba(251,146,60,0.12), rgba(239,68,68,0.12), transparent)" }}
+          animate={{ opacity: [0.3, 0.8, 0.3] }}
+          transition={{ duration: 3 + i, repeat: Infinity, ease: "easeInOut", delay: i * 1.1 }} />
+      ))}
+    </div>
+  );
+}
+
+/** Newsletter — aurora rising + warm particles */
+function NewsletterBg() {
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {/* Aurora layer — animated warm gradient rising from bottom */}
+      <motion.div className="absolute inset-x-0 bottom-0 h-full"
+        animate={{
+          background: [
+            "radial-gradient(ellipse 80% 60% at 50% 110%, rgba(251,191,36,0.14) 0%, rgba(249,115,22,0.08) 40%, transparent 70%)",
+            "radial-gradient(ellipse 80% 60% at 50% 110%, rgba(249,115,22,0.14) 0%, rgba(239,68,68,0.08) 40%, transparent 70%)",
+            "radial-gradient(ellipse 80% 60% at 50% 110%, rgba(251,191,36,0.14) 0%, rgba(249,115,22,0.08) 40%, transparent 70%)",
+          ],
+        }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} />
+
+      {/* Secondary aurora — top subtle cool haze */}
+      <div className="absolute inset-x-0 top-0 h-1/2"
+        style={{ background: "radial-gradient(ellipse 60% 50% at 50% -10%, rgba(59,130,246,0.06) 0%, transparent 70%)" }} />
+
+      {/* Starburst rays from center-bottom */}
+      <svg className="absolute inset-0 w-full h-full opacity-[0.05]">
+        {[...Array(12)].map((_, i) => {
+          const angle = (i / 12) * 360 - 90;
+          const rad = (angle * Math.PI) / 180;
+          const x2 = 50 + Math.cos(rad) * 80;
+          const y2 = 110 + Math.sin(rad) * 80;
+          return (
+            <line key={i} x1="50%" y1="100%" x2={`${x2}%`} y2={`${y2}%`}
+              stroke="rgb(251,191,36)" strokeWidth="1" />
+          );
+        })}
+      </svg>
+
+      {/* Rising warm particles */}
+      {[...Array(14)].map((_, i) => (
+        <motion.div key={i}
+          className="absolute rounded-full"
+          style={{
+            width: "3px", height: "3px",
+            background: i % 2 === 0 ? "rgba(251,191,36,0.6)" : "rgba(249,115,22,0.6)",
+            left: `${5 + (i * 6.8) % 90}%`,
+            bottom: "-10px",
+          }}
+          animate={{ y: [0, -(200 + (i % 5) * 60)], opacity: [0, 0.8, 0], scale: [0.5, 1, 0.3] }}
+          transition={{ duration: 4 + (i % 4), repeat: Infinity, ease: "easeOut", delay: i * 0.45 }} />
+      ))}
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────
+   HOME PAGE
+───────────────────────────────────────────────────────── */
 export default function Home() {
   const featuredEpisodes = podcasts.filter((p) => p.type === "video").slice(0, 3);
 
@@ -269,7 +417,7 @@ export default function Home() {
       <Hero />
 
       {/* ── LATEST EPISODES ── */}
-      <Section className="bg-background" id="episodes">
+      <Section id="episodes" bg={<EpisodesBg />}>
         <div className="text-center mb-14">
           <p className="text-xs font-bold tracking-widest uppercase text-primary mb-3">Latest Episodes</p>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -282,58 +430,27 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
           {featuredEpisodes.map((ep, i) => (
-            <motion.div
-              key={ep.slug}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <Card
-                className="h-full glass-card border-white/5 hover:border-primary/30 transition-all duration-300 group overflow-hidden"
-                data-testid={`card-episode-${i}`}
-              >
+            <motion.div key={ep.slug}
+              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }} viewport={{ once: true }}>
+              <Card className="h-full glass-card border-white/5 hover:border-primary/30 transition-all duration-300 group overflow-hidden" data-testid={`card-episode-${i}`}>
                 <div className="aspect-video overflow-hidden">
-                  <img
-                    src={ep.thumbnail}
-                    alt={ep.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
-                  />
+                  <img src={ep.thumbnail} alt={ep.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
                 </div>
                 <CardContent className="p-5">
                   <div className="flex flex-wrap gap-2 mb-3">
                     {ep.tags.slice(0, 2).map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20"
-                      >
-                        {tag}
-                      </span>
+                      <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">{tag}</span>
                     ))}
                   </div>
-                  <h3 className="text-base font-bold text-white mb-1 line-clamp-2 group-hover:text-primary transition-colors">
-                    {ep.title}
-                  </h3>
-                  <p className="text-xs text-muted-foreground mb-3">
-                    with {ep.guest} · {ep.duration}
-                  </p>
+                  <h3 className="text-base font-bold text-white mb-1 line-clamp-2 group-hover:text-primary transition-colors">{ep.title}</h3>
+                  <p className="text-xs text-muted-foreground mb-3">with {ep.guest} · {ep.duration}</p>
                   <div className="flex gap-2">
-                    <a
-                      href={ep.spotifyUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-green-500/20 hover:text-green-400 border border-white/10 transition-all text-muted-foreground"
-                    >
-                      Spotify
-                    </a>
-                    <a
-                      href={ep.youtubeUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-red-500/20 hover:text-red-400 border border-white/10 transition-all text-muted-foreground"
-                    >
-                      YouTube
-                    </a>
+                    <a href={ep.spotifyUrl} target="_blank" rel="noopener noreferrer"
+                      className="text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-green-500/20 hover:text-green-400 border border-white/10 transition-all text-muted-foreground">Spotify</a>
+                    <a href={ep.youtubeUrl} target="_blank" rel="noopener noreferrer"
+                      className="text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-red-500/20 hover:text-red-400 border border-white/10 transition-all text-muted-foreground">YouTube</a>
                   </div>
                 </CardContent>
               </Card>
@@ -343,11 +460,7 @@ export default function Home() {
 
         <div className="text-center">
           <Link href="/podcast">
-            <Button
-              variant="outline"
-              className="border-white/10 text-white hover:bg-white/5"
-              data-testid="button-all-episodes"
-            >
+            <Button variant="outline" className="border-white/10 text-white hover:bg-white/5" data-testid="button-all-episodes">
               All Episodes <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
           </Link>
@@ -355,28 +468,21 @@ export default function Home() {
       </Section>
 
       {/* ── BY THE NUMBERS / AUDIENCE ── */}
-      <Section className="bg-secondary/20 border-y border-white/5" id="audience">
+      <Section className="border-y border-white/5" id="audience" bg={<AudienceBg />}>
         <div className="text-center mb-14">
           <p className="text-xs font-bold tracking-widest uppercase text-primary mb-3">The AsembleAI Audience</p>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            <AnimatedTitle gradient="from-green-400 via-emerald-500 to-teal-500">By the Numbers</AnimatedTitle>
+            <AnimatedTitle gradient="from-teal-400 via-emerald-500 to-green-400">By the Numbers</AnimatedTitle>
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Built in 18 months — on track for 1M downloads.
-          </p>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Built in 18 months — on track for 1M downloads.</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-14">
           {audienceStats.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.08 }}
-              viewport={{ once: true }}
-              className="glass-card border-white/5 rounded-2xl p-6 text-center"
-              data-testid={`card-stat-${i}`}
-            >
+            <motion.div key={stat.label}
+              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08 }} viewport={{ once: true }}
+              className="glass-card border-white/5 rounded-2xl p-6 text-center" data-testid={`card-stat-${i}`}>
               <AnimatedCounter value={stat.value} display={stat.display} />
               <p className="text-sm font-semibold text-white mt-2 mb-1">{stat.label}</p>
               <p className="text-xs text-muted-foreground">{stat.description}</p>
@@ -385,22 +491,16 @@ export default function Home() {
         </div>
 
         <div className="max-w-3xl mx-auto">
-          <p className="text-center text-xs font-bold uppercase tracking-widest text-muted-foreground mb-6">
-            Audience Demographics
-          </p>
+          <p className="text-center text-xs font-bold uppercase tracking-widest text-muted-foreground mb-6">Audience Demographics</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {audienceDemographics.map((d, i) => (
-              <motion.div
-                key={d.label}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: i * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-gradient-to-br from-primary/10 to-purple-500/10 border border-white/10 rounded-2xl p-6 text-center"
-                data-testid={`card-demographic-${i}`}
-              >
+              <motion.div key={d.label}
+                initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.1 }} viewport={{ once: true }}
+                className="bg-gradient-to-br from-teal-500/10 to-emerald-500/10 border border-white/10 rounded-2xl p-6 text-center"
+                data-testid={`card-demographic-${i}`}>
                 <div className="text-3xl font-bold text-white mb-1">{d.stat}</div>
-                <div className="text-sm font-semibold text-primary mb-1">{d.label}</div>
+                <div className="text-sm font-semibold text-teal-400 mb-1">{d.label}</div>
                 <div className="text-xs text-muted-foreground">{d.detail}</div>
               </motion.div>
             ))}
@@ -409,62 +509,41 @@ export default function Home() {
       </Section>
 
       {/* ── TESTIMONIALS ── */}
-      <Section id="testimonials">
+      <Section id="testimonials" bg={<TestimonialsBg />}>
         <div className="text-center mb-14">
           <p className="text-xs font-bold tracking-widest uppercase text-primary mb-3">Guest Voices</p>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            What{" "}
-            <AnimatedTitle gradient="from-purple-400 via-pink-500 to-rose-500">
-              Our Guests
-            </AnimatedTitle>{" "}
-            Say
+            What <AnimatedTitle gradient="from-purple-400 via-pink-500 to-rose-500">Our Guests</AnimatedTitle> Say
           </h2>
         </div>
         <TestimonialsCarousel />
       </Section>
 
       {/* ── SERVICES / PARTNER WITH US ── */}
-      <Section className="bg-secondary/20 border-y border-white/5" id="services">
+      <Section className="border-y border-white/5" id="services" bg={<ServicesBg />}>
         <div className="text-center mb-14">
           <p className="text-xs font-bold tracking-widest uppercase text-primary mb-3">Partner With Us</p>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Reach AI Buyers Where They{" "}
-            <AnimatedTitle gradient="from-orange-400 via-red-500 to-pink-500">
-              Actually Listen
-            </AnimatedTitle>
+            <AnimatedTitle gradient="from-orange-400 via-red-500 to-pink-500">Actually Listen</AnimatedTitle>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Generic channels don't convert — niche, trusted media does. Advertise where 300K+ AI
-            decision-makers tune in.
+            Generic channels don't convert — niche, trusted media does. Advertise where 300K+ AI decision-makers tune in.
           </p>
         </div>
 
-        {/* Pricing Tiers */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-10">
           {partnershipTiers.map((tier, i) => (
-            <motion.div
-              key={tier.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              viewport={{ once: true }}
-              className="relative"
-              data-testid={`card-tier-${tier.name.toLowerCase()}`}
-            >
+            <motion.div key={tier.name}
+              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }} viewport={{ once: true }}
+              className="relative" data-testid={`card-tier-${tier.name.toLowerCase()}`}>
               {tier.popular && (
                 <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
-                  <span className="bg-primary text-white text-xs font-bold px-4 py-1 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-                    Most Popular
-                  </span>
+                  <span className="bg-primary text-white text-xs font-bold px-4 py-1 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.5)]">Most Popular</span>
                 </div>
               )}
-              <Card
-                className={`h-full transition-all duration-300 ${
-                  tier.popular
-                    ? "border-primary/60 bg-primary/5 shadow-[0_0_30px_rgba(59,130,246,0.15)]"
-                    : "glass-card border-white/5 hover:border-white/20"
-                }`}
-              >
+              <Card className={`h-full transition-all duration-300 ${tier.popular ? "border-primary/60 bg-primary/5 shadow-[0_0_30px_rgba(59,130,246,0.15)]" : "glass-card border-white/5 hover:border-white/20"}`}>
                 <CardHeader className="pb-4">
                   <CardTitle className="text-xl text-white">{tier.name}</CardTitle>
                   <div className="flex items-baseline gap-1 mt-2">
@@ -476,24 +555,13 @@ export default function Home() {
                   <ul className="space-y-3 mb-6">
                     {tier.features.map((f) => (
                       <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
-                        <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                        {f}
+                        <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />{f}
                       </li>
                     ))}
                   </ul>
-                  <a
-                    href="https://calendly.com/asembleai"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Button
-                      className={`w-full ${
-                        tier.popular
-                          ? "bg-primary hover:bg-primary/90 shadow-[0_0_20px_rgba(59,130,246,0.4)]"
-                          : "bg-white/5 hover:bg-white/10 border border-white/10 text-white"
-                      }`}
-                      data-testid={`button-tier-cta-${tier.name.toLowerCase()}`}
-                    >
+                  <a href="https://calendly.com/asembleai" target="_blank" rel="noopener noreferrer">
+                    <Button className={`w-full ${tier.popular ? "bg-primary hover:bg-primary/90 shadow-[0_0_20px_rgba(59,130,246,0.4)]" : "bg-white/5 hover:bg-white/10 border border-white/10 text-white"}`}
+                      data-testid={`button-tier-cta-${tier.name.toLowerCase()}`}>
                       Book Intro Call
                     </Button>
                   </a>
@@ -504,24 +572,17 @@ export default function Home() {
         </div>
 
         <p className="text-center text-xs text-muted-foreground mb-10 max-w-lg mx-auto">
-          All tiers include onboarding call, ad scripting support, monthly reporting, and a 3-month
-          minimum.
+          All tiers include onboarding call, ad scripting support, monthly reporting, and a 3-month minimum.
         </p>
 
-        {/* Enterprise / Custom */}
         <div className="max-w-3xl mx-auto">
           <p className="text-center text-sm font-semibold text-white mb-6">Custom &amp; Enterprise</p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {enterprisePackages.map((pkg, i) => (
-              <motion.div
-                key={pkg.name}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: i * 0.05 }}
-                viewport={{ once: true }}
-                className="glass-card border-white/5 rounded-xl p-4 text-center"
-                data-testid={`card-enterprise-${i}`}
-              >
+              <motion.div key={pkg.name}
+                initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.05 }} viewport={{ once: true }}
+                className="glass-card border-white/5 rounded-xl p-4 text-center" data-testid={`card-enterprise-${i}`}>
                 <p className="text-xs text-muted-foreground mb-1 leading-tight">{pkg.name}</p>
                 <p className="text-sm font-bold text-primary">{pkg.price}</p>
               </motion.div>
@@ -529,11 +590,7 @@ export default function Home() {
           </div>
           <div className="text-center mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <a href="mailto:partnerships@asembleai.com">
-              <Button
-                variant="outline"
-                className="border-white/10 text-white hover:bg-white/5"
-                data-testid="button-partnerships-email"
-              >
+              <Button variant="outline" className="border-white/10 text-white hover:bg-white/5" data-testid="button-partnerships-email">
                 partnerships@asembleai.com
               </Button>
             </a>
@@ -547,46 +604,21 @@ export default function Home() {
       </Section>
 
       {/* ── NEWSLETTER SIGNUP ── */}
-      <Section className="relative overflow-hidden">
-        {/* Animated glow */}
-        <motion.div
-          className="absolute inset-0 pointer-events-none"
-          animate={{
-            background: [
-              "radial-gradient(ellipse 60% 50% at 50% 100%, rgba(59,130,246,0.12) 0%, transparent 70%)",
-              "radial-gradient(ellipse 60% 50% at 50% 100%, rgba(168,85,247,0.12) 0%, transparent 70%)",
-              "radial-gradient(ellipse 60% 50% at 50% 100%, rgba(59,130,246,0.12) 0%, transparent 70%)",
-            ],
-          }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        />
-
-        <div className="max-w-2xl mx-auto text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
+      <Section id="newsletter" bg={<NewsletterBg />}>
+        <div className="max-w-2xl mx-auto text-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <p className="text-xs font-bold tracking-widest uppercase text-primary mb-4">Newsletter</p>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Stay at the{" "}
-              <AnimatedTitle gradient="from-yellow-400 via-orange-500 to-red-500">Frontier</AnimatedTitle>
+              Stay at the <AnimatedTitle gradient="from-yellow-400 via-orange-500 to-red-500">Frontier</AnimatedTitle>
             </h2>
             <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
-              AI, DeepTech &amp; Science insights — delivered weekly. Join the decision-makers who read
-              AsembleAI every week.
+              AI, DeepTech &amp; Science insights — delivered weekly. Join the decision-makers who read AsembleAI every week.
             </p>
-
             <NewsletterForm />
-
             <p className="text-xs text-muted-foreground mt-4">
               No spam, ever. Unsubscribe in one click.{" "}
-              <a
-                href="https://substack.com/@asembleai"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline hover:text-white transition-colors"
-              >
+              <a href="https://substack.com/@asembleai" target="_blank" rel="noopener noreferrer"
+                className="underline hover:text-white transition-colors">
                 Also on Substack →
               </a>
             </p>
