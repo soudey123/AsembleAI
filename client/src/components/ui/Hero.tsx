@@ -9,17 +9,103 @@ const PLATFORMS = [
   { label: "Podbean", href: "https://media.rss.com/inside-asembleai", color: "hover:bg-orange-500/20 hover:text-orange-400" },
 ];
 
-// AsembleAI's own YouTube videos — captured from the channel feed
-const BG_VIDEO_IDS = ["haI2RafE_JI", "Vib0JgDO_lY", "-2Wp2XGho6U"];
+const VIDEO_ID = "nWCP19vGxIE";
+const LOOP_END = 5; // seconds
 
 function YouTubeBackground() {
-  const [videoId] = useState(BG_VIDEO_IDS[0]);
-  const [loaded, setLoaded] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<any>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    function createPlayer() {
+      if (cancelled || !wrapperRef.current || playerRef.current) return;
+
+      playerRef.current = new (window as any).YT.Player(wrapperRef.current, {
+        videoId: VIDEO_ID,
+        playerVars: {
+          autoplay: 1,
+          mute: 1,
+          controls: 0,
+          rel: 0,
+          modestbranding: 1,
+          iv_load_policy: 3,
+          playsinline: 1,
+          start: 0,
+          disablekb: 1,
+          fs: 0,
+        },
+        events: {
+          onReady: (event: any) => {
+            if (cancelled) return;
+            event.target.mute();
+            event.target.playVideo();
+            setVisible(true);
+
+            // Poll every 100ms — when time >= LOOP_END, seek back to 0
+            intervalRef.current = setInterval(() => {
+              try {
+                const t = event.target.getCurrentTime();
+                if (t >= LOOP_END) {
+                  event.target.seekTo(0, true);
+                  event.target.playVideo();
+                }
+              } catch {}
+            }, 100);
+          },
+          onStateChange: (event: any) => {
+            if (cancelled) return;
+            const YT = (window as any).YT;
+            if (
+              YT &&
+              (event.data === YT.PlayerState.PAUSED ||
+                event.data === YT.PlayerState.ENDED)
+            ) {
+              try {
+                event.target.playVideo();
+              } catch {}
+            }
+          },
+        },
+      });
+    }
+
+    const yt = (window as any).YT;
+    if (yt && yt.Player) {
+      createPlayer();
+    } else {
+      // Chain with any existing callback so we don't clobber it
+      const prev = (window as any).onYouTubeIframeAPIReady;
+      (window as any).onYouTubeIframeAPIReady = () => {
+        if (typeof prev === "function") prev();
+        createPlayer();
+      };
+
+      if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
+        const tag = document.createElement("script");
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.head.appendChild(tag);
+      }
+    }
+
+    return () => {
+      cancelled = true;
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (playerRef.current) {
+        try {
+          playerRef.current.destroy();
+        } catch {}
+        playerRef.current = null;
+      }
+    };
+  }, []);
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden bg-[#060b18]">
-      {/* YouTube iframe — muted, autoplay, loop, no controls */}
-      {/* Wrapper clips the YouTube info bar that appears at top */}
+      {/* Outer sizing wrapper — centres the 16:9 iframe to always cover the section */}
       <div
         className="absolute overflow-hidden"
         style={{
@@ -33,42 +119,40 @@ function YouTubeBackground() {
           pointerEvents: "none",
         }}
       >
-        {/* Iframe pushed up to hide the YT info overlay; outer div clips it */}
+        {/*
+          YouTube replaces wrapperRef div with an iframe.
+          Pushed up by 80 px so the YT title overlay (top-left) is clipped.
+        */}
         <div
           style={{
             position: "absolute",
+            inset: 0,
             top: "-80px",
-            left: 0,
-            right: 0,
             bottom: "-80px",
-            opacity: loaded ? 1 : 0,
+            opacity: visible ? 1 : 0,
             transition: "opacity 1.2s ease",
           }}
         >
-          <iframe
-            src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1&fs=0&disablekb=1`}
-            title="Background video"
-            allow="autoplay; encrypted-media"
-            className="absolute inset-0 w-full h-full border-0"
-            onLoad={() => setLoaded(true)}
+          <div
+            ref={wrapperRef}
+            style={{ width: "100%", height: "100%" }}
           />
         </div>
       </div>
 
-      {/* Dark overlay gradient to maintain readability */}
-      <div className="absolute inset-0 bg-[#060b18]/70" />
-      {/* Extra depth at edges */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#060b18]/80 via-transparent to-[#060b18]/80" />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#060b18]/60 via-transparent to-[#060b18]" />
+      {/* Readability overlays */}
+      <div className="absolute inset-0 bg-[#060b18]/65" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#060b18]/70 via-transparent to-[#060b18]/70" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#060b18]/50 via-transparent to-[#060b18]" />
 
-      {/* Animated orb accents on top of video for brand colour */}
+      {/* Brand colour orbs on top of video */}
       <motion.div
         className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(34,211,238,0.18) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(34,211,238,0.15) 0%, transparent 70%)",
           top: "-100px",
           left: "-80px",
-          filter: "blur(60px)",
+          filter: "blur(70px)",
         }}
         animate={{ x: [0, 60, 0], y: [0, 40, 0] }}
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
@@ -76,56 +160,31 @@ function YouTubeBackground() {
       <motion.div
         className="absolute w-[400px] h-[400px] rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(168,85,247,0.18) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(168,85,247,0.15) 0%, transparent 70%)",
           bottom: "0px",
           right: "-60px",
-          filter: "blur(60px)",
+          filter: "blur(70px)",
         }}
         animate={{ x: [0, -50, 0], y: [0, -30, 0] }}
-        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 4 }}
       />
 
-      {/* Subtle grid overlay */}
+      {/* Subtle grid */}
       <div
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        className="absolute inset-0 opacity-[0.025] pointer-events-none"
         style={{
           backgroundImage:
             "linear-gradient(rgba(34,211,238,1) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,1) 1px, transparent 1px)",
           backgroundSize: "80px 80px",
         }}
       />
-
-      {/* Floating particles */}
-      {[...Array(12)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 rounded-full bg-cyan-400 pointer-events-none"
-          style={{
-            left: `${8 + (i * 7.8) % 85}%`,
-            top: `${15 + (i * 11.3) % 70}%`,
-            opacity: 0,
-          }}
-          animate={{
-            y: [0, -20, 0],
-            opacity: [0, 0.5, 0],
-          }}
-          transition={{
-            duration: 5 + (i % 4),
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: i * 0.5,
-          }}
-        />
-      ))}
     </div>
   );
 }
 
 function scrollToSection(id: string) {
   const el = document.getElementById(id);
-  if (el) {
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 export function Hero() {
@@ -201,7 +260,9 @@ export function Hero() {
 
           {/* Platform badges */}
           <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
-            <span className="text-xs text-muted-foreground/60 uppercase tracking-widest mr-1">Available on</span>
+            <span className="text-xs text-muted-foreground/60 uppercase tracking-widest mr-1">
+              Available on
+            </span>
             {PLATFORMS.map((p) => (
               <a
                 key={p.label}
