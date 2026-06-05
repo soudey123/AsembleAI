@@ -28,7 +28,7 @@ export function Footer() {
             <h4 className="font-heading font-bold text-white mb-6">Listen</h4>
             <ul className="space-y-3">
               <li>
-                <a href="https://open.spotify.com/show/7m7PI5LmJfPxbQU8jzNbBO" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                <a href="https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-sm">
                   Spotify
                 </a>
               </li>
@@ -38,12 +38,12 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                <a href="https://podcasts.apple.com/search?term=inside+asembleai" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-sm">
                   Apple Podcasts
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                <a href="https://asembleaisocial.podbean.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-sm">
                   Podbean
                 </a>
               </li>

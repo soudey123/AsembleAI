@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from "react";
 
 const PLATFORMS = [
   { label: "Apple Podcasts", href: "https://podcasts.apple.com/search?term=inside+asembleai", color: "hover:bg-purple-500/20 hover:text-purple-300" },
-  { label: "Spotify", href: "https://open.spotify.com/show/7m7PI5LmJfPxbQU8jzNbBO", color: "hover:bg-green-500/20 hover:text-green-400" },
+  { label: "Spotify", href: "https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU", color: "hover:bg-green-500/20 hover:text-green-400" },
   { label: "YouTube", href: "https://www.youtube.com/@asembleaiyt", color: "hover:bg-red-500/20 hover:text-red-400" },
-  { label: "Podbean", href: "https://media.rss.com/inside-asembleai", color: "hover:bg-orange-500/20 hover:text-orange-400" },
+  { label: "Podbean", href: "https://asembleaisocial.podbean.com/", color: "hover:bg-orange-500/20 hover:text-orange-400" },
 ];
 
 const VIDEO_ID = "nWCP19vGxIE";
