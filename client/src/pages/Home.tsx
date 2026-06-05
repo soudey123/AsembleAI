@@ -589,9 +589,9 @@ export default function Home() {
             ))}
           </div>
           <div className="text-center mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="mailto:partnerships@asembleai.com">
+            <a href="mailto:asembleai@gmail.com">
               <Button variant="outline" className="border-white/10 text-white hover:bg-white/5" data-testid="button-partnerships-email">
-                partnerships@asembleai.com
+                asembleai@gmail.com
               </Button>
             </a>
             <a href="https://calendly.com/asembleai" target="_blank" rel="noopener noreferrer">
