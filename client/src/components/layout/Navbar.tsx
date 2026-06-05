@@ -1,4 +1,4 @@
-import { Link, useLocation } from "wouter";
+import { useLocation } from "wouter";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
@@ -11,19 +11,18 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const links = [
     { href: "/podcast", label: "Podcast" },
-    { href: "/#services", label: "Services" },
     { href: "/#audience", label: "Audience" },
     { href: "/#testimonials", label: "Testimonials" },
+    { href: "/#services", label: "Services" },
     { href: "/about", label: "About" },
+    { href: "/newsletter", label: "Newsletter" },
   ];
 
   const isActive = (href: string) => {
@@ -39,29 +38,32 @@ export function Navbar() {
       )}
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
-        <Link href="/">
+        <a href="/">
           <div className="flex items-center gap-2 cursor-pointer group">
             <img src={logoImage} alt="AsembleAI" className="h-10 w-auto" />
           </div>
-        </Link>
+        </a>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-7">
           {links.map((link) => (
             <a key={link.href} href={link.href}>
               <span
                 className={cn(
-                  "text-sm font-medium cursor-pointer transition-colors hover:text-primary",
-                  isActive(link.href) ? "text-primary" : "text-muted-foreground"
+                  "text-sm font-medium cursor-pointer transition-colors hover:text-white",
+                  isActive(link.href) ? "text-white" : "text-muted-foreground"
                 )}
               >
                 {link.label}
               </span>
             </a>
           ))}
-          <a href="/newsletter">
-            <Button variant="default" className="bg-primary hover:bg-primary/90 text-white shadow-[0_0_20px_rgba(59,130,246,0.5)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] transition-all">
-              Newsletter
+          <a href="/#services">
+            <Button
+              variant="default"
+              className="bg-primary hover:bg-primary/90 text-white shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] transition-all"
+            >
+              Partner With Us
             </Button>
           </a>
         </div>
@@ -80,16 +82,16 @@ export function Navbar() {
                   <a key={link.href} href={link.href}>
                     <span
                       className={cn(
-                        "text-lg font-medium cursor-pointer transition-colors hover:text-primary block",
-                        isActive(link.href) ? "text-primary" : "text-muted-foreground"
+                        "text-lg font-medium cursor-pointer transition-colors hover:text-white block",
+                        isActive(link.href) ? "text-white" : "text-muted-foreground"
                       )}
                     >
                       {link.label}
                     </span>
                   </a>
                 ))}
-                <a href="/newsletter">
-                  <Button className="w-full bg-primary hover:bg-primary/90">Newsletter</Button>
+                <a href="/#services">
+                  <Button className="w-full bg-primary hover:bg-primary/90">Partner With Us</Button>
                 </a>
               </div>
             </SheetContent>
