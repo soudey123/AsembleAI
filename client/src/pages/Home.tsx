@@ -1,12 +1,13 @@
 import { Layout } from "@/components/layout/Layout";
 import { Hero } from "@/components/ui/Hero";
 import { Section } from "@/components/ui/Section";
-import { services } from "@/lib/data";
+import { partnershipTiers, enterprisePackages, audienceStats, audienceDemographics, testimonials, podcasts } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { ArrowRight, Sparkles, Zap, Brain, Rocket } from "lucide-react";
+import { ArrowRight, Check, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 
 function AnimatedTitle({ children, gradient = "from-cyan-400 via-blue-500 to-purple-500" }: { children: React.ReactNode; gradient?: string }) {
   return (
@@ -20,194 +21,400 @@ function AnimatedTitle({ children, gradient = "from-cyan-400 via-blue-500 to-pur
   );
 }
 
-function GlowingBadge({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
+function AnimatedCounter({ value, display }: { value: number; display: string }) {
+  const [count, setCount] = useState(0);
+  const [started, setStarted] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started) {
+          setStarted(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [started]);
+
+  useEffect(() => {
+    if (!started) return;
+    const duration = 2000;
+    const steps = 60;
+    const increment = value / steps;
+    let current = 0;
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= value) {
+        setCount(value);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(current));
+      }
+    }, duration / steps);
+    return () => clearInterval(timer);
+  }, [started, value]);
+
+  const formatted = count >= 1000 ? `${Math.floor(count / 1000)}K` : count.toString();
+  const hasPlus = display.includes("+");
+  const hasMo = display.includes(" mo");
+
   return (
-    <motion.div
-      className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30"
-      animate={{ 
-        boxShadow: [
-          "0 0 10px rgba(59,130,246,0.3)",
-          "0 0 20px rgba(59,130,246,0.5)",
-          "0 0 10px rgba(59,130,246,0.3)"
-        ]
-      }}
-      transition={{ duration: 2, repeat: Infinity }}
-    >
-      <Icon className="w-4 h-4 text-primary" />
-      <span className="text-sm font-medium text-primary">{text}</span>
-    </motion.div>
+    <div ref={ref} className="text-4xl md:text-5xl font-bold text-white font-heading">
+      {formatted}{hasPlus ? "+" : ""}{hasMo ? " mo" : ""}
+    </div>
+  );
+}
+
+function TestimonialsCarousel() {
+  const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const length = testimonials.length;
+
+  useEffect(() => {
+    if (length <= 1) return;
+    const timer = setInterval(() => {
+      setDirection(1);
+      setCurrent((c) => (c + 1) % length);
+    }, 7000);
+    return () => clearInterval(timer);
+  }, [length]);
+
+  const prev = () => {
+    setDirection(-1);
+    setCurrent((c) => (c - 1 + length) % length);
+  };
+
+  const next = () => {
+    setDirection(1);
+    setCurrent((c) => (c + 1) % length);
+  };
+
+  const variants = {
+    enter: (d: number) => ({ x: d > 0 ? 60 : -60, opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (d: number) => ({ x: d < 0 ? 60 : -60, opacity: 0 }),
+  };
+
+  const t = testimonials[current];
+
+  return (
+    <div className="relative max-w-3xl mx-auto" data-testid="section-testimonials-carousel">
+      <div className="overflow-hidden min-h-[260px] flex items-center">
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.div
+            key={current}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="w-full"
+          >
+            <blockquote className="text-lg md:text-xl text-muted-foreground leading-relaxed italic mb-8">
+              "{t.quote}"
+            </blockquote>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/40 to-purple-500/40 flex items-center justify-center text-white font-bold text-sm border border-white/10">
+                {t.name.charAt(0)}
+              </div>
+              <div>
+                <a
+                  href={t.linkedinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-white hover:text-primary transition-colors inline-flex items-center gap-1"
+                  data-testid={`link-testimonial-linkedin-${current}`}
+                >
+                  {t.name} <ExternalLink className="w-3 h-3" />
+                </a>
+                <p className="text-sm text-muted-foreground">{t.title}</p>
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {length > 1 && (
+        <div className="flex items-center justify-center gap-4 mt-8">
+          <button onClick={prev} className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-muted-foreground hover:text-white transition-all" data-testid="button-testimonial-prev">
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <div className="flex gap-2">
+            {testimonials.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => { setDirection(i > current ? 1 : -1); setCurrent(i); }}
+                className={`w-2 h-2 rounded-full transition-all ${i === current ? "bg-primary w-6" : "bg-white/20"}`}
+                data-testid={`button-testimonial-dot-${i}`}
+              />
+            ))}
+          </div>
+          <button onClick={next} className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-muted-foreground hover:text-white transition-all" data-testid="button-testimonial-next">
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 
 export default function Home() {
-  const highlights = [
-    { icon: Brain, title: "AI Strategy", desc: "Transform your business with intelligent automation" },
-    { icon: Zap, title: "Fast Deployment", desc: "From concept to production in weeks, not months" },
-    { icon: Rocket, title: "Scale Ready", desc: "Enterprise-grade solutions built for growth" },
-  ];
+  const featuredEpisodes = podcasts.filter(p => p.type === "video").slice(0, 3);
 
   return (
     <Layout>
       <Hero />
 
-      {/* Services Section - Streamlined */}
-      <Section className="bg-background">
-        <div className="text-center mb-16">
-          <GlowingBadge icon={Sparkles} text="Our Expertise" />
-          <h2 className="text-4xl md:text-5xl font-bold text-white mt-6 mb-4">
-            <AnimatedTitle>Strategic AI Integration</AnimatedTitle>
+      {/* Latest Episodes */}
+      <Section className="bg-background" id="episodes">
+        <div className="text-center mb-14">
+          <p className="text-sm font-bold tracking-widest uppercase text-primary mb-3">Latest Episodes</p>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            Recent <AnimatedTitle>Conversations</AnimatedTitle>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            We build intelligent ecosystems that drive measurable business outcomes.
+            Deep dives with AI pioneers, scientists, and innovators shaping the future.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {services.map((service, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          {featuredEpisodes.map((ep, i) => (
             <motion.div
-              key={index}
+              key={ep.slug}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: i * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full glass-card border-white/5 hover:border-primary/50 transition-all duration-300 group" data-testid={`card-service-${index}`}>
-                <CardHeader>
-                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                    <service.icon className="w-6 h-6 text-primary" />
+              <Card className="h-full glass-card border-white/5 hover:border-primary/30 transition-all duration-300 group overflow-hidden" data-testid={`card-episode-${i}`}>
+                <div className="aspect-video overflow-hidden">
+                  <img src={ep.thumbnail} alt={ep.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
+                </div>
+                <CardContent className="p-5">
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {ep.tags.slice(0, 2).map(tag => (
+                      <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">{tag}</span>
+                    ))}
                   </div>
-                  <CardTitle className="text-xl text-white">{service.title}</CardTitle>
+                  <h3 className="text-base font-bold text-white mb-1 line-clamp-2 group-hover:text-primary transition-colors">{ep.title}</h3>
+                  <p className="text-xs text-muted-foreground mb-3">with {ep.guest} · {ep.duration}</p>
+                  <div className="flex gap-2">
+                    <a href={ep.spotifyUrl} target="_blank" rel="noopener noreferrer" className="text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-green-500/20 hover:text-green-400 border border-white/10 transition-all text-muted-foreground">
+                      Spotify
+                    </a>
+                    <a href={ep.youtubeUrl} target="_blank" rel="noopener noreferrer" className="text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-red-500/20 hover:text-red-400 border border-white/10 transition-all text-muted-foreground">
+                      YouTube
+                    </a>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="text-center">
+          <Link href="/podcast">
+            <Button variant="outline" className="border-white/10 text-white hover:bg-white/5" data-testid="button-all-episodes">
+              All Episodes <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </Link>
+        </div>
+      </Section>
+
+      {/* Services / Partner With Us */}
+      <Section className="bg-secondary/20 border-y border-white/5" id="services">
+        <div className="text-center mb-14">
+          <p className="text-sm font-bold tracking-widest uppercase text-primary mb-3">Partner With Us</p>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            Reach AI Buyers Where They <AnimatedTitle gradient="from-orange-400 via-red-500 to-pink-500">Actually Listen</AnimatedTitle>
+          </h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Generic channels don't convert — niche, trusted media does. Advertise where 300K+ AI decision-makers tune in.
+          </p>
+        </div>
+
+        {/* Pricing Tiers */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-10">
+          {partnershipTiers.map((tier, i) => (
+            <motion.div
+              key={tier.name}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              viewport={{ once: true }}
+              className="relative"
+              data-testid={`card-tier-${tier.name.toLowerCase()}`}
+            >
+              {tier.popular && (
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
+                  <span className="bg-primary text-white text-xs font-bold px-4 py-1 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+                    Most Popular
+                  </span>
+                </div>
+              )}
+              <Card className={`h-full transition-all duration-300 ${tier.popular ? "border-primary/60 bg-primary/5 shadow-[0_0_30px_rgba(59,130,246,0.15)]" : "glass-card border-white/5 hover:border-white/20"}`}>
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-xl text-white">{tier.name}</CardTitle>
+                  <div className="flex items-baseline gap-1 mt-2">
+                    <span className="text-4xl font-bold text-white">{tier.price}</span>
+                    <span className="text-muted-foreground text-sm">{tier.period}</span>
+                  </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {service.description}
-                  </p>
+                  <ul className="space-y-3 mb-6">
+                    {tier.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
+                        <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <a href="https://calendly.com/asembleai" target="_blank" rel="noopener noreferrer">
+                    <Button className={`w-full ${tier.popular ? "bg-primary hover:bg-primary/90 shadow-[0_0_20px_rgba(59,130,246,0.4)]" : "bg-white/5 hover:bg-white/10 border border-white/10 text-white"}`} data-testid={`button-tier-cta-${tier.name.toLowerCase()}`}>
+                      Book Intro Call
+                    </Button>
+                  </a>
                 </CardContent>
               </Card>
             </motion.div>
           ))}
         </div>
-      </Section>
 
-      {/* Quick Impact Section - Replacing verbose sections */}
-      <Section className="bg-secondary/20 border-y border-white/5">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Why Choose <AnimatedTitle gradient="from-orange-400 via-red-500 to-pink-500">AsembleAI</AnimatedTitle>?
-          </h2>
-        </div>
+        <p className="text-center text-xs text-muted-foreground mb-10 max-w-lg mx-auto">
+          All tiers include onboarding call, ad scripting support, monthly reporting, and a 3-month minimum.
+        </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {highlights.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.15 }}
-              viewport={{ once: true }}
-              className="text-center"
-              data-testid={`highlight-${index}`}
-            >
-              <motion.div 
-                className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-primary/20 to-purple-500/20 flex items-center justify-center mb-6 border border-white/10"
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                transition={{ type: "spring", stiffness: 300 }}
+        {/* Enterprise / Custom */}
+        <div className="max-w-3xl mx-auto">
+          <p className="text-center text-sm font-semibold text-white mb-6">Custom & Enterprise</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {enterprisePackages.map((pkg, i) => (
+              <motion.div
+                key={pkg.name}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.05 }}
+                viewport={{ once: true }}
+                className="glass-card border-white/5 rounded-xl p-4 text-center"
+                data-testid={`card-enterprise-${i}`}
               >
-                <item.icon className="w-10 h-10 text-primary" />
+                <p className="text-xs text-muted-foreground mb-1 leading-tight">{pkg.name}</p>
+                <p className="text-sm font-bold text-primary">{pkg.price}</p>
               </motion.div>
-              <h3 className="text-2xl font-bold text-white mb-3">{item.title}</h3>
-              <p className="text-muted-foreground">{item.desc}</p>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <a href="mailto:partnerships@asembleai.com">
+              <Button variant="outline" className="border-white/10 text-white hover:bg-white/5 mr-4" data-testid="button-partnerships-email">
+                partnerships@asembleai.com
+              </Button>
+            </a>
+            <a href="https://calendly.com/asembleai" target="_blank" rel="noopener noreferrer">
+              <Button className="bg-primary hover:bg-primary/90" data-testid="button-book-call">
+                Book a 15-min Intro Call
+              </Button>
+            </a>
+          </div>
+        </div>
+      </Section>
+
+      {/* By the Numbers / Audience */}
+      <Section id="audience">
+        <div className="text-center mb-14">
+          <p className="text-sm font-bold tracking-widest uppercase text-primary mb-3">The AsembleAI Audience</p>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <AnimatedTitle gradient="from-green-400 via-emerald-500 to-teal-500">By the Numbers</AnimatedTitle>
+          </h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Built in 18 months — on track for 1M downloads.
+          </p>
+        </div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-14">
+          {audienceStats.map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08 }}
+              viewport={{ once: true }}
+              className="glass-card border-white/5 rounded-2xl p-6 text-center"
+              data-testid={`card-stat-${i}`}
+            >
+              <AnimatedCounter value={stat.value} display={stat.display} />
+              <p className="text-sm font-semibold text-white mt-2 mb-1">{stat.label}</p>
+              <p className="text-xs text-muted-foreground">{stat.description}</p>
             </motion.div>
           ))}
         </div>
+
+        {/* Demographics */}
+        <div className="max-w-3xl mx-auto">
+          <p className="text-center text-sm font-semibold text-white mb-6 uppercase tracking-widest text-xs">Audience Demographics</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {audienceDemographics.map((d, i) => (
+              <motion.div
+                key={d.label}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-gradient-to-br from-primary/10 to-purple-500/10 border border-white/10 rounded-2xl p-6 text-center"
+                data-testid={`card-demographic-${i}`}
+              >
+                <div className="text-3xl font-bold text-white mb-1">{d.stat}</div>
+                <div className="text-sm font-semibold text-primary mb-1">{d.label}</div>
+                <div className="text-xs text-muted-foreground">{d.detail}</div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </Section>
 
-      {/* Explore More - Clean Navigation */}
-      <Section>
-        <div className="text-center mb-12">
+      {/* Testimonials */}
+      <Section className="bg-secondary/20 border-y border-white/5" id="testimonials">
+        <div className="text-center mb-14">
+          <p className="text-sm font-bold tracking-widest uppercase text-primary mb-3">Guest Voices</p>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            <AnimatedTitle gradient="from-green-400 via-emerald-500 to-teal-500">Explore Our World</AnimatedTitle>
+            What <AnimatedTitle gradient="from-purple-400 via-pink-500 to-rose-500">Our Guests</AnimatedTitle> Say
           </h2>
-          <p className="text-muted-foreground text-lg">Discover insights, case studies, and the latest in AI innovation.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-          <Link href="/podcast">
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="group cursor-pointer"
-            >
-              <Card className="h-full bg-gradient-to-br from-purple-500/10 to-blue-500/10 border-white/10 hover:border-purple-500/50 transition-all" data-testid="link-podcast-home">
-                <CardContent className="p-8 text-center">
-                  <div className="text-4xl mb-4">🎙️</div>
-                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">Podcast</h3>
-                  <p className="text-sm text-muted-foreground mb-4">Conversations with AI pioneers</p>
-                  <span className="text-purple-400 text-sm font-medium inline-flex items-center">
-                    Listen Now <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </Link>
-
-          <Link href="/use-cases">
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="group cursor-pointer"
-            >
-              <Card className="h-full bg-gradient-to-br from-orange-500/10 to-red-500/10 border-white/10 hover:border-orange-500/50 transition-all" data-testid="link-usecases-home">
-                <CardContent className="p-8 text-center">
-                  <div className="text-4xl mb-4">💡</div>
-                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">AI Use Cases</h3>
-                  <p className="text-sm text-muted-foreground mb-4">Real-world AI applications</p>
-                  <span className="text-orange-400 text-sm font-medium inline-flex items-center">
-                    Explore <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </Link>
-
-          <Link href="/newsletter">
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="group cursor-pointer"
-            >
-              <Card className="h-full bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border-white/10 hover:border-cyan-500/50 transition-all" data-testid="link-newsletter-home">
-                <CardContent className="p-8 text-center">
-                  <div className="text-4xl mb-4">📧</div>
-                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">Newsletter</h3>
-                  <p className="text-sm text-muted-foreground mb-4">AI insights delivered weekly</p>
-                  <span className="text-cyan-400 text-sm font-medium inline-flex items-center">
-                    Subscribe <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </Link>
-        </div>
+        <TestimonialsCarousel />
       </Section>
 
-      {/* CTA Section */}
+      {/* Newsletter CTA */}
       <Section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-primary/10 blur-[100px] rounded-full pointer-events-none transform translate-y-1/2" />
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <motion.h2 
+          <motion.h2
             className="text-4xl md:text-6xl font-bold text-white mb-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            Ready to <AnimatedTitle gradient="from-yellow-400 via-orange-500 to-red-500">Assemble Your Future</AnimatedTitle>?
+            Stay at the <AnimatedTitle gradient="from-yellow-400 via-orange-500 to-red-500">Frontier</AnimatedTitle>
           </motion.h2>
           <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-            Partner with us to build intelligent systems that define your competitive edge.
+            AI, DeepTech & Science insights — delivered to your inbox. Join thousands of decision-makers who read AsembleAI every week.
           </p>
-          <Link href="/contact">
-            <Button size="lg" className="h-14 px-10 text-lg rounded-full bg-white text-black hover:bg-white/90 shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:shadow-[0_0_50px_rgba(255,255,255,0.5)] transition-all" data-testid="button-start-project">
-              Start a Project
-            </Button>
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/newsletter">
+              <Button size="lg" className="h-14 px-10 text-lg rounded-full bg-white text-black hover:bg-white/90 shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:shadow-[0_0_50px_rgba(255,255,255,0.5)] transition-all" data-testid="button-cta-newsletter">
+                Subscribe to Newsletter
+              </Button>
+            </Link>
+            <a href="https://calendly.com/asembleai" target="_blank" rel="noopener noreferrer">
+              <Button size="lg" variant="outline" className="h-14 px-10 text-lg rounded-full border-white/10 text-white hover:bg-white/5" data-testid="button-cta-partner">
+                Partner With Us
+              </Button>
+            </a>
+          </div>
         </div>
       </Section>
     </Layout>

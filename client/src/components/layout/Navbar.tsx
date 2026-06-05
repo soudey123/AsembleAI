@@ -19,12 +19,17 @@ export function Navbar() {
   }, []);
 
   const links = [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About" },
     { href: "/podcast", label: "Podcast" },
-    { href: "/newsletter", label: "Newsletter" },
-    { href: "/use-cases", label: "AI Use Cases" },
+    { href: "/#services", label: "Services" },
+    { href: "/#audience", label: "Audience" },
+    { href: "/#testimonials", label: "Testimonials" },
+    { href: "/about", label: "About" },
   ];
+
+  const isActive = (href: string) => {
+    if (href.startsWith("/#")) return false;
+    return location === href;
+  };
 
   return (
     <nav
@@ -43,22 +48,22 @@ export function Navbar() {
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
           {links.map((link) => (
-            <Link key={link.href} href={link.href}>
+            <a key={link.href} href={link.href}>
               <span
                 className={cn(
                   "text-sm font-medium cursor-pointer transition-colors hover:text-primary",
-                  location === link.href ? "text-primary" : "text-muted-foreground"
+                  isActive(link.href) ? "text-primary" : "text-muted-foreground"
                 )}
               >
                 {link.label}
               </span>
-            </Link>
+            </a>
           ))}
-          <Link href="/contact">
+          <a href="/newsletter">
             <Button variant="default" className="bg-primary hover:bg-primary/90 text-white shadow-[0_0_20px_rgba(59,130,246,0.5)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] transition-all">
-              Contact Us
+              Newsletter
             </Button>
-          </Link>
+          </a>
         </div>
 
         {/* Mobile Nav */}
@@ -72,20 +77,20 @@ export function Navbar() {
             <SheetContent className="bg-background/95 backdrop-blur-xl border-white/10">
               <div className="flex flex-col gap-8 mt-10">
                 {links.map((link) => (
-                  <Link key={link.href} href={link.href}>
+                  <a key={link.href} href={link.href}>
                     <span
                       className={cn(
                         "text-lg font-medium cursor-pointer transition-colors hover:text-primary block",
-                        location === link.href ? "text-primary" : "text-muted-foreground"
+                        isActive(link.href) ? "text-primary" : "text-muted-foreground"
                       )}
                     >
                       {link.label}
                     </span>
-                  </Link>
+                  </a>
                 ))}
-                <Link href="/contact">
-                  <Button className="w-full bg-primary hover:bg-primary/90">Contact Us</Button>
-                </Link>
+                <a href="/newsletter">
+                  <Button className="w-full bg-primary hover:bg-primary/90">Newsletter</Button>
+                </a>
               </div>
             </SheetContent>
           </Sheet>

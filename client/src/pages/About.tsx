@@ -1,44 +1,44 @@
 import { Layout } from "@/components/layout/Layout";
 import { Section } from "@/components/ui/Section";
 import { Card, CardContent } from "@/components/ui/card";
-import { Brain, Target, Users, Zap, Linkedin } from "lucide-react";
+import { Mic, Globe, Users, Zap, Linkedin } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function About() {
   const values = [
     {
-      icon: Brain,
-      title: "Intelligence First",
-      description: "We believe in the transformative power of applied intelligence to solve humanity's hardest problems."
+      icon: Mic,
+      title: "Content First",
+      description: "We believe deep, substantive conversations move the industry forward more than surface-level takes."
     },
     {
-      icon: Target,
-      title: "Impact Driven",
-      description: "Technology without utility is vanity. We focus on measurable outcomes and real-world value."
+      icon: Globe,
+      title: "At the Frontier",
+      description: "We cover AI, DeepTech and Science where it's actually happening — in labs, companies, and communities shaping tomorrow."
     },
     {
       icon: Users,
-      title: "Human Centric",
-      description: "AI should augment human capability, not replace it. We design for the human-in-the-loop."
+      title: "Community Driven",
+      description: "Our audience isn't passive — they're builders, founders, researchers and executives who shape what comes next."
     },
     {
       icon: Zap,
-      title: "Velocity",
-      description: "The future belongs to the fast. We iterate rapidly to deliver value in weeks, not years."
+      title: "Independent Voice",
+      description: "We speak plainly and follow the signal, not the hype. Trusted because we earn it, episode by episode."
     }
   ];
 
   const founders = [
     {
       name: "Mac Goswami",
-      role: "Co-Founder",
+      role: "Co-Host & Co-Founder",
       bio: "Senior Technical Program Manager in Fintech with 15+ years enterprise experience. Co-host of the AsembleAI podcast, Tech Advisor to Microsoft AI Community, Top 1% Creator on Topmate, and startup mentor at Founder Institute. Graduate of the MIT Sloan AI Executive Program.",
       linkedin: "https://www.linkedin.com/in/macgos/",
       image: null
     },
     {
       name: "Soumava 'Sam' Dey",
-      role: "Co-Founder",
+      role: "Co-Host & Co-Founder",
       bio: "Data analytics leader with 15+ years in enterprise AI/ML, currently Associate Director at CMI Media Group (WPP). Public Ivy UIUC alumnus and published researcher. Creator of DataScienceWithSam, co-host of AsembleAI podcast, Top 5% Topmate and LinkedIn creator, and Voyage Denver featured entrepreneur.",
       linkedin: "https://www.linkedin.com/in/soumava-dey-441294ab/",
       image: null
@@ -49,15 +49,17 @@ export default function About() {
     <Layout>
       <div className="pt-20">
         <Section className="pb-10">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="max-w-4xl"
           >
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6" data-testid="text-about-title">Our Mission</h1>
+            <p className="text-sm font-bold tracking-widest uppercase text-primary mb-4">About AsembleAI</p>
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6" data-testid="text-about-title">
+              Media, Tech<br />& Innovation.
+            </h1>
             <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
-              We are on a mission to accelerate the transition to the <span className="text-primary">Agentic Era</span>. 
-              We believe that by assembling the right intelligence, infrastructure, and strategy, enterprises can unlock unprecedented potential.
+              AsembleAI is a <span className="text-primary">media platform</span> at the intersection of AI, DeepTech and Science — reaching the decision-makers, builders, and innovators shaping what comes next.
             </p>
           </motion.div>
         </Section>
@@ -68,19 +70,19 @@ export default function About() {
               <h2 className="text-3xl font-bold text-white mb-6">Our Story</h2>
               <div className="space-y-4 text-muted-foreground text-lg">
                 <p>
-                  Founded in 2025 by a technologist and a data scientist, AsembleAI emerged from a simple observation: there was a widening gap between what AI could do in the lab and what it was doing in enterprise settings.
+                  Founded in 2025 by Mac Goswami and Sam Dey, AsembleAI began as a podcast exploring the real-world frontier of artificial intelligence — and grew into something much larger.
                 </p>
                 <p>
-                  While the world was captivated by chatbots, we saw the real revolution coming in the form of autonomous agents—software that doesn't just talk, but acts. What started as podcast conversations exploring AI's potential evolved into a mission to bridge research and real-world implementation through practical agent development.
+                  In 18 months, we built a multi-channel media platform reaching 300K+ listeners across Apple Podcasts, Spotify, YouTube and Podbean. Our audience isn't just curious — 68% are technical decision-makers, engineers, founders, CTOs, and architects who make things happen.
                 </p>
                 <p>
-                  Today, we partner with forward-thinking organizations to build agentic workflow systems within their core ecosystems that accelerate technological adoption and drive business growth.
+                  We partner with organizations who want to reach this audience authentically: through host-read integrations, co-branded content, sponsored research, and executive events. Trusted media converts where generic channels don't.
                 </p>
               </div>
             </div>
-            
+
             <div>
-              <h2 className="text-3xl font-bold text-white mb-6">Meet the Founders</h2>
+              <h2 className="text-3xl font-bold text-white mb-6">The Hosts</h2>
               <div className="space-y-6">
                 {founders.map((founder, index) => (
                   <motion.div
@@ -104,11 +106,12 @@ export default function About() {
                               {founder.bio}
                             </p>
                             <div className="flex gap-3">
-                              <a 
-                                href={founder.linkedin} 
-                                target="_blank" 
+                              <a
+                                href={founder.linkedin}
+                                target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-muted-foreground hover:text-primary transition-colors"
+                                aria-label={`${founder.name} on LinkedIn`}
                               >
                                 <Linkedin className="w-5 h-5" />
                               </a>
@@ -125,7 +128,7 @@ export default function About() {
         </Section>
 
         <Section>
-          <h2 className="text-3xl font-bold text-white mb-12 text-center">Core Values</h2>
+          <h2 className="text-3xl font-bold text-white mb-12 text-center">What We Stand For</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((value, index) => (
               <Card key={index} className="bg-transparent border-white/10 hover:border-primary/50 transition-colors" data-testid={`card-value-${index}`}>

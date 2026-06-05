@@ -1,12 +1,6 @@
-import { Share2, Cpu, Database, Zap, Brain, Shield, BarChart3, Users } from "lucide-react";
 import biologicalComputing from "@assets/stock_images/biological_computing_60b959d6.jpg";
 import techJobs from "@assets/stock_images/future_of_tech_jobs__291b924f.jpg";
 import leadership from "@assets/stock_images/executive_leadership_832b6d86.jpg";
-import newsDigestImage from "@assets/ai_news_digest_workflow.png";
-import researchAgentImage from "@assets/ai_research_agent_workflow.png";
-import dataIntelligenceImage from "@assets/generated_images/ai_data_intelligence_agent.png";
-import financialAnalystImage from "@assets/generated_images/ai_financial_analyst_agent.png";
-import callChatAgentImage from "@assets/Screenshot_2026-02-02_at_9.54.51_AM_1770051455113.png";
 
 export const podcasts = [
   {
@@ -95,96 +89,75 @@ export const podcasts = [
   }
 ];
 
-export const useCases = [
+export const partnershipTiers = [
   {
-    slug: "ai-call-chat-agent",
-    title: "AI Call and Chat Agent for Restaurants",
-    category: "Enterprise Automation",
-    description: "Voice and chat AI agent for restaurant customer service and reservations.",
-    problem: "Restaurants lose revenue from missed calls and struggle to handle high volumes of reservation requests, especially during peak hours.",
-    solution: "Developed an AI-powered call and chat agent using n8n that handles customer inquiries, takes reservations, answers menu questions, and provides 24/7 automated customer service.",
-    impact: "Reduces missed calls by 90% and handles unlimited concurrent conversations, improving customer satisfaction and increasing reservations.",
-    tools: ["n8n", "AI/LLM", "Voice AI", "Automation"],
-    tags: ["Voice AI", "Customer Service", "Restaurants"],
-    githubUrl: "https://github.com/asembleAI/AI-Call-Chat-Agent",
-    image: callChatAgentImage
+    name: "Starter",
+    price: "$750",
+    period: "/mo",
+    popular: false,
+    features: [
+      "1× host-read mid-roll/mo",
+      "1× YouTube integration/quarter",
+      "1× newsletter mention/mo",
+      "Monthly performance report"
+    ]
   },
   {
-    slug: "ai-news-digest",
-    title: "AI News Digest",
-    category: "Research & Intelligence",
-    description: "Automated AI-powered news aggregation and summarization agent.",
-    problem: "Keeping up with the rapidly evolving AI landscape requires hours of daily reading across multiple sources, making it impossible to stay informed while focusing on core work.",
-    solution: "Built an autonomous n8n workflow agent that automatically scans, curates, and summarizes AI news from trusted sources, delivering personalized digests on schedule.",
-    impact: "Saves 5+ hours weekly on news consumption while ensuring no critical AI developments are missed.",
-    tools: ["n8n", "AI/LLM", "RSS", "Automation"],
-    tags: ["Automation", "News", "AI Agent"],
-    githubUrl: "/workflows/ai-news-digest.json",
-    isN8nWorkflow: true,
-    image: newsDigestImage
+    name: "Growth",
+    price: "$1,500",
+    period: "/mo",
+    popular: true,
+    features: [
+      "2× host-read spots/mo",
+      "1× YouTube integration/mo",
+      "2× newsletter slots/mo",
+      "1× LinkedIn post/mo",
+      "Monthly performance report"
+    ]
   },
   {
-    slug: "ai-research-agent",
-    title: "AI Research Agent",
-    category: "Research & Intelligence",
-    description: "Intelligent research assistant that autonomously gathers and synthesizes information.",
-    problem: "Research tasks require extensive manual effort to search, read, and synthesize information from multiple sources, often taking days for comprehensive analysis.",
-    solution: "Developed an AI research agent using n8n that autonomously queries multiple sources, cross-references findings, and generates comprehensive research reports with citations.",
-    impact: "Reduces research time by 80% while improving coverage and accuracy of findings.",
-    tools: ["n8n", "AI/LLM", "Web Scraping", "RAG"],
-    tags: ["Research", "AI Agent", "Automation"],
-    githubUrl: "/workflows/ai-research-agent.json",
-    isN8nWorkflow: true,
-    image: researchAgentImage
-  },
-  {
-    slug: "ai-data-intelligence-agent",
-    title: "AI Data Intelligence Agent Using Pandas AI",
-    category: "Data & Analytics",
-    description: "Natural language interface for data analysis powered by PandasAI.",
-    problem: "Data analysis requires specialized SQL and Python skills, creating bottlenecks when business users need quick insights from complex datasets.",
-    solution: "Implemented a PandasAI-powered agent that understands natural language queries and automatically generates, executes, and visualizes data analysis results.",
-    impact: "Enables non-technical users to perform complex data analysis in seconds, democratizing data access across the organization.",
-    tools: ["Python", "PandasAI", "Claude", "Streamlit"],
-    tags: ["Data Analytics", "AI Agent", "NLP"],
-    githubUrl: "https://github.com/soudey123/AIAgentLab/tree/main/Data%20Intelligence%20Application",
-    image: dataIntelligenceImage
-  },
-  {
-    slug: "ai-financial-analyst-agent",
-    title: "AI Financial Analyst Agent Using Vertex AI",
-    category: "Enterprise Automation",
-    description: "Intelligent financial analysis agent powered by Google Vertex AI.",
-    problem: "Financial analysis requires extensive manual data gathering, calculation, and report generation, with analysts spending 60% of time on repetitive tasks.",
-    solution: "Built an AI financial analyst agent using Google Vertex AI that autonomously analyzes market data, generates insights, and produces investment recommendations.",
-    impact: "Automates 70% of routine financial analysis work, enabling analysts to focus on strategic decision-making and client relationships.",
-    tools: ["Python", "Google Vertex AI", "Financial APIs", "Streamlit"],
-    tags: ["Finance", "AI Agent", "Vertex AI"],
-    githubUrl: "https://github.com/soudey123/AIAgentLab/tree/main/ai-financial-analyst-VertexAI",
-    image: financialAnalystImage
+    name: "Featured",
+    price: "$3,000",
+    period: "/mo",
+    popular: false,
+    features: [
+      "Everything in Growth",
+      "1× dedicated guest episode/quarter",
+      "Co-branded content",
+      "Priority placement & exclusivity",
+      "Quarterly strategy review"
+    ]
   }
 ];
 
-export const services = [
+export const enterprisePackages = [
+  { name: "Branded Podcast Series", price: "From $10K" },
+  { name: "Sponsored Research Report", price: "From $15K" },
+  { name: "Executive Dinners", price: "From $25K/city" },
+  { name: "Branded YouTube Tutorials", price: "From $5K" }
+];
+
+export const audienceStats = [
+  { value: 300000, label: "Podcast Downloads", display: "300K+", suffix: "", description: "Across Apple, Spotify & Podbean" },
+  { value: 6000, label: "YouTube Subscribers", display: "6K+", suffix: "", description: "Growing 15%+ month-over-month" },
+  { value: 50, label: "Episodes Published", display: "50+", suffix: "", description: "Weekly multi-channel publishing" },
+  { value: 20, label: "Expert Guests", display: "20+", suffix: "", description: "AI pioneers, CTOs & researchers" },
+  { value: 100, label: "Newsletter Subscribers", display: "100+", suffix: "", description: "Growing community of practitioners" },
+  { value: 18, label: "Months to 300K", display: "18", suffix: " mo", description: "Built in 18 months — on track for 1M" }
+];
+
+export const audienceDemographics = [
+  { stat: "68%", label: "Technical Decision-Makers", detail: "Engineers, founders, CTOs & architects" },
+  { stat: "41%", label: "Have Budget Authority", detail: "Up to $50K purchasing power" },
+  { stat: "Top Metros", label: "Audience Reach", detail: "SF · NYC · Boston · Austin · Seattle" }
+];
+
+export const testimonials = [
   {
-    title: "AI Strategy & Advisory",
-    description: "Navigate the complex landscape of AI with actionable roadmaps and executive guidance.",
-    icon: Brain
-  },
-  {
-    title: "AI Agent Design",
-    description: "Build autonomous agents that handle complex workflows and decision-making processes.",
-    icon: Cpu
-  },
-  {
-    title: "Data Architecture",
-    description: "Modernize your data stack to be AI-ready, scalable, and secure.",
-    icon: Database
-  },
-  {
-    title: "AI Enablement",
-    description: "Upskill your teams and establish centers of excellence for sustained innovation.",
-    icon: Zap
+    quote: "It was a pleasure being part of the Inside AsembleAI podcast. The conversation felt genuinely engaging and thoughtful rather than a typical interview format. I appreciated the opportunity to discuss emerging ideas around biological computing and AI in a way that balanced technical depth with accessibility. Mac and the team created a relaxed atmosphere that made for a very natural and enjoyable discussion.",
+    name: "Dr. Ewelina Kurtys",
+    title: "Neuroscientist & AI Expert",
+    linkedinUrl: "https://www.linkedin.com/in/ACoAAA88DkUBrIakZKYd45kpYJVFGp0SNNkRfcM"
   }
 ];
 

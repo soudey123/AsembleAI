@@ -1,0 +1,42 @@
+Update our existing Replit-hosted website (asembleai.com) for AsembleAI. We are rebranding — AsembleAI is no longer positioned as an "Enterprise AI Consultancy." We are now a Media, Tech & Innovation company: a media platform at the intersection of AI, DeepTech and Science (podcast, YouTube, newsletter, community), building and partnering at the frontier of technology and innovation. Reflect this new positioning everywhere — hero, About, meta descriptions, and the OpenGraph/social title/description — and remove any "consultancy" framing. Keep the current stack and hosting; this is a redesign + content update, not a rebuild. Use hubermanlab.com as the visual and structural reference: clean, premium, authoritative, content-forward, dark editorial styling with strong typographic hierarchy, generous whitespace, and a single bold accent color. Fully responsive and SEO-optimized.
+Global
+Keep brand: AsembleAI. New positioning: a Media, Tech & Innovation company. Tagline: "The media platform reaching AI, DeepTech & Science decision-makers." Replace any old "Enterprise AI Consultancy" copy (including the current site title/meta and OpenGraph tags) with the new Media/Tech/Innovation framing.
+Hosts: Mac Goswami and Sam Dey (Co-hosts & Co-Founders).
+Sticky header nav: Podcast/Episodes · Services · Audience · Testimonials · About · Newsletter (CTA). Footer with channel links, newsletter signup, partnerships@asembleai.com, social icons.
+Repeated CTAs: Listen (Apple, Spotify, YouTube, Podbean), Subscribe to Newsletter, Partner With Us.
+Required changes
+1. Remove the AI "use cases" section entirely. Delete it from the site.
+
+2. Add a Services / "Partner With Us" section (replaces the removed use-cases area), built from our partnership deck:
+
+Intro: "Reach AI buyers where they actually listen." Generic channels don't convert — niche, trusted media does.
+Partnership tiers as pricing cards (highlight Growth as "Most Popular"):
+Starter — $750/mo: 1× host-read mid-roll/mo, 1× YouTube integration/quarter, 1× newsletter mention/mo, monthly report.
+Growth — $1,500/mo: 2× host-read spots/mo, 1× YouTube integration/mo, 2× newsletter slots/mo, 1× LinkedIn post/mo, monthly report.
+Featured — $3,000/mo: Everything in Growth, plus 1× dedicated guest episode/quarter, co-branded content, priority placement & exclusivity, quarterly strategy review.
+Footnote: "All tiers include onboarding call, ad scripting support, monthly reporting, and a 3-month minimum."
+Custom / enterprise: Branded Podcast Series from $10K · Sponsored Research Report from $15K · Executive Dinners from $25K/city · Branded YouTube Tutorials from $5K.
+CTA: "Book a 15-min intro call" → calendly.com/asembleai and partnerships@asembleai.com.
+
+3. Add a credibility / audience section — name it "By the Numbers" (or "The AsembleAI Audience"). Pull from the deck and use animated stat counters + clean data callouts:
+
+Track record: 300K+ podcast downloads (Apple/Spotify/Podbean), 6,000+ YouTube subscribers (growing 15%+ MoM), 50+ episodes published, 20+ expert guests, 100+ newsletter subscribers. "Built in 18 months — on track for 1M downloads."
+Growth: cumulative downloads trending toward 1M within 3–4 months; weekly multi-channel publishing.
+Audience demographics: 68% technical decision-makers (engineers, founders, CTOs, architects); 41% have budget authority (up to $50K); top metros: SF, NYC, Boston, Austin, Seattle.
+Present this visually — counters, a simple growth chart, and demographic stat tiles — to signal credibility to prospective partners.
+
+4. Add a testimonials section — an auto-playing, swipeable slideshow/carousel of guest and partner quotes. Each slide shows the quote, the person's name (linked to their LinkedIn), and their title. Seed it with this testimonial:
+
+"It was a pleasure being part of the Inside AssembleAI podcast. The conversation felt genuinely engaging and thoughtful rather than a typical interview format. I appreciated the opportunity to discuss emerging ideas around biological computing and AI in a way that balanced technical depth with accessibility. Mac and the team created a relaxed atmosphere that made for a very natural and enjoyable discussion." — Dr. Ewelina Kurtys, neuroscientist and AI expert (link name to https://www.linkedin.com/in/ACoAAA88DkUBrIakZKYd45kpYJVFGp0SNNkRfcM)
+
+Build it so we can easily add more testimonials later (array/config driven).
+Keep / refine
+Hero with the tagline and clear "Listen" + "Subscribe" CTAs.
+Latest/featured episodes grid with cover art and platform links (Apple, Spotify, YouTube, Podbean).
+About the hosts (Mac & Sam bios from the deck).
+Newsletter signup block.
+SEO
+Page title: "AsembleAI | Media, Tech & Innovation" (or "AsembleAI | AI, DeepTech & Science Media"); update the existing "Enterprise AI Consultancy" title/meta/OG tags to the new positioning. Per-page meta titles/descriptions; episode pattern "Episode Title — Guest | AsembleAI".
+Semantic HTML, one H1/page, clean slugs, Open Graph + Twitter tags with cover art, PodcastEpisode/Organization/Person schema, XML sitemap, alt text, internal linking, fast Core Web Vitals, mobile-first.
+
+Deliver a responsive, accessible, SEO-ready redesign matching the premium quality of hubermanlab.com, with the use-cases section removed and the new Services, By-the-Numbers, and Testimonials sections in place.
