@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 const PLATFORMS = [
   { label: "Apple Podcasts", href: "https://podcasts.apple.com/search?term=inside+asembleai", color: "hover:bg-purple-500/20 hover:text-purple-300" },
@@ -8,118 +9,129 @@ const PLATFORMS = [
   { label: "Podbean", href: "https://media.rss.com/inside-asembleai", color: "hover:bg-orange-500/20 hover:text-orange-400" },
 ];
 
-function AnimatedBackground() {
+// AsembleAI's own YouTube videos — captured from the channel feed
+const BG_VIDEO_IDS = ["haI2RafE_JI", "Vib0JgDO_lY", "-2Wp2XGho6U"];
+
+function YouTubeBackground() {
+  const [videoId] = useState(BG_VIDEO_IDS[0]);
+  const [loaded, setLoaded] = useState(false);
+
   return (
-    <div className="absolute inset-0 z-0 overflow-hidden">
-      {/* Dark base */}
-      <div className="absolute inset-0 bg-[#060b18]" />
-
-      {/* Orb 1 — cyan/blue top-left */}
-      <motion.div
-        className="absolute w-[700px] h-[700px] rounded-full opacity-25"
+    <div className="absolute inset-0 z-0 overflow-hidden bg-[#060b18]">
+      {/* YouTube iframe — muted, autoplay, loop, no controls */}
+      {/* Wrapper clips the YouTube info bar that appears at top */}
+      <div
+        className="absolute overflow-hidden"
         style={{
-          background: "radial-gradient(circle, rgba(34,211,238,0.6) 0%, rgba(59,130,246,0.4) 40%, transparent 70%)",
-          top: "-200px",
-          left: "-100px",
-          filter: "blur(80px)",
-        }}
-        animate={{
-          x: [0, 80, 30, 0],
-          y: [0, 60, -40, 0],
-          scale: [1, 1.15, 0.95, 1],
-        }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      {/* Orb 2 — purple bottom-right */}
-      <motion.div
-        className="absolute w-[600px] h-[600px] rounded-full opacity-20"
-        style={{
-          background: "radial-gradient(circle, rgba(168,85,247,0.7) 0%, rgba(99,102,241,0.4) 40%, transparent 70%)",
-          bottom: "-150px",
-          right: "-100px",
-          filter: "blur(100px)",
-        }}
-        animate={{
-          x: [0, -70, -20, 0],
-          y: [0, -50, 40, 0],
-          scale: [1, 1.2, 0.9, 1],
-        }}
-        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 3 }}
-      />
-
-      {/* Orb 3 — blue center */}
-      <motion.div
-        className="absolute w-[400px] h-[400px] rounded-full opacity-15"
-        style={{
-          background: "radial-gradient(circle, rgba(59,130,246,0.6) 0%, transparent 70%)",
-          top: "30%",
+          top: "50%",
           left: "50%",
+          width: "177.78vh",
+          height: "100vh",
+          minWidth: "100%",
+          minHeight: "56.25vw",
           transform: "translate(-50%, -50%)",
+          pointerEvents: "none",
+        }}
+      >
+        {/* Iframe pushed up to hide the YT info overlay; outer div clips it */}
+        <div
+          style={{
+            position: "absolute",
+            top: "-80px",
+            left: 0,
+            right: 0,
+            bottom: "-80px",
+            opacity: loaded ? 1 : 0,
+            transition: "opacity 1.2s ease",
+          }}
+        >
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1&fs=0&disablekb=1`}
+            title="Background video"
+            allow="autoplay; encrypted-media"
+            className="absolute inset-0 w-full h-full border-0"
+            onLoad={() => setLoaded(true)}
+          />
+        </div>
+      </div>
+
+      {/* Dark overlay gradient to maintain readability */}
+      <div className="absolute inset-0 bg-[#060b18]/70" />
+      {/* Extra depth at edges */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#060b18]/80 via-transparent to-[#060b18]/80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#060b18]/60 via-transparent to-[#060b18]" />
+
+      {/* Animated orb accents on top of video for brand colour */}
+      <motion.div
+        className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(34,211,238,0.18) 0%, transparent 70%)",
+          top: "-100px",
+          left: "-80px",
           filter: "blur(60px)",
         }}
-        animate={{
-          scale: [1, 1.3, 1],
-          opacity: [0.15, 0.25, 0.15],
+        animate={{ x: [0, 60, 0], y: [0, 40, 0] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute w-[400px] h-[400px] rounded-full pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(168,85,247,0.18) 0%, transparent 70%)",
+          bottom: "0px",
+          right: "-60px",
+          filter: "blur(60px)",
         }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 6 }}
+        animate={{ x: [0, -50, 0], y: [0, -30, 0] }}
+        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 4 }}
       />
 
-      {/* Animated grid lines */}
+      {/* Subtle grid overlay */}
       <div
-        className="absolute inset-0 opacity-[0.04]"
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(34,211,238,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,0.8) 1px, transparent 1px)",
+            "linear-gradient(rgba(34,211,238,1) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,1) 1px, transparent 1px)",
           backgroundSize: "80px 80px",
         }}
       />
 
       {/* Floating particles */}
-      {[...Array(16)].map((_, i) => (
+      {[...Array(12)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute w-1 h-1 rounded-full bg-cyan-400"
+          className="absolute w-1 h-1 rounded-full bg-cyan-400 pointer-events-none"
           style={{
-            left: `${5 + (i * 6.2) % 90}%`,
-            top: `${10 + (i * 13.7) % 80}%`,
-            opacity: 0.3 + (i % 4) * 0.1,
+            left: `${8 + (i * 7.8) % 85}%`,
+            top: `${15 + (i * 11.3) % 70}%`,
+            opacity: 0,
           }}
           animate={{
-            y: [0, -25, 0],
-            opacity: [0.2, 0.6, 0.2],
-            scale: [1, 1.5, 1],
+            y: [0, -20, 0],
+            opacity: [0, 0.5, 0],
           }}
           transition={{
-            duration: 4 + (i % 5),
+            duration: 5 + (i % 4),
             repeat: Infinity,
             ease: "easeInOut",
-            delay: (i * 0.4) % 3,
+            delay: i * 0.5,
           }}
         />
       ))}
-
-      {/* Scan line sweep */}
-      <motion.div
-        className="absolute inset-x-0 h-[2px] opacity-10"
-        style={{
-          background: "linear-gradient(90deg, transparent, rgba(34,211,238,0.8), transparent)",
-          top: 0,
-        }}
-        animate={{ top: ["0%", "100%"] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-      />
-
-      {/* Gradient fade at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-background to-transparent" />
     </div>
   );
+}
+
+function scrollToSection(id: string) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 }
 
 export function Hero() {
   return (
     <section className="relative overflow-hidden">
-      <AnimatedBackground />
+      <YouTubeBackground />
 
       <div className="container mx-auto px-4 relative z-10 text-center pt-36 pb-24 md:pt-44 md:pb-28">
         <motion.div
@@ -176,16 +188,15 @@ export function Hero() {
                 🎙 Listen Now
               </Button>
             </a>
-            <a href="/newsletter">
-              <Button
-                size="lg"
-                variant="outline"
-                className="h-13 px-8 text-base rounded-full border-white/15 bg-white/5 hover:bg-white/10 backdrop-blur-md text-white transition-all"
-                data-testid="button-hero-subscribe"
-              >
-                Subscribe to Newsletter
-              </Button>
-            </a>
+            <Button
+              size="lg"
+              variant="outline"
+              className="h-13 px-8 text-base rounded-full border-white/15 bg-white/5 hover:bg-white/10 backdrop-blur-md text-white transition-all"
+              onClick={() => scrollToSection("services")}
+              data-testid="button-hero-partner"
+            >
+              Partner With Us
+            </Button>
           </div>
 
           {/* Platform badges */}
