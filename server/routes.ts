@@ -313,6 +313,109 @@ export async function registerRoutes(
     }
   });
 
+  app.post("/api/newsletter/subscribe", async (req, res) => {
+    const { email } = req.body;
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ error: "A valid email address is required" });
+    }
+
+    // Step 1: Save subscriber — always succeeds regardless of email delivery
+    const { subscriber } = await storage.addSubscriber(email);
+
+    // Step 2: Best-effort welcome email — never blocks the 200 response
+    (async () => {
+      try {
+        const { client, fromEmail } = await getUncachableSendGridClient();
+
+        const year = new Date().getFullYear();
+
+        const welcomeHtml = `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#0f172a;font-family:'Helvetica Neue',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f172a;padding:40px 20px;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#131c2e;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);">
+        <tr>
+          <td style="background:linear-gradient(135deg,#0f172a 0%,#1e2d4a 100%);padding:40px 40px 32px;text-align:center;border-bottom:1px solid rgba(34,211,238,0.2);">
+            <div style="display:inline-block;background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.3);border-radius:100px;padding:6px 18px;margin-bottom:20px;">
+              <span style="font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#22d3ee;">Media · Tech · Innovation</span>
+            </div>
+            <h1 style="margin:0;font-size:32px;font-weight:800;color:#ffffff;">AsembleAI</h1>
+            <p style="margin:8px 0 0;font-size:14px;color:rgba(255,255,255,0.5);">Hosted by Mac Goswami &amp; Sam Dey</p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:40px;">
+            <h2 style="margin:0 0 16px;font-size:24px;font-weight:700;color:#ffffff;">You're in! 🎉</h2>
+            <p style="margin:0 0 20px;font-size:16px;line-height:1.7;color:rgba(255,255,255,0.7);">
+              Thanks for subscribing. Every week you'll get sharp, no-fluff insights on
+              <strong style="color:#22d3ee;">AI, DeepTech &amp; Science</strong> — the stories that matter to decision-makers and innovators.
+            </p>
+            <p style="margin:0 0 32px;font-size:16px;line-height:1.7;color:rgba(255,255,255,0.7);">
+              While you wait for your first issue, catch up on our latest episodes:
+            </p>
+            <table cellpadding="0" cellspacing="0" style="margin:0 auto 32px;">
+              <tr>
+                <td align="center" style="border-radius:100px;background:linear-gradient(90deg,#3b82f6,#8b5cf6);">
+                  <a href="https://www.youtube.com/@asembleaiyt" style="display:inline-block;padding:14px 32px;font-size:15px;font-weight:700;color:#ffffff;text-decoration:none;">🎙 Watch on YouTube →</a>
+                </td>
+              </tr>
+            </table>
+            <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px;">
+              <tr>
+                <td align="center">
+                  <a href="https://open.spotify.com/show/7m7PI5LmJfPxbQU8jzNbBO" style="display:inline-block;margin:4px 6px;padding:8px 18px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:100px;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;">Spotify</a>
+                  <a href="https://podcasts.apple.com/search?term=inside+asembleai" style="display:inline-block;margin:4px 6px;padding:8px 18px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:100px;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;">Apple Podcasts</a>
+                  <a href="https://substack.com/@asembleai" style="display:inline-block;margin:4px 6px;padding:8px 18px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:100px;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;">Substack</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:24px 40px;border-top:1px solid rgba(255,255,255,0.06);text-align:center;">
+            <p style="margin:0;font-size:12px;color:rgba(255,255,255,0.3);line-height:1.6;">
+              You subscribed at asembleai.com · To unsubscribe reply "unsubscribe"<br>
+              © ${year} AsembleAI · asembleai@gmail.com
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+
+        await Promise.all([
+          client.send({
+            to: email,
+            from: { name: "AsembleAI", email: fromEmail },
+            subject: "Welcome to AsembleAI — You're in! 🎙",
+            text: `Hey,\n\nThanks for subscribing to AsembleAI! You'll get weekly AI, DeepTech & Science insights.\n\nCatch up: https://www.youtube.com/@asembleaiyt\n\n— Mac & Sam`,
+            html: welcomeHtml,
+          }),
+          client.send({
+            to: fromEmail,
+            from: { name: "AsembleAI Newsletter", email: fromEmail },
+            subject: `New subscriber: ${email}`,
+            text: `New newsletter subscriber: ${email}\nTime: ${new Date().toISOString()}`,
+            html: `<p>New subscriber: <strong>${email}</strong></p><p>${new Date().toLocaleString()}</p>`,
+          }),
+        ]);
+
+        await storage.markSubscriberEmailSent(subscriber.id);
+        console.log(`[newsletter] Welcome email sent to ${email}`);
+      } catch (emailErr: any) {
+        console.error(`[newsletter] Email delivery failed for ${email}:`, emailErr?.response?.body || emailErr?.message);
+      }
+    })();
+
+    // Always return success — subscriber is saved even if email fails
+    return res.json({ success: true });
+  });
+
   app.post("/api/contact", async (req, res) => {
     try {
       const { name, email, company, message } = req.body;
