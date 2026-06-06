@@ -12,6 +12,78 @@ const PLATFORMS = [
 const VIDEO_ID = "nWCP19vGxIE";
 const LOOP_END = 5; // seconds
 
+function isMobileDevice() {
+  return (
+    typeof window !== "undefined" &&
+    (window.matchMedia("(hover: none) and (pointer: coarse)").matches ||
+      /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent))
+  );
+}
+
+function BackgroundOrbs() {
+  return (
+    <>
+      {/* Readability overlays */}
+      <div className="absolute inset-0 bg-[#060b18]/65" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#060b18]/70 via-transparent to-[#060b18]/70" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#060b18]/50 via-transparent to-[#060b18]" />
+
+      {/* Brand colour orbs */}
+      <motion.div
+        className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(34,211,238,0.15) 0%, transparent 70%)",
+          top: "-100px",
+          left: "-80px",
+          filter: "blur(70px)",
+        }}
+        animate={{ x: [0, 60, 0], y: [0, 40, 0] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute w-[400px] h-[400px] rounded-full pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(168,85,247,0.15) 0%, transparent 70%)",
+          bottom: "0px",
+          right: "-60px",
+          filter: "blur(70px)",
+        }}
+        animate={{ x: [0, -50, 0], y: [0, -30, 0] }}
+        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+      />
+      <motion.div
+        className="absolute w-[350px] h-[350px] rounded-full pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)",
+          top: "30%",
+          right: "20%",
+          filter: "blur(60px)",
+        }}
+        animate={{ x: [0, 40, 0], y: [0, -50, 0] }}
+        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 8 }}
+      />
+
+      {/* Subtle grid */}
+      <div
+        className="absolute inset-0 opacity-[0.025] pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(34,211,238,1) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,1) 1px, transparent 1px)",
+          backgroundSize: "80px 80px",
+        }}
+      />
+    </>
+  );
+}
+
+function MobileBackground() {
+  return (
+    <div className="absolute inset-0 z-0 overflow-hidden bg-[#060b18]">
+      <BackgroundOrbs />
+    </div>
+  );
+}
+
 function YouTubeBackground() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<any>(null);
@@ -140,46 +212,19 @@ function YouTubeBackground() {
         </div>
       </div>
 
-      {/* Readability overlays */}
-      <div className="absolute inset-0 bg-[#060b18]/65" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#060b18]/70 via-transparent to-[#060b18]/70" />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#060b18]/50 via-transparent to-[#060b18]" />
-
-      {/* Brand colour orbs on top of video */}
-      <motion.div
-        className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{
-          background: "radial-gradient(circle, rgba(34,211,238,0.15) 0%, transparent 70%)",
-          top: "-100px",
-          left: "-80px",
-          filter: "blur(70px)",
-        }}
-        animate={{ x: [0, 60, 0], y: [0, 40, 0] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute w-[400px] h-[400px] rounded-full pointer-events-none"
-        style={{
-          background: "radial-gradient(circle, rgba(168,85,247,0.15) 0%, transparent 70%)",
-          bottom: "0px",
-          right: "-60px",
-          filter: "blur(70px)",
-        }}
-        animate={{ x: [0, -50, 0], y: [0, -30, 0] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 4 }}
-      />
-
-      {/* Subtle grid */}
-      <div
-        className="absolute inset-0 opacity-[0.025] pointer-events-none"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(34,211,238,1) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,1) 1px, transparent 1px)",
-          backgroundSize: "80px 80px",
-        }}
-      />
+      <BackgroundOrbs />
     </div>
   );
+}
+
+function HeroBackground() {
+  const [mobile, setMobile] = useState(false);
+
+  useEffect(() => {
+    setMobile(isMobileDevice());
+  }, []);
+
+  return mobile ? <MobileBackground /> : <YouTubeBackground />;
 }
 
 function scrollToSection(id: string) {
@@ -190,7 +235,7 @@ function scrollToSection(id: string) {
 export function Hero() {
   return (
     <section className="relative overflow-hidden">
-      <YouTubeBackground />
+      <HeroBackground />
 
       <div className="container mx-auto px-4 relative z-10 text-center pt-36 pb-24 md:pt-44 md:pb-28">
         <motion.div
