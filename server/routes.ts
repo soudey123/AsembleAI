@@ -70,12 +70,25 @@ function formatDuration(seconds: number): string {
 function extractGuestFromTitle(title: string): string {
   const patterns = [
     /(?:with|ft\.?|featuring|feat\.?|w\/)\s+(.+?)(?:\s*[-–—|]|$)/i,
-    /[-–—|]\s*(.+?)$/,
   ];
-  
   for (const pattern of patterns) {
     const match = title.match(pattern);
     if (match && match[1]) {
+      return match[1].trim();
+    }
+  }
+  return "";
+}
+
+function extractGuestFromDescription(description: string): string {
+  const patterns = [
+    /(?:guest|joining us|welcom(?:e|ing)|featuring|joined by)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+){0,2})/,
+    /([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,2})\s+(?:joins|joined|shares|discusses|explains|reveals)/,
+    /(?:host[s]?\s+(?:[A-Z][a-z]+\s+)?(?:and\s+)?[A-Z][a-z]+\s+welcome[s]?\s+)([A-Z][a-z]+(?:\s+[A-Z][a-z]+){0,2})/,
+  ];
+  for (const pattern of patterns) {
+    const match = description.match(pattern);
+    if (match?.[1] && match[1].length > 3 && !['This','What','When','How','The','In','On'].includes(match[1])) {
       return match[1].trim();
     }
   }
@@ -113,7 +126,7 @@ export async function registerRoutes(
       
       const feed = await parser.parseURL(RSS_FEED_URL);
       
-      const episodes: PodcastEpisode[] = (feed.items || []).slice(0, 6).map((item: any) => {
+      const episodes: PodcastEpisode[] = (feed.items || []).slice(0, 10).map((item: any) => {
         let durationStr = "00:00";
         if (item.duration) {
           if (typeof item.duration === 'string' && item.duration.includes(':')) {
@@ -135,7 +148,7 @@ export async function registerRoutes(
         return {
           slug: createSlug(item.title || ''),
           title: item.title || 'Untitled Episode',
-          guest: extractGuestFromTitle(item.title || ''),
+          guest: extractGuestFromTitle(item.title || '') || extractGuestFromDescription(item.contentSnippet || item.content || ''),
           date: formatDate(item.pubDate || new Date().toISOString()),
           description: (item.contentSnippet || item.content || '').slice(0, 200),
           thumbnail,

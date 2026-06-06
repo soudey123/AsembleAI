@@ -23,7 +23,7 @@ import leadershipImg from "@assets/stock_images/executive_leadership_832b6d86.jp
 
 
 const TOPIC_IMAGES: Array<{ keywords: string[]; image: string }> = [
-  { keywords: ["healthcare", "medical", "health", "hospital", "fraud", "pharma", "clinic"], image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=640&q=80" },
+  { keywords: ["healthcare", "medical", "health", "hospital", "fraud", "pharma", "clinic"], image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=640&q=80" },
   { keywords: ["soccer", "football", "premier league", "epl", "fifa"], image: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=640&q=80" },
   { keywords: ["basketball", "nba", "court", "hoops"], image: "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=640&q=80" },
   { keywords: ["sport", "athlete", "analytics", "performance"], image: "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=640&q=80" },
@@ -44,6 +44,42 @@ function getEpisodeThumbnail(title: string, tags: string[]): string {
     if (keywords.some((kw) => text.includes(kw))) return image;
   }
   return aiImg;
+}
+
+function matchYoutubeUrl(episodeTitle: string, videos: any[]): string {
+  if (!videos?.length) return "https://www.youtube.com/@asembleaiyt";
+  const epWords = new Set(
+    episodeTitle.toLowerCase().split(/\W+/).filter((w) => w.length > 3)
+  );
+  let best = { url: "https://www.youtube.com/@asembleaiyt", score: 0 };
+  for (const v of videos) {
+    const vWords = v.title.toLowerCase().split(/\W+/).filter((w: string) => w.length > 3);
+    const hits = vWords.filter((w: string) => epWords.has(w)).length;
+    const score = hits / Math.max(epWords.size, vWords.length);
+    if (score > 0.3 && score > best.score) best = { url: v.youtubeUrl, score };
+  }
+  return best.url;
+}
+
+const SKIP_KEYWORDS = ["soccer", "football", "premier league", "fifa"];
+function hasSkipKeyword(title: string) {
+  const t = title.toLowerCase();
+  return SKIP_KEYWORDS.some((kw) => t.includes(kw));
+}
+
+function selectFeaturedEpisodes(episodes: any[]): any[] {
+  if (!episodes.length) return [];
+  const first = episodes[0];
+  const rest = episodes.slice(1);
+  // Prefer an episode where a real guest was extracted (not "AsembleAI Team")
+  const guestEp = rest.find(
+    (ep) => ep.guest && ep.guest !== "AsembleAI Team" && ep.guest.length > 4
+  );
+  // 3rd slot: next in order, skip the guest ep and skip soccer-related episodes
+  const thirdEp = rest.find(
+    (ep) => ep !== guestEp && !hasSkipKeyword(ep.title)
+  );
+  return [first, guestEp ?? rest[0], thirdEp ?? rest[1]].filter(Boolean).slice(0, 3);
 }
 
 /* ─────────────────────────────────────────────────────────
@@ -443,7 +479,11 @@ export default function Home() {
     queryKey: ["/api/podcast/audio"],
     staleTime: 5 * 60 * 1000,
   });
-  const featuredEpisodes = episodesData?.episodes?.slice(0, 3) ?? [];
+  const { data: videosData } = useQuery<{ videos: any[] }>({
+    queryKey: ["/api/podcast/videos"],
+    staleTime: 5 * 60 * 1000,
+  });
+  const featuredEpisodes = selectFeaturedEpisodes(episodesData?.episodes ?? []);
 
   return (
     <Layout>
@@ -494,9 +534,9 @@ export default function Home() {
                       <div className="flex gap-2">
                         {ep.spotifyUrl && (
                           <a href={ep.spotifyUrl} target="_blank" rel="noopener noreferrer"
-                            className="text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-green-500/20 hover:text-green-400 border border-white/10 transition-all text-muted-foreground">Spotify</a>
+                            className="text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-orange-500/20 hover:text-orange-400 border border-white/10 transition-all text-muted-foreground">Podbean</a>
                         )}
-                        <a href="https://www.youtube.com/@asembleaiyt" target="_blank" rel="noopener noreferrer"
+                        <a href={matchYoutubeUrl(ep.title, videosData?.videos ?? [])} target="_blank" rel="noopener noreferrer"
                           className="text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-red-500/20 hover:text-red-400 border border-white/10 transition-all text-muted-foreground">YouTube</a>
                       </div>
                     </CardContent>
