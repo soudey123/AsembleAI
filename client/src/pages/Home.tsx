@@ -16,6 +16,35 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
+import aiImg from "@assets/stock_images/artificial_intellige_fc16285f.jpg";
+import techJobsImg from "@assets/stock_images/future_of_tech_jobs__291b924f.jpg";
+import biologicalComputingImg from "@assets/stock_images/biological_computing_60b959d6.jpg";
+import leadershipImg from "@assets/stock_images/executive_leadership_832b6d86.jpg";
+
+
+const TOPIC_IMAGES: Array<{ keywords: string[]; image: string }> = [
+  { keywords: ["healthcare", "medical", "health", "hospital", "fraud", "pharma", "clinic"], image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=640&q=80" },
+  { keywords: ["soccer", "football", "premier league", "epl", "fifa"], image: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=640&q=80" },
+  { keywords: ["basketball", "nba", "court", "hoops"], image: "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=640&q=80" },
+  { keywords: ["sport", "athlete", "analytics", "performance"], image: "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=640&q=80" },
+  { keywords: ["film", "movie", "cinema", "filmmaking", "creative", "art", "visual"], image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=640&q=80" },
+  { keywords: ["job", "career", "work", "reskill", "collar", "employ", "workforce", "talent"], image: techJobsImg },
+  { keywords: ["leadership", "strategy", "growth", "ceo", "executive", "management", "enterprise"], image: leadershipImg },
+  { keywords: ["neuron", "biological", "brain", "biocomputing", "silicon", "quantum", "computing"], image: biologicalComputingImg },
+  { keywords: ["robot", "automat", "agent", "llm", "gpt", "langchain", "langgraph", "streamlit", "pandas"], image: aiImg },
+  { keywords: ["startup", "venture", "invest", "funding", "unicorn"], image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=640&q=80" },
+  { keywords: ["climate", "energy", "green", "sustain", "environment"], image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=640&q=80" },
+  { keywords: ["cyber", "security", "hack", "privacy", "data"], image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=640&q=80" },
+  { keywords: ["ai", "artificial", "intelligence", "deep tech", "machine learning", "deeptech", "science"], image: aiImg },
+];
+
+function getEpisodeThumbnail(title: string, tags: string[]): string {
+  const text = (title + " " + tags.join(" ")).toLowerCase();
+  for (const { keywords, image } of TOPIC_IMAGES) {
+    if (keywords.some((kw) => text.includes(kw))) return image;
+  }
+  return aiImg;
+}
 
 /* ─────────────────────────────────────────────────────────
    SHARED UTILITIES
@@ -451,7 +480,7 @@ export default function Home() {
                   transition={{ delay: i * 0.1 }} viewport={{ once: true }}>
                   <Card className="h-full glass-card border-white/5 hover:border-primary/30 transition-all duration-300 group overflow-hidden" data-testid={`card-episode-${i}`}>
                     <div className="aspect-video overflow-hidden">
-                      <img src={ep.thumbnail} alt={ep.title}
+                      <img src={getEpisodeThumbnail(ep.title, ep.tags ?? [])} alt={ep.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
                     </div>
                     <CardContent className="p-5">
