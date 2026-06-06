@@ -79,6 +79,15 @@ function BackgroundOrbs() {
 function MobileBackground() {
   return (
     <div className="absolute inset-0 z-0 overflow-hidden bg-[#060b18]">
+      {/* Static thumbnail from the same YouTube video — consistent look with desktop */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `url(https://img.youtube.com/vi/${VIDEO_ID}/maxresdefault.jpg)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
       <BackgroundOrbs />
     </div>
   );
