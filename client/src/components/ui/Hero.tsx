@@ -79,16 +79,65 @@ function BackgroundOrbs() {
 function MobileBackground() {
   return (
     <div className="absolute inset-0 z-0 overflow-hidden bg-[#060b18]">
-      {/* Static thumbnail from the same YouTube video — consistent look with desktop */}
+      {/* Deep navy base with a subtle radial centre glow */}
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: `url(https://img.youtube.com/vi/${VIDEO_ID}/maxresdefault.jpg)`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          background:
+            "radial-gradient(ellipse 120% 80% at 50% 40%, rgba(14,30,60,1) 0%, #060b18 70%)",
         }}
       />
-      <BackgroundOrbs />
+      {/* Extra-bright orbs for mobile so the background feels rich */}
+      <motion.div
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          width: "80vw",
+          height: "80vw",
+          background: "radial-gradient(circle, rgba(34,211,238,0.22) 0%, transparent 70%)",
+          top: "-10vw",
+          left: "-20vw",
+          filter: "blur(60px)",
+        }}
+        animate={{ x: [0, 30, 0], y: [0, 20, 0] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          width: "70vw",
+          height: "70vw",
+          background: "radial-gradient(circle, rgba(168,85,247,0.22) 0%, transparent 70%)",
+          bottom: "5vw",
+          right: "-15vw",
+          filter: "blur(55px)",
+        }}
+        animate={{ x: [0, -25, 0], y: [0, -20, 0] }}
+        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+      />
+      <motion.div
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          width: "60vw",
+          height: "60vw",
+          background: "radial-gradient(circle, rgba(59,130,246,0.18) 0%, transparent 70%)",
+          top: "35%",
+          left: "20%",
+          filter: "blur(50px)",
+        }}
+        animate={{ x: [0, 20, 0], y: [0, -25, 0] }}
+        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 8 }}
+      />
+      {/* Readability overlays */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#060b18]/40 via-transparent to-[#060b18]" />
+      {/* Subtle grid */}
+      <div
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(34,211,238,1) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,1) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+        }}
+      />
     </div>
   );
 }
