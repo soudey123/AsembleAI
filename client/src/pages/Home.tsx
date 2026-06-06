@@ -7,7 +7,6 @@ import {
   audienceStats,
   audienceDemographics,
   testimonials,
-  podcasts,
 } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,6 +15,7 @@ import { ArrowRight, Check, ChevronLeft, ChevronRight, ExternalLink, Loader2 } f
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 /* ─────────────────────────────────────────────────────────
    SHARED UTILITIES
@@ -410,7 +410,11 @@ function NewsletterBg() {
    HOME PAGE
 ───────────────────────────────────────────────────────── */
 export default function Home() {
-  const featuredEpisodes = podcasts.filter((p) => p.type === "video").slice(0, 3);
+  const { data: episodesData, isLoading: episodesLoading } = useQuery<{ episodes: any[] }>({
+    queryKey: ["/api/podcast/audio"],
+    staleTime: 5 * 60 * 1000,
+  });
+  const featuredEpisodes = episodesData?.episodes?.slice(0, 3) ?? [];
 
   return (
     <Layout>
@@ -429,33 +433,48 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          {featuredEpisodes.map((ep, i) => (
-            <motion.div key={ep.slug}
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }} viewport={{ once: true }}>
-              <Card className="h-full glass-card border-white/5 hover:border-primary/30 transition-all duration-300 group overflow-hidden" data-testid={`card-episode-${i}`}>
-                <div className="aspect-video overflow-hidden">
-                  <img src={ep.thumbnail} alt={ep.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
-                </div>
-                <CardContent className="p-5">
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {ep.tags.slice(0, 2).map((tag) => (
-                      <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">{tag}</span>
-                    ))}
-                  </div>
-                  <h3 className="text-base font-bold text-white mb-1 line-clamp-2 group-hover:text-primary transition-colors">{ep.title}</h3>
-                  <p className="text-xs text-muted-foreground mb-3">with {ep.guest} · {ep.duration}</p>
-                  <div className="flex gap-2">
-                    <a href={ep.spotifyUrl} target="_blank" rel="noopener noreferrer"
-                      className="text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-green-500/20 hover:text-green-400 border border-white/10 transition-all text-muted-foreground">Spotify</a>
-                    <a href={ep.youtubeUrl} target="_blank" rel="noopener noreferrer"
-                      className="text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-red-500/20 hover:text-red-400 border border-white/10 transition-all text-muted-foreground">YouTube</a>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+          {episodesLoading
+            ? [0, 1, 2].map((i) => (
+                <Card key={i} className="h-full glass-card border-white/5 overflow-hidden animate-pulse" data-testid={`card-episode-skeleton-${i}`}>
+                  <div className="aspect-video bg-white/5" />
+                  <CardContent className="p-5 space-y-3">
+                    <div className="h-3 w-16 bg-white/10 rounded-full" />
+                    <div className="h-4 w-full bg-white/10 rounded" />
+                    <div className="h-4 w-2/3 bg-white/10 rounded" />
+                    <div className="h-3 w-1/2 bg-white/5 rounded" />
+                  </CardContent>
+                </Card>
+              ))
+            : featuredEpisodes.map((ep, i) => (
+                <motion.div key={ep.slug}
+                  initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }} viewport={{ once: true }}>
+                  <Card className="h-full glass-card border-white/5 hover:border-primary/30 transition-all duration-300 group overflow-hidden" data-testid={`card-episode-${i}`}>
+                    <div className="aspect-video overflow-hidden">
+                      <img src={ep.thumbnail} alt={ep.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
+                    </div>
+                    <CardContent className="p-5">
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {(ep.tags ?? []).slice(0, 2).map((tag: string) => (
+                          <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">{tag}</span>
+                        ))}
+                      </div>
+                      <h3 className="text-base font-bold text-white mb-1 line-clamp-2 group-hover:text-primary transition-colors">{ep.title}</h3>
+                      <p className="text-xs text-muted-foreground mb-3">{ep.guest ? `with ${ep.guest} · ` : ""}{ep.duration}</p>
+                      <div className="flex gap-2">
+                        {ep.spotifyUrl && (
+                          <a href={ep.spotifyUrl} target="_blank" rel="noopener noreferrer"
+                            className="text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-green-500/20 hover:text-green-400 border border-white/10 transition-all text-muted-foreground">Spotify</a>
+                        )}
+                        <a href="https://www.youtube.com/@asembleaiyt" target="_blank" rel="noopener noreferrer"
+                          className="text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-red-500/20 hover:text-red-400 border border-white/10 transition-all text-muted-foreground">YouTube</a>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))
+          }
         </div>
 
         <div className="text-center">
