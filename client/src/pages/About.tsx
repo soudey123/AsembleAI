@@ -32,7 +32,7 @@ export default function About() {
     {
       name: "Mac Goswami",
       role: "Co-Host & Co-Founder",
-      bio: "Senior Technical Program Manager in Fintech with 15+ years enterprise experience. Co-host of the AsembleAI podcast, Tech Advisor to Microsoft AI Community, Top 1% Creator on Topmate, and startup mentor at Founder Institute. Graduate of the MIT Sloan AI Executive Program.",
+      bio: "Digital Transformation Leader, IT Consultant, and Financial Services & Payment Technology Consultant, Portfolio Management with 15+ years of enterprise experience across fintech, AI, data, cloud, and platform modernization. Co-founder of AsembleAI media platform, Podcast co-host, Tech Advisor to AI Community, Top 1% Creator on Topmate, speaker, tech writer, startup mentor & advisor at Founder Institute, and featured in NYC Times Square billboard. Graduate of the MIT Sloan AI Executive Program.",
       linkedin: "https://www.linkedin.com/in/macgos/",
       image: null
     },
