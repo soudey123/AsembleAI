@@ -3,7 +3,6 @@ import { Hero } from "@/components/ui/Hero";
 import { Section } from "@/components/ui/Section";
 import {
   partnershipTiers,
-  enterprisePackages,
   audienceStats,
   audienceDemographics,
   testimonials,
@@ -774,18 +773,6 @@ export default function Home() {
         </p>
 
         <div className="max-w-3xl mx-auto">
-          <p className="text-center text-sm font-semibold text-white mb-6">Custom &amp; Enterprise</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {enterprisePackages.map((pkg, i) => (
-              <motion.div key={pkg.name}
-                initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: i * 0.05 }} viewport={{ once: true }}
-                className="glass-card border-white/5 rounded-xl p-4 text-center" data-testid={`card-enterprise-${i}`}>
-                <p className="text-xs text-muted-foreground mb-1 leading-tight">{pkg.name}</p>
-                <p className="text-sm font-bold text-primary">{pkg.price}</p>
-              </motion.div>
-            ))}
-          </div>
           <div className="text-center mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <a href="mailto:asembleai@gmail.com">
               <Button variant="outline" className="border-white/10 text-white hover:bg-white/5" data-testid="button-partnerships-email">

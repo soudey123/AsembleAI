@@ -100,26 +100,9 @@ export default function Podcast() {
   // Dedicated YouTube videos that match
   const dedicatedVideos = allVideos.filter(v => matchesCurrent(v.title, v.guest));
 
-  // Audio episodes also shown in the video section (since all episodes are on YouTube too).
-  // Build a set of slugs that are already covered by a dedicated YouTube video to avoid duplication.
-  const dedicatedSlugs = new Set(dedicatedVideos.map(v => v.slug));
-  // When topic is active, also cross-check by partial title overlap
-  const dedicatedTitlesLower = dedicatedVideos.map(v => v.title.toLowerCase());
-  function isAlreadyCoveredByDedicated(audioTitle: string) {
-    const lower = audioTitle.toLowerCase();
-    return dedicatedTitlesLower.some(dt => dt.includes(lower.slice(0, 20)) || lower.includes(dt.slice(0, 20)));
-  }
-
-  // Audio-as-video: when topic filtered, complement the video section with matching audio episodes
-  const audioAsVideo = topicId
-    ? audioEpisodes.filter(ep => !isAlreadyCoveredByDedicated(ep.title))
-    : [];
-
-  // Total items shown in the video section
-  const videoSectionItems = [
-    ...dedicatedVideos.map(v => ({ ...v, isDedicated: true as const })),
-    ...audioAsVideo.map(ep => ({ ...ep, isDedicated: false as const, youtubeUrl: findYouTubeUrl(ep.title, allVideos) })),
-  ];
+  // Video section shows only dedicated YouTube videos (matched to topic/search).
+  // Audio cards each have their own "Watch on YouTube" button — no duplication needed.
+  const videoSectionItems = dedicatedVideos.map(v => ({ ...v, isDedicated: true as const }));
 
   function clearTopic() {
     setLocation("/podcast");
@@ -219,7 +202,7 @@ export default function Podcast() {
           ) : (
             <div className="space-y-4">
               {audioEpisodes.map((episode, index) => (
-                <Card key={episode.slug || index} className="bg-card/50 border-white/5 hover:border-green-500/30 transition-all group overflow-hidden" data-testid={`card-audio-${index}`}>
+                <Card key={`${episode.slug}-${index}`} className="bg-card/50 border-white/5 hover:border-green-500/30 transition-all group overflow-hidden" data-testid={`card-audio-${index}`}>
                   <div className="flex flex-col md:flex-row gap-6 p-6 items-center md:items-start">
                     <div className="relative shrink-0 w-full md:w-32 h-32 rounded-lg overflow-hidden">
                       {episode.thumbnail ? (
