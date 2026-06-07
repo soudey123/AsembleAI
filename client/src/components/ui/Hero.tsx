@@ -143,7 +143,7 @@ export function Hero() {
 
           {/* ── LEFT: Text content ── */}
           <motion.div
-            className="space-y-6 text-left order-2 md:order-1"
+            className="space-y-6 text-left order-1"
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
@@ -214,7 +214,7 @@ export function Hero() {
 
           {/* ── RIGHT: Host photos ── */}
           <motion.div
-            className="relative flex items-end justify-center gap-4 order-1 md:order-2"
+            className="relative flex items-end justify-center gap-4 order-2"
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.15 }}
