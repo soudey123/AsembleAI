@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import mobileBg from "@assets/Screenshot_2026-06-05_at_7.24.12_PM_1780709086500.png";
+import macImg from "@assets/image_1780840351121.png";
+import samImg from "@assets/Sam_Dey_1780840351121.jpg";
 
 const PLATFORMS = [
   { label: "Apple Podcasts", href: "https://podcasts.apple.com/search?term=inside+asembleai", color: "hover:bg-purple-500/20 hover:text-purple-300" },
@@ -287,6 +289,27 @@ export function Hero() {
           transition={{ duration: 0.9 }}
           className="max-w-4xl mx-auto space-y-7"
         >
+          {/* Host Photos */}
+          <motion.div
+            className="flex items-end justify-center gap-10 md:gap-14 mb-2"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+          >
+            {[
+              { img: macImg, name: "Mac Goswami", label: "Co-Host & Co-Founder", ring: "border-cyan-400/50 shadow-[0_0_24px_rgba(34,211,238,0.35)]", obj: "object-top" },
+              { img: samImg, name: "Sam Dey", label: "Co-Host & Co-Founder", ring: "border-purple-400/50 shadow-[0_0_24px_rgba(168,85,247,0.35)]", obj: "object-top" },
+            ].map((host) => (
+              <div key={host.name} className="flex flex-col items-center gap-2">
+                <div className={`w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 ${host.ring}`}>
+                  <img src={host.img} alt={host.name} className={`w-full h-full object-cover ${host.obj}`} />
+                </div>
+                <p className="text-sm md:text-base font-bold text-white">{host.name}</p>
+                <p className="text-xs text-muted-foreground -mt-1">{host.label}</p>
+              </div>
+            ))}
+          </motion.div>
+
           {/* Badge */}
           <motion.div
             className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-purple-500/20 border border-cyan-400/40 backdrop-blur-md cursor-default"

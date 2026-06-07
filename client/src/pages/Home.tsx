@@ -20,6 +20,20 @@ import aiImg from "@assets/stock_images/artificial_intellige_fc16285f.jpg";
 import techJobsImg from "@assets/stock_images/future_of_tech_jobs__291b924f.jpg";
 import biologicalComputingImg from "@assets/stock_images/biological_computing_60b959d6.jpg";
 import leadershipImg from "@assets/stock_images/executive_leadership_832b6d86.jpg";
+import audienceMapImg from "@assets/download_1780840409614.png";
+
+const COUNTRY_DOWNLOADS = [
+  { country: "United States", flag: "🇺🇸", downloads: 86889, percent: 93.74 },
+  { country: "Panama", flag: "🇵🇦", downloads: 2015, percent: 2.17 },
+  { country: "Netherlands", flag: "🇳🇱", downloads: 1221, percent: 1.32 },
+  { country: "United Kingdom", flag: "🇬🇧", downloads: 1100, percent: 1.19 },
+  { country: "Germany", flag: "🇩🇪", downloads: 735, percent: 0.79 },
+  { country: "Spain", flag: "🇪🇸", downloads: 300, percent: 0.32 },
+  { country: "Mongolia", flag: "🇲🇳", downloads: 97, percent: 0.10 },
+  { country: "Bangladesh", flag: "🇧🇩", downloads: 90, percent: 0.10 },
+  { country: "Lithuania", flag: "🇱🇹", downloads: 51, percent: 0.06 },
+  { country: "China", flag: "🇨🇳", downloads: 50, percent: 0.05 },
+];
 
 
 const TOPIC_IMAGES: Array<{ keywords: string[]; image: string }> = [
@@ -594,6 +608,52 @@ export default function Home() {
             ))}
           </div>
         </div>
+
+        {/* ── WHERE OUR AUDIENCE IS ── */}
+        <motion.div className="max-w-4xl mx-auto mt-16"
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }} viewport={{ once: true }}>
+          <p className="text-center text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">Where Our Audience Is</p>
+          <h3 className="text-center text-2xl md:text-3xl font-bold text-white mb-2">
+            93% United States · 47 Countries
+          </h3>
+          <p className="text-center text-sm text-muted-foreground mb-8 max-w-xl mx-auto">
+            Concentrated in high-intent US tech markets — SF, NYC, Boston, Austin, Seattle. International brands partner with us to reach and expand into the US market.
+          </p>
+
+          {/* World map */}
+          <div className="rounded-2xl overflow-hidden border border-white/10 bg-black mb-8">
+            <img src={audienceMapImg} alt="Listener distribution world map showing 47 countries" className="w-full h-auto" />
+          </div>
+
+          {/* Country table */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {COUNTRY_DOWNLOADS.map((c, i) => (
+              <motion.div key={c.country}
+                initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.04 }} viewport={{ once: true }}
+                className="flex items-center gap-3 bg-white/5 hover:bg-white/8 rounded-xl px-4 py-3 border border-white/5 transition-colors"
+                data-testid={`row-country-${i}`}>
+                <span className="text-xs text-muted-foreground/60 w-5 text-right shrink-0">{i + 1}</span>
+                <span className="text-base shrink-0">{c.flag}</span>
+                <span className="text-sm font-medium text-white flex-1 truncate">{c.country}</span>
+                <div className="flex items-center gap-2 shrink-0">
+                  <div className="w-16 h-1.5 rounded-full bg-white/10 overflow-hidden hidden sm:block">
+                    <div
+                      className="h-full rounded-full bg-gradient-to-r from-teal-400 to-emerald-500"
+                      style={{ width: `${Math.max((c.downloads / 86889) * 100, 2)}%` }}
+                    />
+                  </div>
+                  <span className="text-xs font-bold text-teal-400 w-12 text-right">{c.percent.toFixed(2)}%</span>
+                  <span className="text-xs text-muted-foreground w-14 text-right">{c.downloads.toLocaleString()}</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          <p className="text-center text-xs text-muted-foreground mt-5">
+            May 8 – Jun 6, 2026 · Podbean analytics · 47 countries reached
+          </p>
+        </motion.div>
       </Section>
 
       {/* ── TESTIMONIALS ── */}
