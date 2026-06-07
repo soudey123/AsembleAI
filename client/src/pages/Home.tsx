@@ -11,7 +11,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "wouter";
-import { ArrowRight, Check, ChevronLeft, ChevronRight, ExternalLink, Loader2, Brain, Briefcase, Heart, TrendingUp, Film, Scale, Atom, Building2, Activity, Shield } from "lucide-react";
+import { ArrowRight, Check, ChevronLeft, ChevronRight, ExternalLink, Loader2 } from "lucide-react";
+import { PODCAST_TOPICS, ACCENT_COLORS } from "@/lib/topics";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
@@ -21,92 +22,6 @@ import techJobsImg from "@assets/stock_images/future_of_tech_jobs__291b924f.jpg"
 import biologicalComputingImg from "@assets/stock_images/biological_computing_60b959d6.jpg";
 import leadershipImg from "@assets/stock_images/executive_leadership_832b6d86.jpg";
 import audienceMapImg from "@assets/download_1780840409614.png";
-
-const PODCAST_TOPICS = [
-  {
-    id: "ai-ml",
-    name: "AI & Machine Learning",
-    icon: Brain,
-    episodeCount: 9,
-    description: "LLMs, agents, MCP & the AI ecosystem",
-    accent: "cyan",
-    keywords: ["chatbot","agent","llm","model","mcp","agentic","ecosystem","toolkit","framework"],
-  },
-  {
-    id: "future-of-work",
-    name: "Future of Work",
-    icon: Briefcase,
-    episodeCount: 7,
-    description: "Job automation, reskilling & new collar jobs",
-    accent: "blue",
-    keywords: ["job","work","reskill","career","collar","automation","chopping","safe zone","apocalypse"],
-  },
-  {
-    id: "healthcare",
-    name: "Healthcare AI",
-    icon: Heart,
-    episodeCount: 5,
-    description: "Medical AI, drug discovery & patient care",
-    accent: "rose",
-    keywords: ["healthcare","health","drug","patient","alpha","medical","hospital"],
-  },
-  {
-    id: "fintech",
-    name: "Fintech & Finance",
-    icon: TrendingUp,
-    episodeCount: 5,
-    description: "Algorithmic trading, credit AI & fraud detection",
-    accent: "emerald",
-    keywords: ["trading","credit","lending","finance","stock","fraud","compliance","fintech","programmatic"],
-  },
-  {
-    id: "creative",
-    name: "Creative Industries",
-    icon: Film,
-    episodeCount: 7,
-    description: "AI in filmmaking, music, art & content creation",
-    accent: "purple",
-    keywords: ["film","music","art","creator","hollywood","sora","content","visual","midjourney"],
-  },
-  {
-    id: "policy",
-    name: "AI Policy & Governance",
-    icon: Scale,
-    episodeCount: 4,
-    description: "EU AI Act, regulation & global AI governance",
-    accent: "amber",
-    keywords: ["policy","regulation","governance","eu","act","compliance","data literacy"],
-  },
-  {
-    id: "deeptech",
-    name: "DeepTech & Science",
-    icon: Atom,
-    episodeCount: 3,
-    description: "Biological computing, robotics & frontier research",
-    accent: "teal",
-    keywords: ["silicon","neuron","biological","robotics","deeptech","science","alphafold","genome"],
-  },
-  {
-    id: "business",
-    name: "Business & Strategy",
-    icon: Building2,
-    episodeCount: 5,
-    description: "Enterprise AI, leadership & transformation",
-    accent: "orange",
-    keywords: ["enterprise","leadership","strategy","transformation","playbook","product","management","education","community"],
-  },
-];
-
-const ACCENT_COLORS: Record<string, { bg: string; border: string; hover: string; icon: string; badge: string }> = {
-  cyan:    { bg: "from-cyan-500/10 to-cyan-500/5",    border: "border-cyan-500/20",    hover: "hover:border-cyan-400/50 hover:from-cyan-500/15",    icon: "text-cyan-400",    badge: "bg-cyan-400/10 text-cyan-300" },
-  blue:    { bg: "from-blue-500/10 to-blue-500/5",    border: "border-blue-500/20",    hover: "hover:border-blue-400/50 hover:from-blue-500/15",    icon: "text-blue-400",    badge: "bg-blue-400/10 text-blue-300" },
-  rose:    { bg: "from-rose-500/10 to-rose-500/5",    border: "border-rose-500/20",    hover: "hover:border-rose-400/50 hover:from-rose-500/15",    icon: "text-rose-400",    badge: "bg-rose-400/10 text-rose-300" },
-  emerald: { bg: "from-emerald-500/10 to-emerald-500/5", border: "border-emerald-500/20", hover: "hover:border-emerald-400/50 hover:from-emerald-500/15", icon: "text-emerald-400", badge: "bg-emerald-400/10 text-emerald-300" },
-  purple:  { bg: "from-purple-500/10 to-purple-500/5",  border: "border-purple-500/20",   hover: "hover:border-purple-400/50 hover:from-purple-500/15",  icon: "text-purple-400",  badge: "bg-purple-400/10 text-purple-300" },
-  amber:   { bg: "from-amber-500/10 to-amber-500/5",    border: "border-amber-500/20",    hover: "hover:border-amber-400/50 hover:from-amber-500/15",    icon: "text-amber-400",   badge: "bg-amber-400/10 text-amber-300" },
-  teal:    { bg: "from-teal-500/10 to-teal-500/5",      border: "border-teal-500/20",     hover: "hover:border-teal-400/50 hover:from-teal-500/15",     icon: "text-teal-400",    badge: "bg-teal-400/10 text-teal-300" },
-  orange:  { bg: "from-orange-500/10 to-orange-500/5",  border: "border-orange-500/20",   hover: "hover:border-orange-400/50 hover:from-orange-500/15", icon: "text-orange-400",  badge: "bg-orange-400/10 text-orange-300" },
-};
 
 const COUNTRY_DOWNLOADS = [
   { country: "United States", flag: "🇺🇸", downloads: 86889, percent: 93.74 },
