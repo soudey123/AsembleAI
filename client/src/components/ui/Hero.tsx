@@ -6,11 +6,10 @@ import macImg from "@assets/image_1780840351121.png";
 import samImg from "@assets/Sam_Dey_1780840351121.jpg";
 
 const PLATFORMS = [
-  { label: "YouTube", href: "https://www.youtube.com/@asembleaiyt", icon: "▶", color: "hover:bg-red-500/20 hover:text-red-400 hover:border-red-500/30" },
-  { label: "Spotify", href: "https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU", icon: "♫", color: "hover:bg-green-500/20 hover:text-green-400 hover:border-green-500/30" },
   { label: "Apple Podcasts", href: "https://podcasts.apple.com/search?term=inside+asembleai", icon: "🎵", color: "hover:bg-purple-500/20 hover:text-purple-300 hover:border-purple-500/30" },
+  { label: "Spotify", href: "https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU", icon: "♫", color: "hover:bg-green-500/20 hover:text-green-400 hover:border-green-500/30" },
   { label: "iHeartRadio", href: "https://www.iheart.com/search/?q=inside+asembleai", icon: "♥", color: "hover:bg-pink-500/20 hover:text-pink-400 hover:border-pink-500/30" },
-  { label: "Podbean", href: "https://asembleaisocial.podbean.com/", icon: "🎙", color: "hover:bg-orange-500/20 hover:text-orange-400 hover:border-orange-500/30" },
+  { label: "YouTube", href: "https://www.youtube.com/@asembleaiyt", icon: "▶", color: "hover:bg-red-500/20 hover:text-red-400 hover:border-red-500/30" },
 ];
 
 const VIDEO_ID = "nWCP19vGxIE";
