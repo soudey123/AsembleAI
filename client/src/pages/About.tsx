@@ -39,7 +39,7 @@ export default function About() {
     {
       name: "Soumava 'Sam' Dey",
       role: "Co-Host & Co-Founder",
-      bio: "Data Analytics and AI leader with 15+ years of Fortune 500 experience across healthcare, digital marketing, and financial services. A University of Illinois Urbana-Champaign (Public Ivy) alumnus and published researcher, Sam extends his influence across education, media, and community — as creator of DataScienceWithSam, co-host of the Inside AsembleAI podcast, former Coursera instructor and AI coach, and Co-Chair of Denver AI. Featured in Voyage Denver and Business Life Magazine, he advises at OncoNexus AI and speaks on agentic AI, context engineering, and enterprise AI strategy.",
+      bio: "Data Analytics and AI leader with 15+ years of Fortune 500 experience across healthcare, digital marketing, and financial services. A University of Illinois Urbana-Champaign (Public Ivy) alumnus and published researcher, Soumava extends his influence across education, media, and community - as creator of DataScienceWithSam, co-host of the Inside AssembleAI podcast (featured in Apple's Top 100 Tech Podcasts in 2026), former Coursera instructor and AI coach, and Co-Chair of Denver AI. Featured in Voyage Denver and Business Life Magazine, he advises at OncoNexus AI and speaks on agentic AI and enterprise AI strategy.",
       linkedin: "https://www.linkedin.com/in/soumava-dey-441294ab/",
       image: null
     }
