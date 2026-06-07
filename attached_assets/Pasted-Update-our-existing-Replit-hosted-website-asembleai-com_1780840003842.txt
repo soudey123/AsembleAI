@@ -1,0 +1,52 @@
+Update our existing Replit-hosted website (asembleai.com) for AsembleAI. We are rebranding — AsembleAI is no longer an "Enterprise AI Consultancy." We are now a Media, Tech & Innovation company: a media platform at the intersection of AI, DeepTech and Science (podcast, YouTube, newsletter, community). Reflect this everywhere — hero, About, page title, meta descriptions, OpenGraph/social tags — and remove all "consultancy" framing. Keep the current stack and hosting; this is a redesign + content update, not a rebuild. Visual references: richhabitspodcast.com for the hero, hubermanlab.com for topic browsing and overall premium editorial feel — clean, authoritative, dark editorial styling, strong typographic hierarchy, generous whitespace, one bold accent color. Fully responsive and SEO-optimized.
+Global
+
+Brand: AsembleAI — a Media, Tech & Innovation company. Podcast name: Inside AsembleAI.
+Hosts: Mac Goswami and Sam Dey (Co-hosts & Co-Founders).
+Channels (use this order everywhere): YouTube, Spotify, Apple Podcasts, iHeartRadio, Podbean.
+Sticky header nav: Podcast/Episodes · Topics · Audience · Services · About · Newsletter (CTA).
+Repeated CTAs: Listen, Subscribe to Newsletter, Partner With Us.
+
+Home page — sections in order
+1. Hero (Rich Habits style). Lead with the brand and the hosts: photos of Mac & Sam side by side, the podcast name "Inside AsembleAI," a one-line description of what the show is about (AI, DeepTech & Science conversations with the people building the future), channel buttons in the order above, and a "Subscribe to our newsletter" signup right in this first section to maximize signups. Make the hosts' names and faces prominent so the audience learns who we are.
+2. Topics / Categories (Huberman style). A browse-by-topic section with category tiles linking to filtered episode lists. Categories: AI & Machine Learning, DeepTech, Science, Fintech & Finance, Healthcare, IT & Cloud, Startups & Founders, AI Tutorials. Build it config-driven so categories can be edited/added.
+3. Recent Conversations. Episode card grid (cover art, title, guest, date, play). Separate Video Podcasts section below it for YouTube episodes. Do NOT label or expose Podbean as a topic/category — Podbean appears only as a "listen on" link, not as content browsing.
+4. By the Numbers (credibility). Animated stat counters + a simple growth chart. Use [FROM PODBEAN] placeholders to be filled from our dashboard: total downloads, monthly downloads, growth trend. Known figures: 6,000+ YouTube subscribers (15%+ MoM), 50+ episodes, 20+ expert guests, 100+ newsletter subscribers, built in 18 months, on track for 1M downloads. Demographics: 68% technical decision-makers (engineers, founders, CTOs, architects), 41% with budget authority (up to $50K).
+5. Where Our Audience Is (place this BEFORE the Services section). A geographic/map visualization of listener distribution using [FROM PODBEAN] country + metro data. Messaging: our audience is concentrated in the United States (top metros: SF, NYC, Boston, Austin, Seattle) — so brands reach high-intent US buyers, and international companies can partner with us to launch or expand into the US market.
+6. Services / Partner With Us. Intro: "Reach AI buyers where they actually listen." Partnership tiers as pricing cards (highlight Growth as "Most Popular"):
+
+Starter — $750/mo: 1× host-read mid-roll/mo, 1× YouTube integration/quarter, 1× newsletter mention/mo, monthly report.
+Growth — $1,500/mo: 2× host-read spots/mo, 1× YouTube integration/mo, 2× newsletter slots/mo, 1× LinkedIn post/mo, monthly report.
+Featured — $3,000/mo: Everything in Growth, plus 1× dedicated guest episode/quarter, co-branded content, priority placement & exclusivity, quarterly strategy review.
+Footnote: "All tiers include onboarding call, ad scripting support, monthly reporting, and a 3-month minimum."
+Do NOT include the custom / enterprise offerings section (branded series, research reports, executive dinners, etc.) — remove it.
+CTA: "Book a 15-min intro call" → calendly.com/asembleai and partnerships@asembleai.com.
+
+7. Testimonials. Auto-playing, swipeable carousel of guest/partner quotes. Each slide: quote, name (linked to LinkedIn), title. Build array/config-driven for easy additions. Seed with:
+
+"It was a pleasure being part of the Inside AssembleAI podcast. The conversation felt genuinely engaging and thoughtful rather than a typical interview format. I appreciated the opportunity to discuss emerging ideas around biological computing and AI in a way that balanced technical depth with accessibility. Mac and the team created a relaxed atmosphere that made for a very natural and enjoyable discussion."
+— Dr. Ewelina Kurtys, neuroscientist and AI expert → https://www.linkedin.com/in/ACoAAA88DkUBrIakZKYd45kpYJVFGp0SNNkRfcM
+
+8. Stay at the Frontier. Keep this existing newsletter section as-is — no changes.
+9. About the hosts. Mac & Sam with photos.
+
+Mac Goswami: Digital Transformation Leader, IT Consultant, and Financial Services & Payment Technology Consultant, Portfolio Management with 15+ years of enterprise experience across fintech, AI, data, cloud, and platform modernization. Co-founder of AsembleAI media platform, Podcast co-host, Tech Advisor to AI Community, Top 1% Creator on Topmate, speaker, tech writer, startup mentor & advisor at Founder Institute, and featured on a NYC Times Square billboard. Graduate of the MIT Sloan AI Executive Program.
+Soumava (Sam) Dey: Co-host & Co-Founder of AsembleAI. A data and AI leader who turns healthcare and Fortune 500 data into real-world impact — currently Associate Director of Data Analytics at CMI Media Group. Sam brings the technical lens to every conversation and hosts solo episodes on AI tutorials, model deep-dives and DeepTech research, growing the show's YouTube channel. He is co-chair of the Denver AI community, a co-author of peer-reviewed research on applied AI and large language models in healthcare, and a Top creator and mentor on Topmate. An immigrant success story, Sam has been featured by VoyageDenver and Business Life for his journey as a podcast entrepreneur and technologist. Links: website https://www.soumavadey87.com/ · LinkedIn https://www.linkedin.com/in/soumava-dey-441294ab/ (link the name/photo to these).
+
+Footer
+
+Listen menu order: YouTube first, then Spotify, Apple Podcasts, iHeartRadio, Podbean. (Keep Podbean as a listen link per current direction.)
+Brand + new positioning, newsletter signup, social icons, partnerships@asembleai.com.
+
+Removed
+
+The AI "use cases" section — delete entirely.
+The custom/enterprise offerings section — delete (see Services note).
+The advanced section flagged in review as "not there yet" — remove for now.
+
+SEO
+
+Page title: "AsembleAI | Media, Tech & Innovation" (update the existing "Enterprise AI Consultancy" title/meta/OG tags). Episode pattern: "Episode Title — Guest | AsembleAI".
+Semantic HTML, one H1/page, clean slugs, OG + Twitter tags with cover art, PodcastEpisode/Organization/Person schema, XML sitemap, alt text, internal linking, fast Core Web Vitals, mobile-first.
+
+Deliver a responsive, accessible, SEO-ready redesign matching the premium quality of richhabitspodcast.com and hubermanlab.com, with the use-cases and enterprise sections removed and the new hero, Topics, By-the-Numbers, Audience-geography, Services, and Testimonials sections in place.
