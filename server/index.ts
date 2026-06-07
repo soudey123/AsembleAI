@@ -1,5 +1,5 @@
 import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes } from "./routes";
+import { registerRoutes, syncEpisodeLinks } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
 
@@ -93,6 +93,10 @@ app.use((req, res, next) => {
     },
     () => {
       log(`serving on port ${port}`);
+      // Auto-sync episode links in the background — picks up any new episodes published since last deploy
+      syncEpisodeLinks()
+        .then(r => log(`episode links synced: ${r.synced} episodes (Apple: ${r.appleTotal})`, "episode-links"))
+        .catch(err => log(`episode links sync failed: ${err.message}`, "episode-links"));
     },
   );
 })();

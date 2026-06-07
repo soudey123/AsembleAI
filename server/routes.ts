@@ -111,6 +111,137 @@ function formatDate(dateStr: string): string {
   return date.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
 }
 
+// ── EPISODE LINKS SYNC (module-level so startup can call it) ────────────────
+
+function normaliseTitle(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/^ep\s*#?\s*\d+\s*:?\s*/i, "")
+    .replace(/[^a-z0-9 ]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function titleScore(a: string, b: string): number {
+  const wa = new Set(normaliseTitle(a).split(" ").filter(w => w.length >= 4));
+  const wb = normaliseTitle(b).split(" ").filter(w => w.length >= 4);
+  if (wa.size === 0 || wb.length === 0) return 0;
+  const shared = wb.filter(w => wa.has(w)).length;
+  return shared / Math.max(wa.size, wb.length);
+}
+
+function bestMatch<T extends { title: string }>(audioTitle: string, candidates: T[]): T | null {
+  let best: T | null = null;
+  let bestScore = 0;
+  for (const c of candidates) {
+    const s = titleScore(audioTitle, c.title);
+    if (s > bestScore) { bestScore = s; best = c; }
+  }
+  return bestScore >= 0.3 ? best : null;
+}
+
+async function fetchAppleEpisodes(): Promise<{ title: string; url: string }[]> {
+  try {
+    const searchRes = await fetch(
+      "https://itunes.apple.com/search?term=inside+asembleai&media=podcast&entity=podcast&limit=5",
+      { signal: AbortSignal.timeout(8000) }
+    );
+    const searchData = await searchRes.json();
+    const collectionId = searchData.results?.[0]?.collectionId;
+    if (!collectionId) return [];
+
+    const lookupRes = await fetch(
+      `https://itunes.apple.com/lookup?id=${collectionId}&entity=podcastEpisode&limit=200`,
+      { signal: AbortSignal.timeout(10000) }
+    );
+    const lookupData = await lookupRes.json();
+    return (lookupData.results || [])
+      .filter((r: any) => r.wrapperType === "podcastEpisode")
+      .map((r: any) => ({ title: r.trackName || "", url: r.trackViewUrl || "" }))
+      .filter((r: any) => r.title && r.url);
+  } catch (err) {
+    console.error("[episode-links] iTunes fetch failed:", err);
+    return [];
+  }
+}
+
+async function fetchSpotifyEpisodes(): Promise<{ title: string; url: string }[]> {
+  const clientId = process.env.SPOTIFY_CLIENT_ID;
+  const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+  if (!clientId || !clientSecret) return [];
+
+  try {
+    const tokenRes = await fetch("https://accounts.spotify.com/api/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: "Basic " + Buffer.from(`${clientId}:${clientSecret}`).toString("base64"),
+      },
+      body: "grant_type=client_credentials",
+      signal: AbortSignal.timeout(8000),
+    });
+    const tokenData = await tokenRes.json();
+    const accessToken = tokenData.access_token;
+    if (!accessToken) return [];
+
+    const SHOW_ID = "4BpXMVsNVd7MtbX2dTg7qU";
+    const results: { title: string; url: string }[] = [];
+    let offset = 0;
+    while (true) {
+      const epRes = await fetch(
+        `https://api.spotify.com/v1/shows/${SHOW_ID}/episodes?limit=50&offset=${offset}&market=US`,
+        { headers: { Authorization: `Bearer ${accessToken}` }, signal: AbortSignal.timeout(8000) }
+      );
+      const epData = await epRes.json();
+      const items = epData.items || [];
+      for (const item of items) {
+        if (item.name && item.external_urls?.spotify) {
+          results.push({ title: item.name, url: item.external_urls.spotify });
+        }
+      }
+      if (!epData.next || items.length === 0) break;
+      offset += 50;
+    }
+    return results;
+  } catch (err) {
+    console.error("[episode-links] Spotify fetch failed:", err);
+    return [];
+  }
+}
+
+export async function syncEpisodeLinks(): Promise<{ synced: number; rssTotal: number; appleTotal: number; spotifyTotal: number }> {
+  const parser = new Parser({ customFields: { item: [["itunes:duration", "duration"]] } });
+  const feed = await parser.parseURL(RSS_FEED_URL);
+  const rssEpisodes = (feed.items || []).map((item: any) => ({
+    slug: createSlug(item.title || ""),
+    title: item.title || "",
+  }));
+
+  const [appleEps, spotifyEps] = await Promise.all([fetchAppleEpisodes(), fetchSpotifyEpisodes()]);
+  console.log(`[episode-links] Fetched ${appleEps.length} Apple, ${spotifyEps.length} Spotify episodes`);
+
+  let synced = 0;
+  for (const ep of rssEpisodes) {
+    if (!ep.slug || !ep.title) continue;
+    const appleMatch = bestMatch(ep.title, appleEps);
+    const spotifyMatch = bestMatch(ep.title, spotifyEps);
+    const appleUrl = appleMatch?.url || null;
+    const spotifyUrl = spotifyMatch?.url || null;
+    if (!appleUrl && !spotifyUrl) continue;
+
+    await db
+      .insert(episodeLinks)
+      .values({ episodeSlug: ep.slug, episodeTitle: ep.title, appleUrl, spotifyUrl, youtubeUrl: null })
+      .onConflictDoUpdate({
+        target: episodeLinks.episodeSlug,
+        set: { appleUrl, spotifyUrl, updatedAt: new Date() },
+      });
+    synced++;
+  }
+
+  return { synced, rssTotal: rssEpisodes.length, appleTotal: appleEps.length, spotifyTotal: spotifyEps.length };
+}
+
 export async function registerRoutes(
   httpServer: Server,
   app: Express
@@ -451,108 +582,6 @@ export async function registerRoutes(
     return res.json({ success: true });
   });
 
-  // ── EPISODE LINKS ──────────────────────────────────────────────────────────
-  // Normalise a title for fuzzy matching: strip "EP XX:" prefix, lowercase, alphanum only
-  function normaliseTitle(title: string): string {
-    return title
-      .toLowerCase()
-      .replace(/^ep\s*#?\s*\d+\s*:?\s*/i, "")
-      .replace(/[^a-z0-9 ]/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
-  }
-
-  function titleScore(a: string, b: string): number {
-    const wa = new Set(normaliseTitle(a).split(" ").filter(w => w.length >= 4));
-    const wb = normaliseTitle(b).split(" ").filter(w => w.length >= 4);
-    if (wa.size === 0 || wb.length === 0) return 0;
-    const shared = wb.filter(w => wa.has(w)).length;
-    return shared / Math.max(wa.size, wb.length);
-  }
-
-  function bestMatch<T extends { title: string }>(audioTitle: string, candidates: T[]): T | null {
-    let best: T | null = null;
-    let bestScore = 0;
-    for (const c of candidates) {
-      const s = titleScore(audioTitle, c.title);
-      if (s > bestScore) { bestScore = s; best = c; }
-    }
-    return bestScore >= 0.3 ? best : null;
-  }
-
-  async function fetchAppleEpisodes(): Promise<{ title: string; url: string }[]> {
-    try {
-      // Step 1: find the podcast collection ID
-      const searchRes = await fetch(
-        "https://itunes.apple.com/search?term=inside+asembleai&media=podcast&entity=podcast&limit=5",
-        { signal: AbortSignal.timeout(8000) }
-      );
-      const searchData = await searchRes.json();
-      const collectionId = searchData.results?.[0]?.collectionId;
-      if (!collectionId) return [];
-
-      // Step 2: fetch all episodes for that podcast
-      const lookupRes = await fetch(
-        `https://itunes.apple.com/lookup?id=${collectionId}&entity=podcastEpisode&limit=200`,
-        { signal: AbortSignal.timeout(10000) }
-      );
-      const lookupData = await lookupRes.json();
-      return (lookupData.results || [])
-        .filter((r: any) => r.wrapperType === "podcastEpisode")
-        .map((r: any) => ({ title: r.trackName || "", url: r.trackViewUrl || "" }))
-        .filter((r: any) => r.title && r.url);
-    } catch (err) {
-      console.error("[episode-links] iTunes fetch failed:", err);
-      return [];
-    }
-  }
-
-  async function fetchSpotifyEpisodes(): Promise<{ title: string; url: string }[]> {
-    const clientId = process.env.SPOTIFY_CLIENT_ID;
-    const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-    if (!clientId || !clientSecret) return [];
-
-    try {
-      // Get access token
-      const tokenRes = await fetch("https://accounts.spotify.com/api/token", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: "Basic " + Buffer.from(`${clientId}:${clientSecret}`).toString("base64"),
-        },
-        body: "grant_type=client_credentials",
-        signal: AbortSignal.timeout(8000),
-      });
-      const tokenData = await tokenRes.json();
-      const accessToken = tokenData.access_token;
-      if (!accessToken) return [];
-
-      // Fetch episodes in pages of 50 (Spotify max)
-      const SHOW_ID = "4BpXMVsNVd7MtbX2dTg7qU";
-      const results: { title: string; url: string }[] = [];
-      let offset = 0;
-      while (true) {
-        const epRes = await fetch(
-          `https://api.spotify.com/v1/shows/${SHOW_ID}/episodes?limit=50&offset=${offset}&market=US`,
-          { headers: { Authorization: `Bearer ${accessToken}` }, signal: AbortSignal.timeout(8000) }
-        );
-        const epData = await epRes.json();
-        const items = epData.items || [];
-        for (const item of items) {
-          if (item.name && item.external_urls?.spotify) {
-            results.push({ title: item.name, url: item.external_urls.spotify });
-          }
-        }
-        if (!epData.next || items.length === 0) break;
-        offset += 50;
-      }
-      return results;
-    } catch (err) {
-      console.error("[episode-links] Spotify fetch failed:", err);
-      return [];
-    }
-  }
-
   // GET all stored episode links (returns slug → urls map)
   app.get("/api/podcast/episode-links", async (_req, res) => {
     try {
@@ -571,41 +600,8 @@ export async function registerRoutes(
   // POST /api/podcast/sync-episode-links — fetch from iTunes + Spotify + store
   app.post("/api/podcast/sync-episode-links", async (_req, res) => {
     try {
-      // Fetch RSS episodes for slug+title reference
-      const parser = new Parser({ customFields: { item: [['itunes:duration', 'duration']] } });
-      const feed = await parser.parseURL(RSS_FEED_URL);
-      const rssEpisodes = (feed.items || []).map((item: any) => ({
-        slug: createSlug(item.title || ""),
-        title: item.title || "",
-      }));
-
-      // Fetch Apple + Spotify in parallel
-      const [appleEps, spotifyEps] = await Promise.all([fetchAppleEpisodes(), fetchSpotifyEpisodes()]);
-
-      console.log(`[episode-links] Fetched ${appleEps.length} Apple, ${spotifyEps.length} Spotify episodes`);
-
-      let synced = 0;
-      for (const ep of rssEpisodes) {
-        if (!ep.slug || !ep.title) continue;
-        const appleMatch = bestMatch(ep.title, appleEps);
-        const spotifyMatch = bestMatch(ep.title, spotifyEps);
-
-        const appleUrl = appleMatch?.url || null;
-        const spotifyUrl = spotifyMatch?.url || null;
-
-        if (!appleUrl && !spotifyUrl) continue;
-
-        await db
-          .insert(episodeLinks)
-          .values({ episodeSlug: ep.slug, episodeTitle: ep.title, appleUrl, spotifyUrl, youtubeUrl: null })
-          .onConflictDoUpdate({
-            target: episodeLinks.episodeSlug,
-            set: { appleUrl, spotifyUrl, updatedAt: new Date() },
-          });
-        synced++;
-      }
-
-      res.json({ success: true, synced, rssTotal: rssEpisodes.length, appleTotal: appleEps.length, spotifyTotal: spotifyEps.length });
+      const result = await syncEpisodeLinks();
+      res.json({ success: true, ...result });
     } catch (err: any) {
       console.error("[episode-links] Sync failed:", err);
       res.status(500).json({ error: err.message || "Sync failed" });
