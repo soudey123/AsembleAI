@@ -30,3 +30,17 @@ export const insertSubscriberSchema = createInsertSchema(newsletterSubscribers).
 
 export type InsertSubscriber = z.infer<typeof insertSubscriberSchema>;
 export type NewsletterSubscriber = typeof newsletterSubscribers.$inferSelect;
+
+export const episodeLinks = pgTable("episode_links", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  episodeSlug: text("episode_slug").notNull().unique(),
+  episodeTitle: text("episode_title").notNull(),
+  appleUrl: text("apple_url"),
+  spotifyUrl: text("spotify_url"),
+  youtubeUrl: text("youtube_url"),
+  updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
+});
+
+export const insertEpisodeLinkSchema = createInsertSchema(episodeLinks).omit({ id: true, updatedAt: true });
+export type InsertEpisodeLink = z.infer<typeof insertEpisodeLinkSchema>;
+export type EpisodeLink = typeof episodeLinks.$inferSelect;

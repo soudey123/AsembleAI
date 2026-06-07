@@ -3,10 +3,10 @@ import { Section } from "@/components/ui/Section";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Play, Search, Mic, Youtube, Headphones, Clock, Calendar, ExternalLink, Loader2, X } from "lucide-react";
+import { Play, Search, Mic, Youtube, Headphones, Clock, Calendar, ExternalLink, Loader2, X, RefreshCw } from "lucide-react";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSearch, useLocation } from "wouter";
 import { PODCAST_TOPICS, ACCENT_COLORS, matchesTopic } from "@/lib/topics";
 
@@ -68,10 +68,18 @@ function findYouTubeUrl(audioTitle: string, allVideos: YouTubeVideo[]): string {
   return `https://www.youtube.com/results?search_query=${encodeURIComponent("AsembleAI " + clean)}`;
 }
 
+const APPLE_SHOW_URL = "https://podcasts.apple.com/search?term=inside+asembleai";
+const SPOTIFY_SHOW_URL = "https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU";
+
+interface EpisodeLinkMap {
+  [slug: string]: { appleUrl: string | null; spotifyUrl: string | null; youtubeUrl: string | null };
+}
+
 export default function Podcast() {
   const [searchTerm, setSearchTerm] = useState("");
   const [, setLocation] = useLocation();
   const search = useSearch();
+  const queryClient = useQueryClient();
 
   const params = new URLSearchParams(search);
   const topicId = params.get("topic") || "";
@@ -86,6 +94,18 @@ export default function Podcast() {
     queryKey: ["/api/podcast/videos"],
     staleTime: 5 * 60 * 1000,
   });
+
+  const { data: linksData } = useQuery<{ links: EpisodeLinkMap; count: number }>({
+    queryKey: ["/api/podcast/episode-links"],
+    staleTime: 10 * 60 * 1000,
+  });
+
+  const syncMutation = useMutation({
+    mutationFn: () => fetch("/api/podcast/sync-episode-links", { method: "POST" }).then(r => r.json()),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["/api/podcast/episode-links"] }),
+  });
+
+  const episodeLinkMap: EpisodeLinkMap = linksData?.links || {};
 
   function matchesCurrent(title: string, guest: string) {
     const topicOk = topicId ? matchesTopic(title, topicId) : true;
@@ -179,13 +199,30 @@ export default function Podcast() {
 
         {/* ── AUDIO EPISODES (first) ── */}
         <Section>
-          <div className="flex items-center gap-3 mb-8">
+          <div className="flex flex-wrap items-center gap-3 mb-8">
             <Headphones className="w-6 h-6 text-green-500" />
             <h2 className="text-3xl font-bold text-white">Audio Episodes</h2>
             <Badge variant="outline" className="ml-2 border-green-500/20 text-green-500">Podcast</Badge>
             {activeTopic && (
               <span className="text-sm text-muted-foreground ml-1">— {audioEpisodes.length} matching</span>
             )}
+            <div className="ml-auto flex items-center gap-2">
+              {linksData && (
+                <span className="text-xs text-muted-foreground">{linksData.count} episodes linked</span>
+              )}
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-xs border-white/10 hover:bg-white/5"
+                onClick={() => syncMutation.mutate()}
+                disabled={syncMutation.isPending}
+                data-testid="button-sync-links"
+              >
+                {syncMutation.isPending
+                  ? <><Loader2 className="w-3 h-3 mr-1.5 animate-spin" /> Syncing…</>
+                  : <><RefreshCw className="w-3 h-3 mr-1.5" /> Sync Episode Links</>}
+              </Button>
+            </div>
           </div>
 
           {audioLoading ? (
@@ -245,21 +282,31 @@ export default function Podcast() {
                     </div>
 
                     <div className="shrink-0 w-full md:w-auto flex flex-col gap-2">
-                      <a href="https://podcasts.apple.com/search?term=inside+asembleai" target="_blank" rel="noopener noreferrer">
-                        <Button className="w-full bg-purple-700 hover:bg-purple-800 text-white font-medium" data-testid={`button-apple-${index}`}>
-                          🎵 Apple Podcasts
-                        </Button>
-                      </a>
-                      <a href="https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU" target="_blank" rel="noopener noreferrer">
-                        <Button className="w-full bg-green-600 hover:bg-green-700 text-black font-medium" data-testid={`button-spotify-${index}`}>
-                          ♫ Spotify
-                        </Button>
-                      </a>
-                      <a href={findYouTubeUrl(episode.title, allVideos)} target="_blank" rel="noopener noreferrer">
-                        <Button variant="outline" size="sm" className="w-full text-xs border-white/10 hover:bg-white/5 hover:border-red-500/30" data-testid={`button-yt-audio-${index}`}>
-                          <Youtube className="w-3.5 h-3.5 mr-1.5 text-red-500" /> Watch on YouTube
-                        </Button>
-                      </a>
+                      {(() => {
+                        const stored = episodeLinkMap[episode.slug];
+                        const appleUrl = stored?.appleUrl || APPLE_SHOW_URL;
+                        const spotifyUrl = stored?.spotifyUrl || SPOTIFY_SHOW_URL;
+                        const ytUrl = stored?.youtubeUrl || findYouTubeUrl(episode.title, allVideos);
+                        return (
+                          <>
+                            <a href={appleUrl} target="_blank" rel="noopener noreferrer">
+                              <Button className="w-full bg-purple-700 hover:bg-purple-800 text-white font-medium" data-testid={`button-apple-${index}`}>
+                                🎵 Apple Podcasts
+                              </Button>
+                            </a>
+                            <a href={spotifyUrl} target="_blank" rel="noopener noreferrer">
+                              <Button className="w-full bg-green-600 hover:bg-green-700 text-black font-medium" data-testid={`button-spotify-${index}`}>
+                                ♫ Spotify
+                              </Button>
+                            </a>
+                            <a href={ytUrl} target="_blank" rel="noopener noreferrer">
+                              <Button variant="outline" size="sm" className="w-full text-xs border-white/10 hover:bg-white/5 hover:border-red-500/30" data-testid={`button-yt-audio-${index}`}>
+                                <Youtube className="w-3.5 h-3.5 mr-1.5 text-red-500" /> Watch on YouTube
+                              </Button>
+                            </a>
+                          </>
+                        );
+                      })()}
                     </div>
                   </div>
                 </Card>
