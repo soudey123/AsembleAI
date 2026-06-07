@@ -160,6 +160,34 @@ export function Hero() {
               </span>
             </motion.div>
 
+            {/* Mobile-only headshots — shown between badge and headline */}
+            <div className="flex md:hidden gap-3 pt-1 pb-2">
+              <div className="relative flex-1 rounded-2xl overflow-hidden max-w-[160px]">
+                <div className="aspect-[3/4] rounded-2xl overflow-hidden border border-white/10">
+                  <img src={macImg} alt="Mac Goswami" className="w-full h-full object-cover object-top scale-110" />
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#060b18]/90 via-[#060b18]/50 to-transparent px-3 pt-6 pb-3 rounded-b-2xl">
+                  <p className="text-white font-bold text-xs">Mac Goswami</p>
+                  <p className="text-muted-foreground text-[10px]">Co-Host &amp; Co-Founder</p>
+                </div>
+                <div className="absolute top-2 left-2">
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-cyan-400 bg-cyan-400/10 border border-cyan-400/20 px-1.5 py-0.5 rounded-full">Host</span>
+                </div>
+              </div>
+              <div className="relative flex-1 rounded-2xl overflow-hidden max-w-[160px]">
+                <div className="aspect-[3/4] rounded-2xl overflow-hidden border border-white/10">
+                  <img src={samImg} alt="Sam Dey" className="w-full h-full object-cover object-top" />
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#060b18]/90 via-[#060b18]/50 to-transparent px-3 pt-6 pb-3 rounded-b-2xl">
+                  <p className="text-white font-bold text-xs">Sam Dey</p>
+                  <p className="text-muted-foreground text-[10px]">Co-Host &amp; Co-Founder</p>
+                </div>
+                <div className="absolute top-2 left-2">
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-purple-400 bg-purple-400/10 border border-purple-400/20 px-1.5 py-0.5 rounded-full">Host</span>
+                </div>
+              </div>
+            </div>
+
             {/* Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-heading tracking-tight leading-[1.08] text-white">
               AI, DeepTech &amp;{" "}
@@ -214,7 +242,7 @@ export function Hero() {
 
           {/* ── RIGHT: Host photos ── */}
           <motion.div
-            className="relative flex items-end justify-center gap-4 order-2"
+            className="relative hidden md:flex items-end justify-center gap-4 order-2"
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.15 }}
