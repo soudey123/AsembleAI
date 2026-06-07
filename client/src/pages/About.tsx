@@ -67,7 +67,6 @@ export default function About() {
         <Section className="bg-secondary/10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <div>
-              <h2 className="text-3xl font-bold text-white mb-6">AsembleAI is a media tech agency at the intersection of AI, DeepTech and Science — reaching the decision-makers, builders, and innovators shaping what comes next.</h2>
               <div className="space-y-4 text-muted-foreground text-lg">
                 <p>
                   Founded in 2025 by Mac Goswami and Sam Dey, AsembleAI began as a podcast exploring the real-world frontier of artificial intelligence — and grew into something much larger.
