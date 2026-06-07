@@ -6,14 +6,15 @@ import macImg from "@assets/image_1780840351121.png";
 import samImg from "@assets/Sam_Dey_1780840351121.jpg";
 
 const PLATFORMS = [
-  { label: "Apple Podcasts", href: "https://podcasts.apple.com/search?term=inside+asembleai", color: "hover:bg-purple-500/20 hover:text-purple-300" },
-  { label: "Spotify", href: "https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU", color: "hover:bg-green-500/20 hover:text-green-400" },
-  { label: "YouTube", href: "https://www.youtube.com/@asembleaiyt", color: "hover:bg-red-500/20 hover:text-red-400" },
-  { label: "Podbean", href: "https://asembleaisocial.podbean.com/", color: "hover:bg-orange-500/20 hover:text-orange-400" },
+  { label: "YouTube", href: "https://www.youtube.com/@asembleaiyt", icon: "▶", color: "hover:bg-red-500/20 hover:text-red-400 hover:border-red-500/30" },
+  { label: "Spotify", href: "https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU", icon: "♫", color: "hover:bg-green-500/20 hover:text-green-400 hover:border-green-500/30" },
+  { label: "Apple Podcasts", href: "https://podcasts.apple.com/search?term=inside+asembleai", icon: "🎵", color: "hover:bg-purple-500/20 hover:text-purple-300 hover:border-purple-500/30" },
+  { label: "iHeartRadio", href: "https://www.iheart.com/search/?q=inside+asembleai", icon: "♥", color: "hover:bg-pink-500/20 hover:text-pink-400 hover:border-pink-500/30" },
+  { label: "Podbean", href: "https://asembleaisocial.podbean.com/", icon: "🎙", color: "hover:bg-orange-500/20 hover:text-orange-400 hover:border-orange-500/30" },
 ];
 
 const VIDEO_ID = "nWCP19vGxIE";
-const LOOP_END = 5; // seconds
+const LOOP_END = 5;
 
 function isMobileDevice() {
   return (
@@ -26,54 +27,21 @@ function isMobileDevice() {
 function BackgroundOrbs() {
   return (
     <>
-      {/* Readability overlays */}
-      <div className="absolute inset-0 bg-[#060b18]/65" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#060b18]/70 via-transparent to-[#060b18]/70" />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#060b18]/50 via-transparent to-[#060b18]" />
-
-      {/* Brand colour orbs */}
-      <motion.div
-        className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{
-          background: "radial-gradient(circle, rgba(34,211,238,0.15) 0%, transparent 70%)",
-          top: "-100px",
-          left: "-80px",
-          filter: "blur(70px)",
-        }}
+      <div className="absolute inset-0 bg-[#060b18]/70" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#060b18]/80 via-[#060b18]/50 to-[#060b18]/30" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#060b18]/40 via-transparent to-[#060b18]" />
+      <motion.div className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(34,211,238,0.12) 0%, transparent 70%)", top: "-100px", left: "-80px", filter: "blur(70px)" }}
         animate={{ x: [0, 60, 0], y: [0, 40, 0] }}
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
       />
-      <motion.div
-        className="absolute w-[400px] h-[400px] rounded-full pointer-events-none"
-        style={{
-          background: "radial-gradient(circle, rgba(168,85,247,0.15) 0%, transparent 70%)",
-          bottom: "0px",
-          right: "-60px",
-          filter: "blur(70px)",
-        }}
+      <motion.div className="absolute w-[400px] h-[400px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(168,85,247,0.12) 0%, transparent 70%)", bottom: "0px", right: "-60px", filter: "blur(70px)" }}
         animate={{ x: [0, -50, 0], y: [0, -30, 0] }}
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 4 }}
       />
-      <motion.div
-        className="absolute w-[350px] h-[350px] rounded-full pointer-events-none"
-        style={{
-          background: "radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)",
-          top: "30%",
-          right: "20%",
-          filter: "blur(60px)",
-        }}
-        animate={{ x: [0, 40, 0], y: [0, -50, 0] }}
-        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 8 }}
-      />
-
-      {/* Subtle grid */}
-      <div
-        className="absolute inset-0 opacity-[0.025] pointer-events-none"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(34,211,238,1) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,1) 1px, transparent 1px)",
-          backgroundSize: "80px 80px",
-        }}
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
+        style={{ backgroundImage: "linear-gradient(rgba(34,211,238,1) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,1) 1px, transparent 1px)", backgroundSize: "80px 80px" }}
       />
     </>
   );
@@ -82,48 +50,13 @@ function BackgroundOrbs() {
 function MobileBackground() {
   return (
     <div className="absolute inset-0 z-0 overflow-hidden bg-[#060b18]">
-      {/* Static brand image */}
-      <img
-        src={mobileBg}
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-cover object-center"
-      />
-      {/* Same overlays as desktop so text stays readable */}
-      <div className="absolute inset-0 bg-[#060b18]/65" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#060b18]/70 via-transparent to-[#060b18]/70" />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#060b18]/50 via-transparent to-[#060b18]" />
-      {/* Animated orbs on top */}
-      <motion.div
-        className="absolute rounded-full pointer-events-none"
-        style={{
-          width: "80vw", height: "80vw",
-          background: "radial-gradient(circle, rgba(34,211,238,0.18) 0%, transparent 70%)",
-          top: "-10vw", left: "-20vw",
-          filter: "blur(60px)",
-        }}
+      <img src={mobileBg} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover object-center" />
+      <div className="absolute inset-0 bg-[#060b18]/70" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#060b18]/40 via-transparent to-[#060b18]" />
+      <motion.div className="absolute rounded-full pointer-events-none"
+        style={{ width: "80vw", height: "80vw", background: "radial-gradient(circle, rgba(34,211,238,0.18) 0%, transparent 70%)", top: "-10vw", left: "-20vw", filter: "blur(60px)" }}
         animate={{ x: [0, 30, 0], y: [0, 20, 0] }}
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute rounded-full pointer-events-none"
-        style={{
-          width: "70vw", height: "70vw",
-          background: "radial-gradient(circle, rgba(168,85,247,0.18) 0%, transparent 70%)",
-          bottom: "5vw", right: "-15vw",
-          filter: "blur(55px)",
-        }}
-        animate={{ x: [0, -25, 0], y: [0, -20, 0] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 4 }}
-      />
-      {/* Subtle grid */}
-      <div
-        className="absolute inset-0 opacity-[0.025] pointer-events-none"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(34,211,238,1) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,1) 1px, transparent 1px)",
-          backgroundSize: "80px 80px",
-        }}
       />
     </div>
   );
@@ -137,126 +70,54 @@ function YouTubeBackground() {
 
   useEffect(() => {
     let cancelled = false;
-
     function createPlayer() {
       if (cancelled || !wrapperRef.current || playerRef.current) return;
-
       playerRef.current = new (window as any).YT.Player(wrapperRef.current, {
         videoId: VIDEO_ID,
-        playerVars: {
-          autoplay: 1,
-          mute: 1,
-          controls: 0,
-          rel: 0,
-          modestbranding: 1,
-          iv_load_policy: 3,
-          playsinline: 1,
-          start: 0,
-          disablekb: 1,
-          fs: 0,
-        },
+        playerVars: { autoplay: 1, mute: 1, controls: 0, rel: 0, modestbranding: 1, iv_load_policy: 3, playsinline: 1, start: 0, disablekb: 1, fs: 0 },
         events: {
           onReady: (event: any) => {
             if (cancelled) return;
             event.target.mute();
             event.target.playVideo();
             setVisible(true);
-
-            // Poll every 100ms — when time >= LOOP_END, seek back to 0
             intervalRef.current = setInterval(() => {
-              try {
-                const t = event.target.getCurrentTime();
-                if (t >= LOOP_END) {
-                  event.target.seekTo(0, true);
-                  event.target.playVideo();
-                }
-              } catch {}
+              try { const t = event.target.getCurrentTime(); if (t >= LOOP_END) { event.target.seekTo(0, true); event.target.playVideo(); } } catch {}
             }, 100);
           },
           onStateChange: (event: any) => {
             if (cancelled) return;
             const YT = (window as any).YT;
-            if (
-              YT &&
-              (event.data === YT.PlayerState.PAUSED ||
-                event.data === YT.PlayerState.ENDED)
-            ) {
-              try {
-                event.target.playVideo();
-              } catch {}
+            if (YT && (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED)) {
+              try { event.target.playVideo(); } catch {}
             }
           },
         },
       });
     }
-
     const yt = (window as any).YT;
-    if (yt && yt.Player) {
-      createPlayer();
-    } else {
-      // Chain with any existing callback so we don't clobber it
+    if (yt && yt.Player) { createPlayer(); }
+    else {
       const prev = (window as any).onYouTubeIframeAPIReady;
-      (window as any).onYouTubeIframeAPIReady = () => {
-        if (typeof prev === "function") prev();
-        createPlayer();
-      };
-
+      (window as any).onYouTubeIframeAPIReady = () => { if (typeof prev === "function") prev(); createPlayer(); };
       if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
-        const tag = document.createElement("script");
-        tag.src = "https://www.youtube.com/iframe_api";
-        document.head.appendChild(tag);
+        const tag = document.createElement("script"); tag.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(tag);
       }
     }
-
     return () => {
       cancelled = true;
       if (intervalRef.current) clearInterval(intervalRef.current);
-      if (playerRef.current) {
-        try {
-          playerRef.current.destroy();
-        } catch {}
-        playerRef.current = null;
-      }
+      if (playerRef.current) { try { playerRef.current.destroy(); } catch {} playerRef.current = null; }
     };
   }, []);
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden bg-[#060b18]">
-      {/* Outer sizing wrapper — centres the 16:9 iframe to always cover the section */}
-      <div
-        className="absolute overflow-hidden"
-        style={{
-          top: "50%",
-          left: "50%",
-          width: "177.78vh",
-          height: "100vh",
-          minWidth: "100%",
-          minHeight: "56.25vw",
-          transform: "translate(-50%, -50%)",
-          pointerEvents: "none",
-        }}
-      >
-        {/*
-          YouTube replaces wrapperRef div with an iframe.
-          Pushed up by 80 px so the YT title overlay (top-left) is clipped.
-        */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            top: "-80px",
-            bottom: "-80px",
-            opacity: visible ? 1 : 0,
-            transition: "opacity 1.2s ease",
-          }}
-        >
-          <div
-            ref={wrapperRef}
-            style={{ width: "100%", height: "100%" }}
-          />
+      <div className="absolute overflow-hidden" style={{ top: "50%", left: "50%", width: "177.78vh", height: "100vh", minWidth: "100%", minHeight: "56.25vw", transform: "translate(-50%, -50%)", pointerEvents: "none" }}>
+        <div style={{ position: "absolute", inset: 0, top: "-80px", bottom: "-80px", opacity: visible ? 1 : 0, transition: "opacity 1.2s ease" }}>
+          <div ref={wrapperRef} style={{ width: "100%", height: "100%" }} />
         </div>
       </div>
-
       <BackgroundOrbs />
     </div>
   );
@@ -264,11 +125,7 @@ function YouTubeBackground() {
 
 function HeroBackground() {
   const [mobile, setMobile] = useState(false);
-
-  useEffect(() => {
-    setMobile(isMobileDevice());
-  }, []);
-
+  useEffect(() => { setMobile(isMobileDevice()); }, []);
   return mobile ? <MobileBackground /> : <YouTubeBackground />;
 }
 
@@ -279,115 +136,137 @@ function scrollToSection(id: string) {
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden">
+    <section className="relative overflow-hidden min-h-screen flex items-center">
       <HeroBackground />
 
-      <div className="container mx-auto px-4 relative z-10 text-center pt-36 pb-24 md:pt-44 md:pb-28">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9 }}
-          className="max-w-4xl mx-auto space-y-7"
-        >
-          {/* Host Photos */}
+      <div className="container mx-auto px-6 relative z-10 py-24 md:py-20">
+        <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center max-w-6xl mx-auto">
+
+          {/* ── LEFT: Text content ── */}
           <motion.div
-            className="flex items-end justify-center gap-10 md:gap-14 mb-2"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
+            className="space-y-6 text-left order-2 md:order-1"
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
           >
-            {[
-              { img: macImg, name: "Mac Goswami", label: "Co-Host & Co-Founder", ring: "border-cyan-400/50 shadow-[0_0_24px_rgba(34,211,238,0.35)]", obj: "object-top" },
-              { img: samImg, name: "Sam Dey", label: "Co-Host & Co-Founder", ring: "border-purple-400/50 shadow-[0_0_24px_rgba(168,85,247,0.35)]", obj: "object-top" },
-            ].map((host) => (
-              <div key={host.name} className="flex flex-col items-center gap-2">
-                <div className={`w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 ${host.ring}`}>
-                  <img src={host.img} alt={host.name} className={`w-full h-full object-cover ${host.obj}`} />
-                </div>
-                <p className="text-sm md:text-base font-bold text-white">{host.name}</p>
-                <p className="text-xs text-muted-foreground -mt-1">{host.label}</p>
+            {/* Podcast name */}
+            <motion.div
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-purple-500/20 border border-cyan-400/30 backdrop-blur-md"
+              animate={{ boxShadow: ["0 0 16px rgba(34,211,238,0.25)", "0 0 28px rgba(168,85,247,0.35)", "0 0 16px rgba(34,211,238,0.25)"] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+              <span className="text-xs font-bold tracking-[0.2em] uppercase bg-gradient-to-r from-cyan-300 to-purple-400 bg-clip-text text-transparent">
+                Inside AsembleAI
+              </span>
+            </motion.div>
+
+            {/* Headline */}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-heading tracking-tight leading-[1.08] text-white">
+              AI, DeepTech &amp;{" "}
+              <motion.span
+                className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent bg-[length:200%_auto] inline-block"
+                animate={{ backgroundPosition: ["0% center", "200% center"] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              >
+                Science
+              </motion.span>{" "}
+              conversations that matter.
+            </h1>
+
+            {/* Description */}
+            <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-lg">
+              Hosts Mac &amp; Sam sit down with AI researchers, fast-scaling founders, Fortune 500 executives, and pioneering technologists to reveal how AI is reshaping business strategy and guiding executive decisions.
+            </p>
+
+            {/* Platform links */}
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60 mb-3">Listen on</p>
+              <div className="flex flex-wrap gap-2">
+                {PLATFORMS.map((p) => (
+                  <a key={p.label} href={p.href} target="_blank" rel="noopener noreferrer"
+                    className={`inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition-all border border-white/10 rounded-full px-3.5 py-2 bg-white/5 backdrop-blur-sm ${p.color}`}
+                    data-testid={`link-platform-${p.label.toLowerCase().replace(/\s/g, "-")}`}
+                  >
+                    <span className="text-sm leading-none">{p.icon}</span>
+                    {p.label}
+                  </a>
+                ))}
               </div>
-            ))}
-          </motion.div>
+            </div>
 
-          {/* Badge */}
-          <motion.div
-            className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-purple-500/20 border border-cyan-400/40 backdrop-blur-md cursor-default"
-            animate={{
-              boxShadow: [
-                "0 0 20px rgba(34,211,238,0.3), 0 0 40px rgba(59,130,246,0.15)",
-                "0 0 30px rgba(168,85,247,0.4), 0 0 60px rgba(34,211,238,0.2)",
-                "0 0 20px rgba(34,211,238,0.3), 0 0 40px rgba(59,130,246,0.15)",
-              ],
-            }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 animate-pulse" />
-            <span className="text-sm font-bold tracking-widest uppercase bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-              Media · Tech · Innovation
-            </span>
-            <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 animate-pulse" />
-          </motion.div>
-
-          {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-heading tracking-tight leading-[1.08] text-white">
-            The media platform for{" "}
-            <motion.span
-              className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent bg-[length:200%_auto] inline-block"
-              animate={{ backgroundPosition: ["0% center", "200% center"] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-            >
-              AI, DeepTech &amp; Science
-            </motion.span>{" "}
-            decision-makers.
-          </h1>
-
-          {/* Subhead */}
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Podcast, YouTube, newsletter and community — building and partnering at the frontier of technology and innovation.
-          </p>
-
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-            <a href="/podcast">
-              <Button
-                size="lg"
-                className="h-13 px-8 text-base rounded-full bg-primary hover:bg-primary/90 shadow-[0_0_30px_rgba(59,130,246,0.4)] hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] transition-all"
-                data-testid="button-hero-listen"
-              >
-                🎙 Listen Now
-              </Button>
-            </a>
-            <Button
-              size="lg"
-              variant="outline"
-              className="h-13 px-8 text-base rounded-full border-white/15 bg-white/5 hover:bg-white/10 backdrop-blur-md text-white transition-all"
-              onClick={() => scrollToSection("services")}
-              data-testid="button-hero-partner"
-            >
-              Partner With Us
-            </Button>
-          </div>
-
-          {/* Platform badges */}
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
-            <span className="text-xs text-muted-foreground/60 uppercase tracking-widest mr-1">
-              Available on
-            </span>
-            {PLATFORMS.map((p) => (
-              <a
-                key={p.label}
-                href={p.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`text-xs font-medium text-muted-foreground transition-colors border border-white/10 rounded-full px-4 py-1.5 bg-white/5 ${p.color}`}
-                data-testid={`link-platform-${p.label.toLowerCase().replace(/\s/g, "-")}`}
-              >
-                {p.label}
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-3 pt-1">
+              <a href="/podcast">
+                <Button size="lg"
+                  className="h-12 px-8 text-sm font-semibold rounded-full bg-primary hover:bg-primary/90 shadow-[0_0_30px_rgba(59,130,246,0.4)] hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] transition-all"
+                  data-testid="button-hero-listen">
+                  🎙 Listen Now
+                </Button>
               </a>
-            ))}
-          </div>
-        </motion.div>
+              <Button size="lg" variant="outline"
+                className="h-12 px-8 text-sm font-semibold rounded-full border-white/15 bg-white/5 hover:bg-white/10 backdrop-blur-md text-white transition-all"
+                onClick={() => scrollToSection("services")}
+                data-testid="button-hero-partner">
+                Partner With Us
+              </Button>
+            </div>
+          </motion.div>
+
+          {/* ── RIGHT: Host photos ── */}
+          <motion.div
+            className="relative flex items-end justify-center gap-4 order-1 md:order-2"
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.15 }}
+          >
+            {/* Mac — slightly lower */}
+            <motion.div
+              className="relative flex-1 max-w-[210px] rounded-2xl overflow-hidden"
+              style={{ marginTop: "48px" }}
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <div className="aspect-[3/4] bg-gradient-to-b from-white/5 to-transparent rounded-2xl overflow-hidden border border-white/10">
+                <img src={macImg} alt="Mac Goswami" className="w-full h-full object-cover object-top scale-110" />
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#060b18]/90 via-[#060b18]/50 to-transparent px-4 pt-8 pb-4 rounded-b-2xl">
+                <p className="text-white font-bold text-sm">Mac Goswami</p>
+                <p className="text-muted-foreground text-xs">Co-Host &amp; Co-Founder</p>
+              </div>
+              <div className="absolute top-3 left-3">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-cyan-400 bg-cyan-400/10 border border-cyan-400/20 px-2 py-0.5 rounded-full">Host</span>
+              </div>
+            </motion.div>
+
+            {/* Sam — slightly higher */}
+            <motion.div
+              className="relative flex-1 max-w-[210px] rounded-2xl overflow-hidden"
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <div className="aspect-[3/4] rounded-2xl overflow-hidden border border-white/10">
+                <img src={samImg} alt="Sam Dey" className="w-full h-full object-cover object-top" />
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#060b18]/90 via-[#060b18]/50 to-transparent px-4 pt-8 pb-4 rounded-b-2xl">
+                <p className="text-white font-bold text-sm">Sam Dey</p>
+                <p className="text-muted-foreground text-xs">Co-Host &amp; Co-Founder</p>
+              </div>
+              <div className="absolute top-3 left-3">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-purple-400 bg-purple-400/10 border border-purple-400/20 px-2 py-0.5 rounded-full">Host</span>
+              </div>
+            </motion.div>
+
+            {/* Decorative glow behind photos */}
+            <div className="absolute inset-0 -z-10 pointer-events-none">
+              <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full"
+                style={{ background: "radial-gradient(circle, rgba(34,211,238,0.15) 0%, transparent 70%)", filter: "blur(40px)" }} />
+              <div className="absolute top-1/2 right-1/4 translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full"
+                style={{ background: "radial-gradient(circle, rgba(168,85,247,0.15) 0%, transparent 70%)", filter: "blur(40px)" }} />
+            </div>
+          </motion.div>
+
+        </div>
       </div>
     </section>
   );
