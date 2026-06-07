@@ -39,10 +39,31 @@ interface YouTubeVideo {
 
 const YT_CHANNEL = "https://www.youtube.com/@asembleaiyt";
 
-function ytSearchUrl(title: string) {
-  // Strip leading "EP NN:" to get a clean search term
-  const clean = title.replace(/^Ep\s*#?\s*\d+\s*:?\s*/i, "").trim();
-  return `https://www.youtube.com/results?search_query=${encodeURIComponent("AsembleAI " + clean)}`;
+// Extract the episode number from a title like "EP 22: ..." or "EP# 44EP 44: ..."
+function extractEpNumber(title: string): string | null {
+  const m = title.match(/\bEP\s*#?\s*(\d+)\b/i);
+  return m ? m[1] : null;
+}
+
+// Find the specific YouTube watch URL for an audio episode by matching episode number,
+// then falling back to keyword overlap, then the channel homepage.
+function findYouTubeUrl(audioTitle: string, allVideos: YouTubeVideo[]): string {
+  const epNum = extractEpNumber(audioTitle);
+  if (epNum) {
+    const byEp = allVideos.find(v => {
+      const vNum = extractEpNumber(v.title);
+      return vNum === epNum;
+    });
+    if (byEp) return byEp.youtubeUrl;
+  }
+  // Keyword fallback: check if any significant words from the audio title appear in a video title
+  const words = audioTitle.toLowerCase().replace(/[^a-z0-9 ]/g, " ").split(" ").filter(w => w.length > 4);
+  const byKeyword = allVideos.find(v => {
+    const vl = v.title.toLowerCase();
+    return words.filter(w => vl.includes(w)).length >= 3;
+  });
+  if (byKeyword) return byKeyword.youtubeUrl;
+  return YT_CHANNEL;
 }
 
 export default function Podcast() {
@@ -97,7 +118,7 @@ export default function Podcast() {
   // Total items shown in the video section
   const videoSectionItems = [
     ...dedicatedVideos.map(v => ({ ...v, isDedicated: true as const })),
-    ...audioAsVideo.map(ep => ({ ...ep, isDedicated: false as const, youtubeUrl: ytSearchUrl(ep.title) })),
+    ...audioAsVideo.map(ep => ({ ...ep, isDedicated: false as const, youtubeUrl: findYouTubeUrl(ep.title, allVideos) })),
   ];
 
   function clearTopic() {
@@ -244,7 +265,7 @@ export default function Podcast() {
                           <ExternalLink className="w-4 h-4 mr-2" /> Listen Now
                         </Button>
                       </a>
-                      <a href={ytSearchUrl(episode.title)} target="_blank" rel="noopener noreferrer">
+                      <a href={findYouTubeUrl(episode.title, allVideos)} target="_blank" rel="noopener noreferrer">
                         <Button variant="outline" size="sm" className="w-full text-xs border-white/10 hover:bg-white/5 hover:border-red-500/30" data-testid={`button-yt-audio-${index}`}>
                           <Youtube className="w-3.5 h-3.5 mr-1.5 text-red-500" /> Watch on YouTube
                         </Button>
