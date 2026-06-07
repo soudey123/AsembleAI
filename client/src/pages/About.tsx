@@ -39,7 +39,7 @@ export default function About() {
     {
       name: "Soumava 'Sam' Dey",
       role: "Co-Host & Co-Founder",
-      bio: "Data analytics leader with 15+ years in enterprise AI/ML, currently Associate Director at CMI Media Group (WPP). Public Ivy UIUC alumnus and published researcher. Creator of DataScienceWithSam, co-host of AsembleAI podcast, Top 5% Topmate and LinkedIn creator, and Voyage Denver featured entrepreneur.",
+      bio: "Data Analytics and AI leader with 15+ years of Fortune 500 experience across healthcare, digital marketing, and financial services. A University of Illinois Urbana-Champaign (Public Ivy) alumnus and published researcher, Sam extends his influence across education, media, and community — as creator of DataScienceWithSam, co-host of the Inside AsembleAI podcast, former Coursera instructor and AI coach, and Co-Chair of Denver AI. Featured in Voyage Denver and Business Life Magazine, he advises at OncoNexus AI and speaks on agentic AI, context engineering, and enterprise AI strategy.",
       linkedin: "https://www.linkedin.com/in/soumava-dey-441294ab/",
       image: null
     }
@@ -67,13 +67,13 @@ export default function About() {
         <Section className="bg-secondary/10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <div>
-              <h2 className="text-3xl font-bold text-white mb-6">Our Story</h2>
+              <h2 className="text-3xl font-bold text-white mb-6">AsembleAI is a media tech agency at the intersection of AI, DeepTech and Science — reaching the decision-makers, builders, and innovators shaping what comes next.</h2>
               <div className="space-y-4 text-muted-foreground text-lg">
                 <p>
                   Founded in 2025 by Mac Goswami and Sam Dey, AsembleAI began as a podcast exploring the real-world frontier of artificial intelligence — and grew into something much larger.
                 </p>
                 <p>
-                  In 18 months, we built a multi-channel media platform reaching 300K+ listeners across Apple Podcasts, Spotify, YouTube and Podbean. Our audience isn't just curious — 68% are technical decision-makers, engineers, founders, CTOs, and architects who make things happen.
+                  In 18 months, we built a multi-channel media platform reaching 300K+ listeners across Apple Podcasts, Spotify, YouTube and Podbean. Our audience isn't just curious — they're technical decision-makers, engineers, founders, CTOs, and architects who make things happen.
                 </p>
                 <p>
                   We partner with organizations who want to reach this audience authentically: through host-read integrations, co-branded content, sponsored research, and executive events. Trusted media converts where generic channels don't.

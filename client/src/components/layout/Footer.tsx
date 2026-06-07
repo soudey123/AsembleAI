@@ -28,23 +28,28 @@ export function Footer() {
             <h4 className="font-heading font-bold text-white mb-6">Listen</h4>
             <ul className="space-y-3">
               <li>
-                <a href="https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                  Spotify
-                </a>
-              </li>
-              <li>
-                <a href="https://www.youtube.com/@asembleaiyt" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                  YouTube
-                </a>
-              </li>
-              <li>
                 <a href="https://podcasts.apple.com/search?term=inside+asembleai" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-sm">
                   Apple Podcasts
                 </a>
               </li>
               <li>
+                <a href="https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                  Spotify
+                </a>
+              </li>
+              <li>
+                <a href="https://www.iheart.com/search/?q=inside+asembleai" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                  iHeartRadio
+                </a>
+              </li>
+              <li>
                 <a href="https://asembleaisocial.podbean.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-sm">
                   Podbean
+                </a>
+              </li>
+              <li>
+                <a href="https://www.youtube.com/@asembleaiyt" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                  YouTube
                 </a>
               </li>
             </ul>
