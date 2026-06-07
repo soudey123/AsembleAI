@@ -167,47 +167,118 @@ export async function registerRoutes(
     }
   });
 
+  // Hardcoded fallback — used when the YouTube API is unavailable or rate-limited.
+  // Update video IDs here whenever new dedicated YouTube videos are published.
+  const FALLBACK_VIDEOS: YouTubeVideo[] = [
+    {
+      slug: "building-data-intelligence-app-pandasai-streamlit",
+      title: "Building a Data Intelligence App with PandasAI + Streamlit | Real Demo",
+      guest: "",
+      date: "Jun 05, 2026",
+      description: "What if you could just ask your data questions in plain English — and it answered back with charts, stats, and insights? No SQL.",
+      thumbnail: "https://i.ytimg.com/vi/jHyp9mbIDQ4/hqdefault.jpg",
+      youtubeUrl: "https://www.youtube.com/watch?v=jHyp9mbIDQ4",
+      tags: ["AI", "Technology"],
+      type: "video",
+      duration: "21:08",
+    },
+    {
+      slug: "building-enterprise-multi-agent-ai-langgraph-vs-langchain",
+      title: "Building Enterprise Multi-Agent AI: LangGraph vs LangChain Explained | Production-Grade Architecture",
+      guest: "",
+      date: "Jun 02, 2026",
+      description: "We unpack one of the most important technology stacks teams are using to put AI agents into production.",
+      thumbnail: "https://i.ytimg.com/vi/Unm37cQ70k0/hqdefault.jpg",
+      youtubeUrl: "https://www.youtube.com/watch?v=Unm37cQ70k0",
+      tags: ["AI", "Technology"],
+      type: "video",
+      duration: "26:53",
+    },
+    {
+      slug: "healthcare-ai-fraud-exposed",
+      title: "Healthcare AI Fraud Exposed: Red Flags, Failed Unicorns & What's Actually Working",
+      guest: "",
+      date: "May 27, 2026",
+      description: "Babylon Health collapsed. Olive AI went bankrupt. Dozens of billion-dollar healthcare AI companies have vanished.",
+      thumbnail: "https://i.ytimg.com/vi/nWCP19vGxIE/hqdefault.jpg",
+      youtubeUrl: "https://www.youtube.com/watch?v=nWCP19vGxIE",
+      tags: ["Healthcare", "AI"],
+      type: "video",
+      duration: "51:31",
+    },
+    {
+      slug: "lovable-vs-replit-vs-bolt",
+      title: "Lovable vs Replit vs Bolt: I Built the Same App in All 3 - Here's the Winner",
+      guest: "",
+      date: "May 11, 2026",
+      description: "I gave all three the EXACT same prompt. Same app. Same requirements. Only one came out on top.",
+      thumbnail: "https://i.ytimg.com/vi/67PshwNqUPQ/hqdefault.jpg",
+      youtubeUrl: "https://www.youtube.com/watch?v=67PshwNqUPQ",
+      tags: ["AI", "Technology"],
+      type: "video",
+      duration: "29:24",
+    },
+    {
+      slug: "openclaw-ai-agent",
+      title: "OpenClaw: AI Agent That Actually Does Things For You",
+      guest: "",
+      date: "May 10, 2026",
+      description: "What if your AI didn't just chat, but actually sent emails, managed calendars, ran code, and negotiated disputes?",
+      thumbnail: "https://i.ytimg.com/vi/haI2RafE_JI/hqdefault.jpg",
+      youtubeUrl: "https://www.youtube.com/watch?v=haI2RafE_JI",
+      tags: ["AI", "Technology"],
+      type: "video",
+      duration: "15:04",
+    },
+    {
+      slug: "ep-44-how-ai-is-transforming-filmmaking",
+      title: "EP 44: How AI Is Transforming Filmmaking - From Fear to Creative Amplification",
+      guest: "",
+      date: "Apr 13, 2026",
+      description: "Can AI amplify filmmaking creativity without killing the craft? Season 4 guest Sam Joos — 20-year filmmaker, founder of AI Ad Studio.",
+      thumbnail: "https://i.ytimg.com/vi/-2Wp2XGho6U/hqdefault.jpg",
+      youtubeUrl: "https://www.youtube.com/watch?v=-2Wp2XGho6U",
+      tags: ["Creative", "AI"],
+      type: "video",
+      duration: "45:14",
+    },
+  ];
+
   app.get("/api/podcast/videos", async (req, res) => {
+    const apiKey = process.env.YOUTUBE_API_KEY;
+
+    // If no API key, serve fallback immediately
+    if (!apiKey) {
+      return res.json({ videos: FALLBACK_VIDEOS, source: "fallback" });
+    }
+
     try {
-      const apiKey = process.env.YOUTUBE_API_KEY;
-      
-      if (!apiKey) {
-        return res.status(500).json({ error: "YouTube API key not configured" });
-      }
-      
       const channelResponse = await fetch(
         `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${YOUTUBE_CHANNEL_HANDLE}&type=channel&key=${apiKey}`
       );
-      
-      if (!channelResponse.ok) {
-        throw new Error(`YouTube API error: ${channelResponse.status}`);
-      }
-      
+
+      if (!channelResponse.ok) throw new Error(`channel lookup ${channelResponse.status}`);
+
       const channelData = await channelResponse.json();
       const channelId = channelData.items?.[0]?.id?.channelId;
-      
-      if (!channelId) {
-        return res.status(404).json({ error: "YouTube channel not found" });
-      }
-      
+
+      if (!channelId) throw new Error("channel not found");
+
       const videosResponse = await fetch(
         `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&order=date&maxResults=50&type=video&key=${apiKey}`
       );
-      
-      if (!videosResponse.ok) {
-        throw new Error(`YouTube API error: ${videosResponse.status}`);
-      }
-      
+
+      if (!videosResponse.ok) throw new Error(`videos lookup ${videosResponse.status}`);
+
       const videosData = await videosResponse.json();
-      
+
       const videoIds = videosData.items?.map((item: any) => item.id.videoId).join(',');
       let durationsMap: Record<string, string> = {};
-      
+
       if (videoIds) {
         const detailsResponse = await fetch(
           `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoIds}&key=${apiKey}`
         );
-        
         if (detailsResponse.ok) {
           const detailsData = await detailsResponse.json();
           detailsData.items?.forEach((item: any) => {
@@ -222,7 +293,7 @@ export async function registerRoutes(
           });
         }
       }
-      
+
       const videos: YouTubeVideo[] = (videosData.items || []).map((item: any) => ({
         slug: createSlug(item.snippet.title || ''),
         title: item.snippet.title || 'Untitled Video',
@@ -235,11 +306,12 @@ export async function registerRoutes(
         type: 'video' as const,
         duration: durationsMap[item.id.videoId] || '0:00'
       }));
-      
-      res.json({ videos });
+
+      // If API returned nothing, use fallback
+      res.json({ videos: videos.length > 0 ? videos : FALLBACK_VIDEOS });
     } catch (error) {
-      console.error("Error fetching YouTube videos:", error);
-      res.status(500).json({ error: "Failed to fetch YouTube videos" });
+      console.error("YouTube API error, serving fallback videos:", error);
+      res.json({ videos: FALLBACK_VIDEOS, source: "fallback" });
     }
   });
 

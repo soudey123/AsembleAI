@@ -63,7 +63,9 @@ function findYouTubeUrl(audioTitle: string, allVideos: YouTubeVideo[]): string {
     return words.filter(w => vl.includes(w)).length >= 3;
   });
   if (byKeyword) return byKeyword.youtubeUrl;
-  return YT_CHANNEL;
+  // Fall back to a YouTube search scoped to the channel — always finds the right video
+  const clean = audioTitle.replace(/^EP\s*#?\s*\d+\s*:?\s*/i, "").trim();
+  return `https://www.youtube.com/results?search_query=${encodeURIComponent("AsembleAI " + clean)}`;
 }
 
 export default function Podcast() {
