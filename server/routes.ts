@@ -126,7 +126,7 @@ export async function registerRoutes(
       
       const feed = await parser.parseURL(RSS_FEED_URL);
       
-      const episodes: PodcastEpisode[] = (feed.items || []).slice(0, 10).map((item: any) => {
+      const episodes: PodcastEpisode[] = (feed.items || []).map((item: any) => {
         let durationStr = "00:00";
         if (item.duration) {
           if (typeof item.duration === 'string' && item.duration.includes(':')) {

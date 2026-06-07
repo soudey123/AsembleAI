@@ -56,9 +56,9 @@ export default function Podcast() {
     staleTime: 5 * 60 * 1000,
   });
 
-  function episodeMatchesTopic(title: string, description: string): boolean {
+  function episodeMatchesTopic(title: string): boolean {
     if (!topicId) return true;
-    return matchesTopic(title + " " + description, topicId);
+    return matchesTopic(title, topicId);
   }
 
   function episodeMatchesSearch(title: string, guest: string): boolean {
@@ -68,11 +68,11 @@ export default function Podcast() {
   }
 
   const audioEpisodes = (audioData?.episodes || []).filter(ep =>
-    episodeMatchesTopic(ep.title, ep.description) && episodeMatchesSearch(ep.title, ep.guest)
+    episodeMatchesTopic(ep.title) && episodeMatchesSearch(ep.title, ep.guest)
   );
 
   const videoEpisodes = (videoData?.videos || []).filter(v =>
-    episodeMatchesTopic(v.title, v.description) && episodeMatchesSearch(v.title, v.guest)
+    episodeMatchesTopic(v.title) && episodeMatchesSearch(v.title, v.guest)
   );
 
   function clearTopic() {
