@@ -56,11 +56,11 @@ function findYouTubeUrl(audioTitle: string, allVideos: YouTubeVideo[]): string {
     });
     if (byEp) return byEp.youtubeUrl;
   }
-  // Keyword fallback: check if any significant words from the audio title appear in a video title
-  const words = audioTitle.toLowerCase().replace(/[^a-z0-9 ]/g, " ").split(" ").filter(w => w.length > 4);
+  // Keyword fallback: find any video that shares at least one significant word (≥5 chars) with the audio title
+  const words = audioTitle.toLowerCase().replace(/[^a-z0-9 ]/g, " ").split(" ").filter(w => w.length >= 5);
   const byKeyword = allVideos.find(v => {
     const vl = v.title.toLowerCase();
-    return words.filter(w => vl.includes(w)).length >= 3;
+    return words.some(w => vl.includes(w));
   });
   if (byKeyword) return byKeyword.youtubeUrl;
   // Fall back to a YouTube search scoped to the channel — always finds the right video
