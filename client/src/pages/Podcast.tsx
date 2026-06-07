@@ -245,9 +245,14 @@ export default function Podcast() {
                     </div>
 
                     <div className="shrink-0 w-full md:w-auto flex flex-col gap-2">
-                      <a href={episode.spotifyUrl} target="_blank" rel="noopener noreferrer">
-                        <Button className="w-full bg-green-600 hover:bg-green-700 text-black font-medium" data-testid={`button-listen-${index}`}>
-                          <ExternalLink className="w-4 h-4 mr-2" /> Listen Now
+                      <a href="https://podcasts.apple.com/search?term=inside+asembleai" target="_blank" rel="noopener noreferrer">
+                        <Button className="w-full bg-purple-700 hover:bg-purple-800 text-white font-medium" data-testid={`button-apple-${index}`}>
+                          🎵 Apple Podcasts
+                        </Button>
+                      </a>
+                      <a href="https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU" target="_blank" rel="noopener noreferrer">
+                        <Button className="w-full bg-green-600 hover:bg-green-700 text-black font-medium" data-testid={`button-spotify-${index}`}>
+                          ♫ Spotify
                         </Button>
                       </a>
                       <a href={findYouTubeUrl(episode.title, allVideos)} target="_blank" rel="noopener noreferrer">
