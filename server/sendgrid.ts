@@ -15,6 +15,6 @@ export async function getUncachableSendGridClient() {
   
   return {
     client: sgMail,
-    fromEmail: 'asembleai@gmail.com'
+    fromEmail: 'media@asembleai.com'
   };
 }
