@@ -158,6 +158,12 @@ export const testimonials = [
     name: "Dr. Ewelina Kurtys",
     title: "Neuroscientist & AI Expert",
     linkedinUrl: "https://www.linkedin.com/in/ACoAAA88DkUBrIakZKYd45kpYJVFGp0SNNkRfcM"
+  },
+  {
+    quote: "I first connected with AssembleAI as a teaching assistant and later with the Gamma Tiger Team, collaborating on two community driven projects. Their passion for people, learning, and fostering curiosity is clear, and being a guest on the AssembleAI Podcast was a joy, with its engaging blend of structure and open conversation that celebrates the community.",
+    name: "Sean McLaughlin",
+    title: "Adobe AI Community Associate",
+    linkedinUrl: ""
   }
 ];
 

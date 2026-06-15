@@ -189,11 +189,15 @@ function TestimonialsCarousel() {
                 {t.name.charAt(0)}
               </div>
               <div>
-                <a href={t.linkedinUrl} target="_blank" rel="noopener noreferrer"
-                  className="font-semibold text-white hover:text-primary transition-colors inline-flex items-center gap-1"
-                  data-testid={`link-testimonial-linkedin-${current}`}>
-                  {t.name} <ExternalLink className="w-3 h-3" />
-                </a>
+                {t.linkedinUrl ? (
+                  <a href={t.linkedinUrl} target="_blank" rel="noopener noreferrer"
+                    className="font-semibold text-white hover:text-primary transition-colors inline-flex items-center gap-1"
+                    data-testid={`link-testimonial-linkedin-${current}`}>
+                    {t.name} <ExternalLink className="w-3 h-3" />
+                  </a>
+                ) : (
+                  <span className="font-semibold text-white">{t.name}</span>
+                )}
                 <p className="text-sm text-muted-foreground">{t.title}</p>
               </div>
             </div>
