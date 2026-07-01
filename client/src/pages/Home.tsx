@@ -747,10 +747,6 @@ export default function Home() {
               <Card className={`h-full transition-all duration-300 ${tier.popular ? "border-primary/60 bg-primary/5 shadow-[0_0_30px_rgba(59,130,246,0.15)]" : "glass-card border-white/5 hover:border-white/20"}`}>
                 <CardHeader className="pb-4">
                   <CardTitle className="text-xl text-white">{tier.name}</CardTitle>
-                  <div className="flex items-baseline gap-1 mt-2">
-                    <span className="text-4xl font-bold text-white">{tier.price}</span>
-                    <span className="text-muted-foreground text-sm">{tier.period}</span>
-                  </div>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-3 mb-6">
@@ -760,10 +756,10 @@ export default function Home() {
                       </li>
                     ))}
                   </ul>
-                  <a href="https://calendly.com/asembleai" target="_blank" rel="noopener noreferrer">
+                  <a href="mailto:asembleaimedia@asembleai.com">
                     <Button className={`w-full ${tier.popular ? "bg-primary hover:bg-primary/90 shadow-[0_0_20px_rgba(59,130,246,0.4)]" : "bg-white/5 hover:bg-white/10 border border-white/10 text-white"}`}
                       data-testid={`button-tier-cta-${tier.name.toLowerCase()}`}>
-                      Book Intro Call
+                      Contact Us
                     </Button>
                   </a>
                 </CardContent>
@@ -783,9 +779,9 @@ export default function Home() {
                 media@asembleai.com
               </Button>
             </a>
-            <a href="https://calendly.com/asembleai" target="_blank" rel="noopener noreferrer">
+            <a href="mailto:asembleaimedia@asembleai.com">
               <Button className="bg-primary hover:bg-primary/90" data-testid="button-book-call">
-                Book a 15-min Intro Call
+                Contact Us
               </Button>
             </a>
           </div>
