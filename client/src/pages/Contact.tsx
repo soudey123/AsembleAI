@@ -83,7 +83,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-white mb-1">Email</h3>
-                    <p className="text-muted-foreground">media@asembleai.com</p>
+                    <p className="text-muted-foreground">asembleaimedia@asembleai.com</p>
                   </div>
                 </div>
                 

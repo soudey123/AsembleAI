@@ -619,7 +619,7 @@ export async function registerRoutes(
       const { client, fromEmail } = await getUncachableSendGridClient();
 
       const msg = {
-        to: 'media@asembleai.com',
+        to: 'asembleaimedia@asembleai.com',
         from: fromEmail,
         replyTo: email,
         subject: `New Contact Form Submission from ${name}`,

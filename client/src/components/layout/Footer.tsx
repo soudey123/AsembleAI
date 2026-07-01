@@ -67,14 +67,14 @@ export function Footer() {
               <a href="https://www.youtube.com/@asembleaiyt" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-all text-muted-foreground" aria-label="YouTube">
                 <Youtube className="w-5 h-5" />
               </a>
-              <a href="mailto:media@asembleai.com" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-all text-muted-foreground" aria-label="Email">
+              <a href="mailto:asembleaimedia@asembleai.com" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-all text-muted-foreground" aria-label="Email">
                 <Mail className="w-5 h-5" />
               </a>
             </div>
             <p className="text-xs text-muted-foreground">
               Contact:{" "}
-              <a href="mailto:media@asembleai.com" className="hover:text-primary transition-colors">
-                media@asembleai.com
+              <a href="mailto:asembleaimedia@asembleai.com" className="hover:text-primary transition-colors">
+                asembleaimedia@asembleai.com
               </a>
             </p>
           </div>
