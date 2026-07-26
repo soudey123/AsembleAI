@@ -613,7 +613,7 @@ export default function Home() {
                       <div className="flex gap-2">
                         {ep.spotifyUrl && (
                           <a href={ep.spotifyUrl} target="_blank" rel="noopener noreferrer"
-                            className="text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-orange-500/20 hover:text-orange-400 border border-white/10 transition-all text-muted-foreground">Podbean</a>
+                            className="text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-orange-500/20 hover:text-orange-400 border border-white/10 transition-all text-muted-foreground">RSS</a>
                         )}
                         <a href={matchYoutubeUrl(ep.title, videosData?.videos ?? [])} target="_blank" rel="noopener noreferrer"
                           className="text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-red-500/20 hover:text-red-400 border border-white/10 transition-all text-muted-foreground">YouTube</a>
