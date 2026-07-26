@@ -138,8 +138,8 @@ export const enterprisePackages = [
 ];
 
 export const audienceStats = [
-  { value: 300000, label: "Podcast Downloads", display: "300K+", suffix: "", description: "Across Apple, Spotify & Podbean" },
-  { value: 6000, label: "YouTube Subscribers", display: "6K+", suffix: "", description: "Growing 15%+ month-over-month" },
+  { value: 400000, label: "Podcast Downloads", display: "400K+", suffix: "", description: "Across Apple, Spotify & Podbean" },
+  { value: 7000, label: "YouTube Subscribers", display: "7K+", suffix: "", description: "Growing 15%+ month-over-month" },
   { value: 50, label: "Episodes Published", display: "50+", suffix: "", description: "Weekly multi-channel publishing" },
   { value: 20, label: "Expert Guests", display: "20+", suffix: "", description: "AI pioneers, CTOs & researchers" },
   { value: 100, label: "Newsletter Subscribers", display: "100+", suffix: "", description: "Growing community of practitioners" },
@@ -157,13 +157,36 @@ export const testimonials = [
     quote: "It was a pleasure being part of the Inside AsembleAI podcast. The conversation felt genuinely engaging and thoughtful rather than a typical interview format. I appreciated the opportunity to discuss emerging ideas around biological computing and AI in a way that balanced technical depth with accessibility. Mac and the team created a relaxed atmosphere that made for a very natural and enjoyable discussion.",
     name: "Dr. Ewelina Kurtys",
     title: "Neuroscientist & AI Expert",
-    linkedinUrl: "https://www.linkedin.com/in/ACoAAA88DkUBrIakZKYd45kpYJVFGp0SNNkRfcM"
+    linkedinUrl: "https://www.linkedin.com/in/ACoAAA88DkUBrIakZKYd45kpYJVFGp0SNNkRfcM",
+    photo: "/testimonials/ewelina.jpeg"
+  },
+  {
+    quote: "Mac and Sam asked sharp, practical questions that pushed past the AI hype and got into what actually happens when you manage a team of agents day to day. If you're building anything AI-native right now, this episode is worth your time.",
+    name: "Mohamed Faker",
+    title: "Engineering Leader, Vanguard",
+    linkedinUrl: "",
+    photo: "/testimonials/mohamed.png"
+  },
+  {
+    quote: "They came well-prepared, asked insightful questions, and skillfully balanced technical depth with practical industry relevance. Their passion for advancing meaningful conversations in the industry is evident. I highly recommend Sam and Mac's podcast to anyone interested in AI and emerging technologies.",
+    name: "Ramya Ganesh",
+    title: "Advisor & Cisco WiCS Co-Lead",
+    linkedinUrl: "",
+    photo: "/testimonials/ramya.jpeg"
+  },
+  {
+    quote: "Being a guest on Mac & Sam's AsembleAI podcast was a fantastic experience. They asked thoughtful, engaging questions, made the conversation feel natural, and created a great environment to dive into practical ideas about AI, business, and leadership.",
+    name: "David Catalano",
+    title: "Strategy & Ops Professional, Oxford MBA",
+    linkedinUrl: "",
+    photo: "/testimonials/david.jpeg"
   },
   {
     quote: "I first connected with AssembleAI as a teaching assistant and later with the Gamma Tiger Team, collaborating on two community driven projects. Their passion for people, learning, and fostering curiosity is clear, and being a guest on the AssembleAI Podcast was a joy, with its engaging blend of structure and open conversation that celebrates the community.",
     name: "Sean McLaughlin",
     title: "Adobe AI Community Associate",
-    linkedinUrl: ""
+    linkedinUrl: "",
+    photo: ""
   }
 ];
 

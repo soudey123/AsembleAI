@@ -185,9 +185,14 @@ function TestimonialsCarousel() {
               "{t.quote}"
             </blockquote>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/40 to-purple-500/40 flex items-center justify-center text-white font-bold text-sm border border-white/10">
-                {t.name.charAt(0)}
-              </div>
+              {t.photo ? (
+                <img src={t.photo} alt={t.name}
+                  className="w-12 h-12 rounded-full object-cover border border-white/10 shrink-0" />
+              ) : (
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/40 to-purple-500/40 flex items-center justify-center text-white font-bold text-sm border border-white/10 shrink-0">
+                  {t.name.charAt(0)}
+                </div>
+              )}
               <div>
                 {t.linkedinUrl ? (
                   <a href={t.linkedinUrl} target="_blank" rel="noopener noreferrer"
