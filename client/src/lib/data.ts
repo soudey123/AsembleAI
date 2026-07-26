@@ -186,7 +186,7 @@ export const testimonials = [
     name: "Sean McLaughlin",
     title: "Adobe AI Community Associate",
     linkedinUrl: "",
-    photo: ""
+    photo: "/testimonials/sean.png"
   }
 ];
 
