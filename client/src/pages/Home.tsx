@@ -684,6 +684,7 @@ export default function Home() {
               {[
                 { flag: "🇺🇸", name: "USA" },
                 { flag: "🇨🇦", name: "Canada" },
+                { flag: "🇬🇧", name: "UK" },
                 { flag: "🇩🇪", name: "Germany" },
                 { flag: "🇳🇴", name: "Norway" },
                 { flag: "🇹🇼", name: "Taiwan" },
