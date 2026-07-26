@@ -160,6 +160,19 @@ export function Hero() {
               </span>
             </motion.div>
 
+            {/* Apple Top 10 badge */}
+            <motion.div
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-600/30 to-pink-600/20 border border-purple-400/40 backdrop-blur-md"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <span className="text-base leading-none">🏆</span>
+              <span className="text-xs font-bold text-white">Top 10</span>
+              <span className="w-px h-3 bg-white/30" />
+              <span className="text-[10px] font-semibold text-purple-300 uppercase tracking-wider">Apple Podcasts · Technology</span>
+            </motion.div>
+
             {/* Mobile-only headshots — shown between badge and headline */}
             <div className="flex md:hidden gap-3 pt-1 pb-2">
               <div className="relative flex-1 rounded-2xl overflow-hidden max-w-[160px]">

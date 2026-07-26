@@ -9,6 +9,28 @@ import { Badge } from "@/components/ui/badge";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSearch, useLocation } from "wouter";
 import { PODCAST_TOPICS, ACCENT_COLORS, matchesTopic } from "@/lib/topics";
+import aiImg from "@assets/stock_images/artificial_intellige_fc16285f.jpg";
+import bioImg from "@assets/stock_images/biological_computing_60b959d6.jpg";
+import jobsImg from "@assets/stock_images/future_of_tech_jobs__291b924f.jpg";
+import leadershipImg from "@assets/stock_images/executive_leadership_832b6d86.jpg";
+import techNewsImg from "@assets/stock_images/newspaper_technology_195b7080.jpg";
+import micImg from "@assets/stock_images/podcast_microphone_s_6aab3979.jpg";
+
+const TOPIC_COVERS: { keywords: string[]; img: string }[] = [
+  { keywords: ["healthcare", "medical", "drug", "patient", "clinical", "neuron", "biology", "alphafold", "genome", "biotech", "pharma"], img: bioImg },
+  { keywords: ["job", "work", "career", "reskill", "workforce", "hiring", "talent", "chopping block", "safe zone", "collar"], img: jobsImg },
+  { keywords: ["leadership", "executive", "ceo", "cto", "strategy", "enterprise", "business", "growth", "transformation", "management", "founder"], img: leadershipImg },
+  { keywords: ["news", "policy", "regulation", "governance", "act", "compliance", "law", "regulation", "regulatory"], img: techNewsImg },
+  { keywords: ["podcast", "interview", "community", "conversation", "education", "learning", "season"], img: micImg },
+];
+
+function getTopicCover(title: string): string {
+  const lower = title.toLowerCase();
+  for (const { keywords, img } of TOPIC_COVERS) {
+    if (keywords.some(k => lower.includes(k))) return img;
+  }
+  return aiImg; // default
+}
 
 interface PodcastEpisode {
   slug: string;
@@ -361,7 +383,7 @@ export default function Podcast() {
                     <Card key={item.slug || index} className={`bg-card border-white/5 overflow-hidden transition-all group ${isDedicated ? "hover:border-red-500/30" : "hover:border-red-400/20"}`}
                       data-testid={`card-video-${index}`}>
                       <div className="relative h-56 overflow-hidden">
-                        <img src={item.thumbnail} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                        <img src={getTopicCover(item.title)} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                         {!isDedicated && (
                           <div className="absolute top-2 left-2 bg-black/80 text-xs text-red-400 px-2 py-1 rounded flex items-center gap-1">
                             <Youtube className="w-3 h-3" /> Also on YouTube
