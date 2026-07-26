@@ -123,12 +123,9 @@ export default function Podcast() {
 
   const audioEpisodes = allAudio.filter(ep => matchesCurrent(ep.title, ep.guest));
 
-  // Dedicated YouTube videos that match
-  const dedicatedVideos = allVideos.filter(v => matchesCurrent(v.title, v.guest));
-
-  // Video section shows only dedicated YouTube videos (matched to topic/search).
+  // Videos are always shown unfiltered — they are general YouTube content, not episode-specific.
   // Audio cards each have their own "Watch on YouTube" button — no duplication needed.
-  const videoSectionItems = dedicatedVideos.map(v => ({ ...v, isDedicated: true as const }));
+  const videoSectionItems = allVideos.map(v => ({ ...v, isDedicated: true as const }));
 
   function clearTopic() {
     setLocation("/podcast");
@@ -339,9 +336,6 @@ export default function Podcast() {
             <Youtube className="w-6 h-6 text-red-500" />
             <h2 className="text-3xl font-bold text-white">Video Episodes</h2>
             <Badge variant="outline" className="ml-2 border-red-500/20 text-red-500">YouTube</Badge>
-            {activeTopic && (
-              <span className="text-sm text-muted-foreground ml-1">— {videoSectionItems.length} matching</span>
-            )}
           </div>
 
           {videoLoading ? (

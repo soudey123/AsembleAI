@@ -403,16 +403,21 @@ export async function registerRoutes(
     }
 
     try {
-      const channelResponse = await fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${YOUTUBE_CHANNEL_HANDLE}&type=channel&key=${apiKey}`
-      );
-
-      if (!channelResponse.ok) throw new Error(`channel lookup ${channelResponse.status}`);
-
-      const channelData = await channelResponse.json();
-      const channelId = channelData.items?.[0]?.id?.channelId;
-
-      if (!channelId) throw new Error("channel not found");
+      // Use forHandle lookup — more reliable than a generic search query
+      const CHANNEL_ID_FALLBACK = "UCrpu0clzYDufIhh_--dRAzw";
+      let channelId = CHANNEL_ID_FALLBACK;
+      try {
+        const channelResponse = await fetch(
+          `https://www.googleapis.com/youtube/v3/channels?part=id&forHandle=asembleaiyt&key=${apiKey}`,
+          { signal: AbortSignal.timeout(6000) }
+        );
+        if (channelResponse.ok) {
+          const channelData = await channelResponse.json();
+          channelId = channelData.items?.[0]?.id || CHANNEL_ID_FALLBACK;
+        }
+      } catch {
+        // keep CHANNEL_ID_FALLBACK
+      }
 
       const videosResponse = await fetch(
         `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&order=date&maxResults=50&type=video&key=${apiKey}`
