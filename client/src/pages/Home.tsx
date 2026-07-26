@@ -52,10 +52,17 @@ const TOPIC_IMAGES: Array<{ keywords: string[]; image: string }> = [
   { keywords: ["ai", "artificial", "intelligence", "deep tech", "machine learning", "deeptech", "science"], image: aiImg },
 ];
 
-function getEpisodeThumbnail(title: string, tags: string[]): string {
-  const text = (title + " " + tags.join(" ")).toLowerCase();
-  for (const { keywords, image } of TOPIC_IMAGES) {
-    if (keywords.some((kw) => text.includes(kw))) return image;
+function getEpisodeThumbnail(title: string, _tags: string[], videos: any[]): string {
+  if (videos?.length) {
+    const epWords = new Set(title.toLowerCase().split(/\W+/).filter((w) => w.length > 3));
+    let best = { thumbnail: "", score: 0 };
+    for (const v of videos) {
+      const vWords = v.title.toLowerCase().split(/\W+/).filter((w: string) => w.length > 3);
+      const hits = vWords.filter((w: string) => epWords.has(w)).length;
+      const score = hits / Math.max(epWords.size, vWords.length);
+      if (score > 0.25 && score > best.score) best = { thumbnail: v.thumbnail, score };
+    }
+    if (best.thumbnail) return best.thumbnail;
   }
   return aiImg;
 }
@@ -592,7 +599,7 @@ export default function Home() {
                   transition={{ delay: i * 0.1 }} viewport={{ once: true }}>
                   <Card className="h-full glass-card border-white/5 hover:border-primary/30 transition-all duration-300 group overflow-hidden" data-testid={`card-episode-${i}`}>
                     <div className="aspect-video overflow-hidden">
-                      <img src={getEpisodeThumbnail(ep.title, ep.tags ?? [])} alt={ep.title}
+                      <img src={getEpisodeThumbnail(ep.title, ep.tags ?? [], videosData?.videos ?? [])} alt={ep.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
                     </div>
                     <CardContent className="p-5">
