@@ -641,7 +641,7 @@ export default function Home() {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             <AnimatedTitle gradient="from-teal-400 via-emerald-500 to-green-400">By the Numbers</AnimatedTitle>
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Built in 18 months — on track for 1M downloads.</p>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Half a million downloads in 18 months — on track for 1M.</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-14">
@@ -672,6 +672,29 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
+
+          {/* Global Presence box */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }} viewport={{ once: true }}
+            className="mt-4 bg-gradient-to-br from-teal-500/10 to-emerald-500/10 border border-white/10 rounded-2xl p-6 text-center">
+            <div className="text-2xl font-bold text-white mb-1">🌍 Global Presence</div>
+            <div className="text-sm font-semibold text-teal-400 mb-3">International Listeners</div>
+            <div className="flex flex-wrap justify-center gap-4">
+              {[
+                { flag: "🇺🇸", name: "USA" },
+                { flag: "🇨🇦", name: "Canada" },
+                { flag: "🇩🇪", name: "Germany" },
+                { flag: "🇳🇴", name: "Norway" },
+                { flag: "🇹🇼", name: "Taiwan" },
+              ].map(({ flag, name }) => (
+                <div key={name} className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                  <span className="text-xl leading-none">{flag}</span>
+                  <span>{name}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
         </div>
 
         {/* ── WHERE OUR AUDIENCE IS ── */}
@@ -741,7 +764,7 @@ export default function Home() {
             <AnimatedTitle gradient="from-orange-400 via-red-500 to-pink-500">Actually Listen</AnimatedTitle>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Generic channels don't convert — niche, trusted media does. Advertise where 300K+ AI decision-makers tune in.
+            Generic channels don't convert — niche, trusted media does. Advertise where 500K+ AI decision-makers tune in.
           </p>
         </div>
 

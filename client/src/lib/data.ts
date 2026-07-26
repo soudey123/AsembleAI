@@ -138,18 +138,18 @@ export const enterprisePackages = [
 ];
 
 export const audienceStats = [
-  { value: 400000, label: "Podcast Downloads", display: "400K+", suffix: "", description: "Across Apple, Spotify & Podbean" },
+  { value: 500000, label: "Podcast Downloads", display: "500K+", suffix: "", description: "Across Apple, Spotify & RSS" },
   { value: 7000, label: "YouTube Subscribers", display: "7K+", suffix: "", description: "Growing 15%+ month-over-month" },
   { value: 50, label: "Episodes Published", display: "50+", suffix: "", description: "Weekly multi-channel publishing" },
   { value: 20, label: "Expert Guests", display: "20+", suffix: "", description: "AI pioneers, CTOs & researchers" },
   { value: 100, label: "Newsletter Subscribers", display: "100+", suffix: "", description: "Growing community of practitioners" },
-  { value: 18, label: "Months to 300K", display: "18", suffix: " mo", description: "Built in 18 months — on track for 1M" }
+  { value: 18, label: "Months to 500K", display: "18", suffix: " mo", description: "Built in 18 months — on track for 1M" }
 ];
 
 export const audienceDemographics = [
   { stat: "68%", label: "Technical Decision-Makers", detail: "Engineers, founders, CTOs & architects" },
   { stat: "41%", label: "Have Budget Authority", detail: "Up to $50K purchasing power" },
-  { stat: "Top Metros", label: "Audience Reach", detail: "SF · NYC · Boston · Austin · Seattle" }
+  { stat: "Top Metros", label: "Audience Reach", detail: "SF · NYC · Boston · Austin · Philadelphia · Denver · Seattle" }
 ];
 
 export const testimonials = [
