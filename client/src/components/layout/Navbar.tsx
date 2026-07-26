@@ -6,6 +6,13 @@ import { useState, useEffect } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import logoImage from "@assets/Logo_1_1765679359359.png";
 
+function scrollToSection(id: string) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
 export function Navbar() {
   const [location] = useLocation();
   const [scrolled, setScrolled] = useState(false);
@@ -17,17 +24,28 @@ export function Navbar() {
   }, []);
 
   const links = [
-    { href: "/podcast", label: "Podcast" },
-    { href: "/#audience", label: "Audience" },
-    { href: "/#testimonials", label: "Testimonials" },
-    { href: "/#services", label: "Services" },
-    { href: "/about", label: "About" },
-    { href: "/newsletter", label: "Newsletter" },
+    { href: "/podcast", label: "Podcast", sectionId: null },
+    { href: "/#audience", label: "Audience", sectionId: "audience" },
+    { href: "/#testimonials", label: "Testimonials", sectionId: "testimonials" },
+    { href: "/#services", label: "Services", sectionId: "services" },
+    { href: "/about", label: "About", sectionId: null },
+    { href: "/newsletter", label: "Newsletter", sectionId: null },
   ];
 
   const isActive = (href: string) => {
     if (href.startsWith("/#")) return false;
     return location === href;
+  };
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, link: typeof links[0]) => {
+    if (link.sectionId) {
+      // If already on home page, just smooth-scroll; otherwise navigate then scroll
+      if (location === "/" || location === "") {
+        e.preventDefault();
+        scrollToSection(link.sectionId);
+      }
+      // If on another page, let the normal href navigation happen; the hash will scroll on load
+    }
   };
 
   return (
@@ -47,7 +65,7 @@ export function Navbar() {
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-7">
           {links.map((link) => (
-            <a key={link.href} href={link.href}>
+            <a key={link.href} href={link.href} onClick={(e) => handleLinkClick(e, link)}>
               <span
                 className={cn(
                   "text-sm font-medium cursor-pointer transition-colors hover:text-white",
@@ -58,7 +76,7 @@ export function Navbar() {
               </span>
             </a>
           ))}
-          <a href="/#services">
+          <a href="/#services" onClick={(e) => { if (location === "/" || location === "") { e.preventDefault(); scrollToSection("services"); } }}>
             <Button
               variant="default"
               className="bg-primary hover:bg-primary/90 text-white shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] transition-all"
@@ -79,7 +97,7 @@ export function Navbar() {
             <SheetContent className="bg-background/95 backdrop-blur-xl border-white/10">
               <div className="flex flex-col gap-8 mt-10">
                 {links.map((link) => (
-                  <a key={link.href} href={link.href}>
+                  <a key={link.href} href={link.href} onClick={(e) => handleLinkClick(e, link)}>
                     <span
                       className={cn(
                         "text-lg font-medium cursor-pointer transition-colors hover:text-white block",
@@ -90,7 +108,7 @@ export function Navbar() {
                     </span>
                   </a>
                 ))}
-                <a href="/#services">
+                <a href="/#services" onClick={(e) => { if (location === "/" || location === "") { e.preventDefault(); scrollToSection("services"); } }}>
                   <Button className="w-full bg-primary hover:bg-primary/90">Partner With Us</Button>
                 </a>
               </div>

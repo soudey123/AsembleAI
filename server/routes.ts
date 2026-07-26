@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 import Parser from "rss-parser";
 import { getUncachableSendGridClient } from "./sendgrid";
 
-const RSS_FEED_URL = "https://media.rss.com/inside-asembleai/feed.xml";
+const RSS_FEED_URL = "https://media.rss.com/data-science-with-sam/feed.xml";
 const YOUTUBE_CHANNEL_HANDLE = "@asembleaiyt";
 
 const SUBSTACK_RSS_URL = "https://asembleai.substack.com/feed";
@@ -143,7 +143,7 @@ function bestMatch<T extends { title: string }>(audioTitle: string, candidates: 
 async function fetchAppleEpisodes(): Promise<{ title: string; url: string }[]> {
   try {
     const searchRes = await fetch(
-      "https://itunes.apple.com/search?term=inside+asembleai&media=podcast&entity=podcast&limit=5",
+      "https://itunes.apple.com/search?term=data+science+with+sam&media=podcast&entity=podcast&limit=5",
       { signal: AbortSignal.timeout(8000) }
     );
     const searchData = await searchRes.json();
@@ -287,12 +287,28 @@ export async function registerRoutes(
           description: (item.contentSnippet || item.content || '').slice(0, 200),
           thumbnail,
           spotifyUrl: item.link || '',
+          appleUrl: '',
           youtubeUrl: `https://www.youtube.com/${YOUTUBE_CHANNEL_HANDLE}`,
           tags: ['AI', 'Technology'],
           type: 'audio' as const,
           duration: durationStr
         };
       });
+
+      // Enrich episodes with Apple/Spotify links stored in DB
+      try {
+        const dbLinks = await db.select().from(episodeLinks);
+        const linkMap = new Map(dbLinks.map((l: any) => [l.episodeSlug, l]));
+        for (const ep of episodes) {
+          const dbLink = linkMap.get(ep.slug) as any;
+          if (dbLink) {
+            if (dbLink.spotifyUrl) ep.spotifyUrl = dbLink.spotifyUrl;
+            if (dbLink.appleUrl) (ep as any).appleUrl = dbLink.appleUrl;
+          }
+        }
+      } catch (e) {
+        // non-fatal — DB enrichment optional
+      }
       
       res.json({ episodes, feedTitle: feed.title, feedImage: feed.image?.url || feed.itunes?.image });
     } catch (error) {
