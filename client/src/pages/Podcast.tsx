@@ -383,7 +383,7 @@ export default function Podcast() {
                     <Card key={item.slug || index} className={`bg-card border-white/5 overflow-hidden transition-all group ${isDedicated ? "hover:border-red-500/30" : "hover:border-red-400/20"}`}
                       data-testid={`card-video-${index}`}>
                       <div className="relative h-56 overflow-hidden">
-                        <img src={getTopicCover(item.title)} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                        <img src={item.thumbnail} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                         {!isDedicated && (
                           <div className="absolute top-2 left-2 bg-black/80 text-xs text-red-400 px-2 py-1 rounded flex items-center gap-1">
                             <Youtube className="w-3 h-3" /> Also on YouTube
