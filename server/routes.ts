@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 import Parser from "rss-parser";
 import { getUncachableSendGridClient } from "./sendgrid";
 
-const RSS_FEED_URL = "https://media.rss.com/data-science-with-sam/feed.xml";
+const RSS_FEED_URL = "https://media.rss.com/insideasembleai/feed.xml";
 const YOUTUBE_CHANNEL_HANDLE = "@asembleaiyt";
 
 const SUBSTACK_RSS_URL = "https://asembleai.substack.com/feed";
@@ -143,7 +143,7 @@ function bestMatch<T extends { title: string }>(audioTitle: string, candidates: 
 async function fetchAppleEpisodes(): Promise<{ title: string; url: string }[]> {
   try {
     const searchRes = await fetch(
-      "https://itunes.apple.com/search?term=data+science+with+sam&media=podcast&entity=podcast&limit=5",
+      "https://itunes.apple.com/search?term=inside+asembleai&media=podcast&entity=podcast&limit=5",
       { signal: AbortSignal.timeout(8000) }
     );
     const searchData = await searchRes.json();

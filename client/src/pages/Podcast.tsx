@@ -75,11 +75,15 @@ interface EpisodeLinkMap {
   [slug: string]: { appleUrl: string | null; spotifyUrl: string | null; youtubeUrl: string | null };
 }
 
+const PAGE_SIZE = 5;
+
 export default function Podcast() {
   const [searchTerm, setSearchTerm] = useState("");
   const [, setLocation] = useLocation();
   const search = useSearch();
   const queryClient = useQueryClient();
+  const [audioVisible, setAudioVisible] = useState(PAGE_SIZE);
+  const [videoVisible, setVideoVisible] = useState(PAGE_SIZE);
 
   const params = new URLSearchParams(search);
   const topicId = params.get("topic") || "";
@@ -239,79 +243,93 @@ export default function Podcast() {
               {activeTopic && <p className="text-sm mt-1">Try another category or <button onClick={clearTopic} className="text-primary underline">view all</button>.</p>}
             </div>
           ) : (
-            <div className="space-y-4">
-              {audioEpisodes.map((episode, index) => (
-                <Card key={`${episode.slug}-${index}`} className="bg-card/50 border-white/5 hover:border-green-500/30 transition-all group overflow-hidden" data-testid={`card-audio-${index}`}>
-                  <div className="flex flex-col md:flex-row gap-6 p-6 items-center md:items-start">
-                    <div className="relative shrink-0 w-full md:w-32 h-32 rounded-lg overflow-hidden">
-                      {episode.thumbnail ? (
-                        <img src={episode.thumbnail} alt={episode.title} className="w-full h-full object-cover" />
-                      ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center">
-                          <Mic className="w-10 h-10 text-white/80" />
+            <>
+              <div className="space-y-4">
+                {audioEpisodes.slice(0, audioVisible).map((episode, index) => (
+                  <Card key={`${episode.slug}-${index}`} className="bg-card/50 border-white/5 hover:border-green-500/30 transition-all group overflow-hidden" data-testid={`card-audio-${index}`}>
+                    <div className="flex flex-col md:flex-row gap-6 p-6 items-center md:items-start">
+                      <div className="relative shrink-0 w-full md:w-32 h-32 rounded-lg overflow-hidden">
+                        {episode.thumbnail ? (
+                          <img src={episode.thumbnail} alt={episode.title} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center">
+                            <Mic className="w-10 h-10 text-white/80" />
+                          </div>
+                        )}
+                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center">
+                            <Play className="w-4 h-4 text-black ml-1 fill-current" />
+                          </div>
                         </div>
-                      )}
-                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center">
-                          <Play className="w-4 h-4 text-black ml-1 fill-current" />
+                      </div>
+
+                      <div className="flex-grow text-center md:text-left">
+                        <div className="flex flex-col md:flex-row md:items-center gap-2 mb-2 justify-center md:justify-start">
+                          <span className="text-xs font-mono text-green-500 uppercase tracking-wider">Audio</span>
+                          <span className="hidden md:inline text-muted-foreground">•</span>
+                          <span className="text-xs text-muted-foreground flex items-center justify-center md:justify-start gap-1">
+                            <Calendar className="w-3 h-3" /> {episode.date}
+                          </span>
+                          <span className="hidden md:inline text-muted-foreground">•</span>
+                          <span className="text-xs text-muted-foreground flex items-center justify-center md:justify-start gap-1">
+                            <Clock className="w-3 h-3" /> {episode.duration}
+                          </span>
+                        </div>
+                        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-green-400 transition-colors">{episode.title}</h3>
+                        <p className="text-sm text-muted-foreground mb-4 max-w-2xl">
+                          {episode.description}{episode.guest ? <span className="text-primary/70"> ft. {episode.guest}</span> : null}
+                        </p>
+                        <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+                          {episode.tags.map(tag => (
+                            <span key={tag} className="text-[10px] px-2 py-1 rounded-full bg-white/5 text-muted-foreground border border-white/5">{tag}</span>
+                          ))}
                         </div>
                       </div>
-                    </div>
 
-                    <div className="flex-grow text-center md:text-left">
-                      <div className="flex flex-col md:flex-row md:items-center gap-2 mb-2 justify-center md:justify-start">
-                        <span className="text-xs font-mono text-green-500 uppercase tracking-wider">Audio</span>
-                        <span className="hidden md:inline text-muted-foreground">•</span>
-                        <span className="text-xs text-muted-foreground flex items-center justify-center md:justify-start gap-1">
-                          <Calendar className="w-3 h-3" /> {episode.date}
-                        </span>
-                        <span className="hidden md:inline text-muted-foreground">•</span>
-                        <span className="text-xs text-muted-foreground flex items-center justify-center md:justify-start gap-1">
-                          <Clock className="w-3 h-3" /> {episode.duration}
-                        </span>
-                      </div>
-                      <h3 className="text-xl font-bold text-white mb-2 group-hover:text-green-400 transition-colors">{episode.title}</h3>
-                      <p className="text-sm text-muted-foreground mb-4 max-w-2xl">
-                        {episode.description}{episode.guest ? <span className="text-primary/70"> ft. {episode.guest}</span> : null}
-                      </p>
-                      <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-                        {episode.tags.map(tag => (
-                          <span key={tag} className="text-[10px] px-2 py-1 rounded-full bg-white/5 text-muted-foreground border border-white/5">{tag}</span>
-                        ))}
+                      <div className="shrink-0 w-full md:w-auto flex flex-col gap-2">
+                        {(() => {
+                          const stored = episodeLinkMap[episode.slug];
+                          const appleUrl = stored?.appleUrl || APPLE_SHOW_URL;
+                          const spotifyUrl = stored?.spotifyUrl || SPOTIFY_SHOW_URL;
+                          const ytUrl = stored?.youtubeUrl || findYouTubeUrl(episode.title, allVideos);
+                          return (
+                            <>
+                              <a href={appleUrl} target="_blank" rel="noopener noreferrer">
+                                <Button className="w-full bg-purple-700 hover:bg-purple-800 text-white font-medium" data-testid={`button-apple-${index}`}>
+                                  🎵 Apple Podcasts
+                                </Button>
+                              </a>
+                              <a href={spotifyUrl} target="_blank" rel="noopener noreferrer">
+                                <Button className="w-full bg-green-600 hover:bg-green-700 text-black font-medium" data-testid={`button-spotify-${index}`}>
+                                  ♫ Spotify
+                                </Button>
+                              </a>
+                              <a href={ytUrl} target="_blank" rel="noopener noreferrer">
+                                <Button variant="outline" size="sm" className="w-full text-xs border-white/10 hover:bg-white/5 hover:border-red-500/30" data-testid={`button-yt-audio-${index}`}>
+                                  <Youtube className="w-3.5 h-3.5 mr-1.5 text-red-500" /> Watch on YouTube
+                                </Button>
+                              </a>
+                            </>
+                          );
+                        })()}
                       </div>
                     </div>
-
-                    <div className="shrink-0 w-full md:w-auto flex flex-col gap-2">
-                      {(() => {
-                        const stored = episodeLinkMap[episode.slug];
-                        const appleUrl = stored?.appleUrl || APPLE_SHOW_URL;
-                        const spotifyUrl = stored?.spotifyUrl || SPOTIFY_SHOW_URL;
-                        const ytUrl = stored?.youtubeUrl || findYouTubeUrl(episode.title, allVideos);
-                        return (
-                          <>
-                            <a href={appleUrl} target="_blank" rel="noopener noreferrer">
-                              <Button className="w-full bg-purple-700 hover:bg-purple-800 text-white font-medium" data-testid={`button-apple-${index}`}>
-                                🎵 Apple Podcasts
-                              </Button>
-                            </a>
-                            <a href={spotifyUrl} target="_blank" rel="noopener noreferrer">
-                              <Button className="w-full bg-green-600 hover:bg-green-700 text-black font-medium" data-testid={`button-spotify-${index}`}>
-                                ♫ Spotify
-                              </Button>
-                            </a>
-                            <a href={ytUrl} target="_blank" rel="noopener noreferrer">
-                              <Button variant="outline" size="sm" className="w-full text-xs border-white/10 hover:bg-white/5 hover:border-red-500/30" data-testid={`button-yt-audio-${index}`}>
-                                <Youtube className="w-3.5 h-3.5 mr-1.5 text-red-500" /> Watch on YouTube
-                              </Button>
-                            </a>
-                          </>
-                        );
-                      })()}
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
+                  </Card>
+                ))}
+              </div>
+              {audioVisible < audioEpisodes.length && (
+                <div className="text-center mt-8">
+                  <Button
+                    variant="outline"
+                    className="border-white/10 hover:bg-white/5 text-white px-8"
+                    onClick={() => setAudioVisible(v => v + PAGE_SIZE)}
+                    data-testid="button-audio-show-more"
+                  >
+                    Show More Episodes ({audioEpisodes.length - audioVisible} remaining)
+                  </Button>
+                </div>
+              )}
+            </>
           )}
         </Section>
 
@@ -341,51 +359,65 @@ export default function Podcast() {
               }
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {videoSectionItems.map((item, index) => {
-                const isDedicated = (item as any).isDedicated !== false;
-                return (
-                  <Card key={item.slug || index} className={`bg-card border-white/5 overflow-hidden transition-all group ${isDedicated ? "hover:border-red-500/30" : "hover:border-red-400/20"}`}
-                    data-testid={`card-video-${index}`}>
-                    <div className="relative h-56 overflow-hidden">
-                      <img src={item.thumbnail} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                      {!isDedicated && (
-                        <div className="absolute top-2 left-2 bg-black/80 text-xs text-red-400 px-2 py-1 rounded flex items-center gap-1">
-                          <Youtube className="w-3 h-3" /> Also on YouTube
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {videoSectionItems.slice(0, videoVisible).map((item, index) => {
+                  const isDedicated = (item as any).isDedicated !== false;
+                  return (
+                    <Card key={item.slug || index} className={`bg-card border-white/5 overflow-hidden transition-all group ${isDedicated ? "hover:border-red-500/30" : "hover:border-red-400/20"}`}
+                      data-testid={`card-video-${index}`}>
+                      <div className="relative h-56 overflow-hidden">
+                        <img src={item.thumbnail} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                        {!isDedicated && (
+                          <div className="absolute top-2 left-2 bg-black/80 text-xs text-red-400 px-2 py-1 rounded flex items-center gap-1">
+                            <Youtube className="w-3 h-3" /> Also on YouTube
+                          </div>
+                        )}
+                        <div className="absolute top-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
+                          <Clock className="w-3 h-3" /> {item.duration}
                         </div>
-                      )}
-                      <div className="absolute top-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
-                        <Clock className="w-3 h-3" /> {item.duration}
+                        <a href={item.youtubeUrl} target="_blank" rel="noopener noreferrer"
+                          className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
+                          <Button size="icon" className="rounded-full w-14 h-14 bg-red-600 hover:bg-red-700 text-white border-none">
+                            <Play className="w-6 h-6 ml-1 fill-current" />
+                          </Button>
+                        </a>
                       </div>
-                      <a href={item.youtubeUrl} target="_blank" rel="noopener noreferrer"
-                        className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
-                        <Button size="icon" className="rounded-full w-14 h-14 bg-red-600 hover:bg-red-700 text-white border-none">
-                          <Play className="w-6 h-6 ml-1 fill-current" />
-                        </Button>
-                      </a>
-                    </div>
-                    <CardHeader>
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-xs text-primary font-medium">{item.date}</span>
-                        <span className="text-xs text-muted-foreground bg-white/5 px-2 py-1 rounded-full">{item.tags?.[0]}</span>
-                      </div>
-                      <CardTitle className="text-xl text-white leading-tight line-clamp-2">{item.title}</CardTitle>
-                      {item.guest && <CardDescription className="text-sm">ft. {item.guest}</CardDescription>}
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground text-sm line-clamp-2 mb-4">{item.description}</p>
-                      <a href={item.youtubeUrl} target="_blank" rel="noopener noreferrer" className="w-full">
-                        <Button variant="outline" size="sm" className="w-full text-xs border-white/10 hover:bg-white/5 group-hover:border-red-500/20"
-                          data-testid={`button-watch-${index}`}>
-                          <Youtube className="w-4 h-4 mr-2 text-red-500" />
-                          {isDedicated ? "Watch on YouTube" : "Find on YouTube"}
-                        </Button>
-                      </a>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
+                      <CardHeader>
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-xs text-primary font-medium">{item.date}</span>
+                          <span className="text-xs text-muted-foreground bg-white/5 px-2 py-1 rounded-full">{item.tags?.[0]}</span>
+                        </div>
+                        <CardTitle className="text-xl text-white leading-tight line-clamp-2">{item.title}</CardTitle>
+                        {item.guest && <CardDescription className="text-sm">ft. {item.guest}</CardDescription>}
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-muted-foreground text-sm line-clamp-2 mb-4">{item.description}</p>
+                        <a href={item.youtubeUrl} target="_blank" rel="noopener noreferrer" className="w-full">
+                          <Button variant="outline" size="sm" className="w-full text-xs border-white/10 hover:bg-white/5 group-hover:border-red-500/20"
+                            data-testid={`button-watch-${index}`}>
+                            <Youtube className="w-4 h-4 mr-2 text-red-500" />
+                            {isDedicated ? "Watch on YouTube" : "Find on YouTube"}
+                          </Button>
+                        </a>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+              {videoVisible < videoSectionItems.length && (
+                <div className="text-center mt-8">
+                  <Button
+                    variant="outline"
+                    className="border-white/10 hover:bg-white/5 text-white px-8"
+                    onClick={() => setVideoVisible(v => v + PAGE_SIZE)}
+                    data-testid="button-video-show-more"
+                  >
+                    Show More Videos ({videoSectionItems.length - videoVisible} remaining)
+                  </Button>
+                </div>
+              )}
+            </>
           )}
         </Section>
       </div>
