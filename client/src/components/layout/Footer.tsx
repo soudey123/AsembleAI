@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Linkedin, Twitter, Mail, Youtube } from "lucide-react";
+import { Linkedin, Mail, Youtube } from "lucide-react";
 import logoImage from "@assets/Logo_1_1765679359359.png";
 
 export function Footer() {
@@ -58,8 +58,17 @@ export function Footer() {
           <div>
             <h4 className="font-heading font-bold text-white mb-6">Connect</h4>
             <div className="flex gap-3 mb-6">
-              <a href="https://x.com/AsembleAI" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-all text-muted-foreground" aria-label="X / Twitter">
-                <Twitter className="w-5 h-5" />
+              <a href="https://x.com/AsembleAI" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-all text-muted-foreground" aria-label="X">
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.261 5.632 5.903-5.632Zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+              </a>
+              <a href="https://www.instagram.com/asembleai?igsh=dnJtemRseWh0NzRu&utm_source=qr" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-all text-muted-foreground" aria-label="Instagram">
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                </svg>
               </a>
               <a href="https://www.linkedin.com/company/asembleai" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-all text-muted-foreground" aria-label="LinkedIn">
                 <Linkedin className="w-5 h-5" />
