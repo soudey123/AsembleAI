@@ -282,6 +282,22 @@ function NewsletterForm() {
   );
 }
 
+function ProofStrip() {
+  return (
+    <Section className="home-proof border-y border-white/10 bg-black py-10 md:py-14">
+      <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/10 max-w-5xl mx-auto">
+        {audienceStats.slice(0, 3).map((stat) => (
+          <div key={stat.label} className="px-6 py-4 md:py-2 text-center">
+            <AnimatedCounter value={stat.value} display={stat.display} />
+            <p className="text-sm font-semibold text-white mt-2">{stat.label}</p>
+            <p className="text-xs text-muted-foreground mt-1">{stat.description}</p>
+          </div>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
 /* ─────────────────────────────────────────────────────────
    SECTION BACKGROUNDS
 ───────────────────────────────────────────────────────── */
@@ -517,10 +533,15 @@ export default function Home() {
 
   return (
     <Layout>
-      <Hero />
+      <div className="home-flow">
+        <div className="home-hero">
+          <Hero />
+        </div>
+
+        <ProofStrip />
 
       {/* ── TOPICS / BROWSE BY CATEGORY ── */}
-      <Section id="topics" className="border-y border-white/5">
+      <Section id="topics" className="home-section home-topics border-y border-white/10">
         <div className="text-center mb-12">
           <p className="text-xs font-bold tracking-widest uppercase text-primary mb-3">Browse by Topic</p>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -569,7 +590,7 @@ export default function Home() {
       </Section>
 
       {/* ── LATEST EPISODES ── */}
-      <Section id="episodes" bg={<EpisodesBg />}>
+      <Section id="episodes" className="home-section home-episodes" bg={<EpisodesBg />}>
         <div className="text-center mb-14">
           <p className="text-xs font-bold tracking-widest uppercase text-primary mb-3">Latest Episodes</p>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -635,7 +656,7 @@ export default function Home() {
       </Section>
 
       {/* ── BY THE NUMBERS / AUDIENCE ── */}
-      <Section className="border-y border-white/5" id="audience" bg={<AudienceBg />}>
+      <Section className="home-section home-audience border-y border-white/10" id="audience" bg={<AudienceBg />}>
         <div className="text-center mb-14">
           <p className="text-xs font-bold tracking-widest uppercase text-primary mb-3">The AsembleAI Audience</p>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -746,7 +767,7 @@ export default function Home() {
       </Section>
 
       {/* ── TESTIMONIALS ── */}
-      <Section id="testimonials" bg={<TestimonialsBg />}>
+      <Section id="testimonials" className="home-section home-testimonials" bg={<TestimonialsBg />}>
         <div className="text-center mb-14">
           <p className="text-xs font-bold tracking-widest uppercase text-primary mb-3">Guest Voices</p>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -757,7 +778,7 @@ export default function Home() {
       </Section>
 
       {/* ── SERVICES / PARTNER WITH US ── */}
-      <Section className="border-y border-white/5" id="services" bg={<ServicesBg />}>
+      <Section className="home-section home-services border-y border-white/10" id="services" bg={<ServicesBg />}>
         <div className="text-center mb-14">
           <p className="text-xs font-bold tracking-widest uppercase text-primary mb-3">Partner With Us</p>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -811,7 +832,7 @@ export default function Home() {
       </Section>
 
       {/* ── NEWSLETTER SIGNUP ── */}
-      <Section id="newsletter" bg={<NewsletterBg />}>
+      <Section id="newsletter" className="home-section home-newsletter" bg={<NewsletterBg />}>
         <div className="max-w-2xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <p className="text-xs font-bold tracking-widest uppercase text-primary mb-4">Newsletter</p>
@@ -832,6 +853,7 @@ export default function Home() {
           </motion.div>
         </div>
       </Section>
+      </div>
     </Layout>
   );
 }
