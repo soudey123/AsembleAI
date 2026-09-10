@@ -1,0 +1,30 @@
+You are restyling an existing website. This is a visual reskin, not a rewrite. Treat the current site as the source of truth for content and structure. Your job is to change how it looks, not what it says.
+Site: asembleai.com — AI-focused media, technology, and innovation company. Podcast (Inside AsembleAI), YouTube, newsletter, and community reaching AI, DeepTech, and Science decision-makers.
+Reference for visual direction: https://www.sweetfishmedia.com/
+
+STEP 1 — Inventory before you change anything. Before writing a single line of code, produce a written inventory of the current site: every page, every section in order, every headline, subhead, body paragraph, CTA label, link destination, stat, logo, image, and embed. Show me this inventory and wait for my confirmation. Do not begin restyling until I approve it.
+STEP 2 — Lock these. Do not change, reword, reorder, or "improve" them:
+* All copy — headlines, subheads, body text, taglines, button labels. Verbatim.
+* Brand name spelling: AsembleAI (one "s" — this is correct, do not "fix" it).
+* Logo, wordmark, and brand color palette.
+* Information architecture: same pages, same URLs, same nav items, same section order.
+* All links, embeds, podcast players, RSS feeds, forms, and analytics/tracking tags.
+* All real numbers and proof points (download counts, rankings, guest names). Never invent a stat, testimonial, client logo, or case study. If a section on the reference site has no equivalent content on ours, omit that section entirely — do not fill it with placeholder or fabricated content.
+STEP 3 — What to borrow from the reference (form only, never content):
+* Layout rhythm: full-bleed hero with a large bold headline + one-line subhead + single primary CTA, followed by a horizontal logo/credibility strip, then alternating full-width content bands with generous vertical padding between them.
+* Section patterns: three-up icon-or-image cards with a short bold label and one sentence beneath; a multi-step horizontal progression of labeled stages; proof blocks that pair a quote with an attributed name/title and one or two large metric callouts; a collapsible FAQ accordion at the bottom; a closing full-width CTA band.
+* Typography: heavy sans-serif display headings at large sizes with tight leading, clearly separated from smaller, lighter body text. Strong size contrast between heading and body.
+* Color approach: one dominant neutral base with a single saturated accent color used sparingly for CTAs, links, and small highlights. Use AsembleAI's existing accent color in that role — do not adopt Sweet Fish's crimson or any of their brand colors.
+* Density: more whitespace, fewer elements per screen, one idea per band.
+STEP 4 — Do NOT copy:
+* Sweet Fish's copy, headlines, taglines, or phrasing in any form.
+* Their logo, brand colors, images, icons, or client logos.
+* Their exact CSS, class names, or scraped markup. Build fresh components.
+* Their service offerings or positioning. AsembleAI is a media platform, not a B2B podcast production agency — the content stays ours.
+STEP 5 — Constraints:
+* Fully responsive; verify mobile before desktop.
+* Preserve or improve current Lighthouse accessibility and performance scores. Maintain semantic heading hierarchy and color contrast ratios of at least 4.5:1.
+* Keep all existing meta tags, OpenGraph tags, and canonical URLs intact.
+* Work on a branch or duplicate. Do not overwrite the live site.
+STEP 6 — Deliver incrementally. Restyle the homepage hero and nav first. Show me a preview. Wait for approval before moving to the next section. After each section, tell me exactly which content changed (the answer should be "none") and which visual properties changed.
+Success test: if I diff the old and new sites' text content, the diff should be empty.
