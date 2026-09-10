@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 import Parser from "rss-parser";
 import { getUncachableSendGridClient } from "./sendgrid";
 
-const RSS_FEED_URL = "https://media.rss.com/insideasembleai/feed.xml";
+const RSS_FEED_URL = "https://media.rss.com/asemble-mac-and-sam/feed.xml";
 const YOUTUBE_CHANNEL_HANDLE = "@asembleaiyt";
 
 const SUBSTACK_RSS_URL = "https://asembleai.substack.com/feed";
