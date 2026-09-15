@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import mobileBg from "@assets/Screenshot_2026-06-05_at_7.24.12_PM_1780709086500.png";
-
 const PLATFORMS = [
   { label: "Apple Podcasts", href: "https://podcasts.apple.com/search?term=inside+asembleai", icon: "🎵", color: "hover:bg-purple-500/20 hover:text-purple-300 hover:border-purple-500/30" },
   { label: "Spotify", href: "https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU", icon: "♫", color: "hover:bg-green-500/20 hover:text-green-400 hover:border-green-500/30" },
@@ -11,34 +9,48 @@ const PLATFORMS = [
 ];
 
 const HERO_REEL = [
-  { videoId: "eZtXVs1XIe8", startSeconds: 8 },
-  { videoId: "hti_8AM_mBg", startSeconds: 10 },
-  { videoId: "rhvY5p1UkLg", startSeconds: 7 },
-  { videoId: "Q0dcB15m8Ns", startSeconds: 9 },
-  { videoId: "GOBtXqJMfIU", startSeconds: 12 },
-  { videoId: "BoLde-FY_Bg", startSeconds: 8 },
-  { videoId: "U2AIQnF5dxc", startSeconds: 10 },
-  { videoId: "BoJuiUX-nB0", startSeconds: 7 },
+  { videoId: "eZtXVs1XIe8", startSeconds: 8, label: "ActualyzeAI" },
+  { videoId: "hti_8AM_mBg", startSeconds: 10, label: "Atera" },
+  { videoId: "rhvY5p1UkLg", startSeconds: 7, label: "DTEX" },
+  { videoId: "Q0dcB15m8Ns", startSeconds: 9, label: "Mind Children" },
+  { videoId: "GOBtXqJMfIU", startSeconds: 12, label: "SingularityNET" },
+  { videoId: "BoLde-FY_Bg", startSeconds: 8, label: "Sophos" },
+  { videoId: "U2AIQnF5dxc", startSeconds: 10, label: "TrueFoundry" },
+  { videoId: "BoJuiUX-nB0", startSeconds: 7, label: "Kalk Robotics" },
+  { videoId: "FoTjTTFnHlw", startSeconds: 8, label: "Douglas Swatski" },
+  { videoId: "_bCV2xm3TC8", startSeconds: 10, label: "LotusPetal AI" },
+  { videoId: "nWCP19vGxIE", startSeconds: 6, label: "Inside AsembleAI" },
+  { videoId: "gacscV1XtUc", startSeconds: 8, label: "Backblaze" },
 ];
 const REEL_CLIP_DURATION = 4.8;
 
-function BackgroundOrbs() {
-  return (
-    <>
-      <div className="absolute inset-0 bg-black/75" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/75 to-black/20" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black" />
-    </>
-  );
-}
-
-function YouTubeBackground() {
+function PodcastReel() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<any>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const transitionRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const reelIndexRef = useRef(0);
   const [visible, setVisible] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  function loadClip(index: number) {
+    const nextIndex = (index + HERO_REEL.length) % HERO_REEL.length;
+    const nextClip = HERO_REEL[nextIndex];
+    reelIndexRef.current = nextIndex;
+    setActiveIndex(nextIndex);
+    setVisible(false);
+    if (transitionRef.current) clearTimeout(transitionRef.current);
+    transitionRef.current = setTimeout(() => {
+      try {
+        playerRef.current?.loadVideoById({
+          videoId: nextClip.videoId,
+          startSeconds: nextClip.startSeconds,
+        });
+        playerRef.current?.mute();
+        setVisible(true);
+      } catch {}
+    }, 300);
+  }
 
   useEffect(() => {
     let cancelled = false;
@@ -54,20 +66,7 @@ function YouTubeBackground() {
             event.target.playVideo();
             setVisible(true);
             intervalRef.current = setInterval(() => {
-              setVisible(false);
-              transitionRef.current = setTimeout(() => {
-                if (cancelled) return;
-                reelIndexRef.current = (reelIndexRef.current + 1) % HERO_REEL.length;
-                const nextClip = HERO_REEL[reelIndexRef.current];
-                try {
-                  event.target.loadVideoById({
-                    videoId: nextClip.videoId,
-                    startSeconds: nextClip.startSeconds,
-                  });
-                  event.target.mute();
-                  setVisible(true);
-                } catch {}
-              }, 450);
+              if (!cancelled) loadClip(reelIndexRef.current + 1);
             }, REEL_CLIP_DURATION * 1000);
           },
           onStateChange: (event: any) => {
@@ -98,25 +97,73 @@ function YouTubeBackground() {
   }, []);
 
   return (
-    <div className="absolute inset-0 z-0 overflow-hidden bg-[#060b18]">
-      <img
-        src={mobileBg}
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 h-full w-full object-cover object-center opacity-45"
-      />
-      <div className="absolute overflow-hidden" style={{ top: "50%", left: "50%", width: "177.78vh", height: "100vh", minWidth: "100%", minHeight: "56.25vw", transform: "translate(-50%, -50%)", pointerEvents: "none" }}>
-        <div style={{ position: "absolute", inset: 0, top: "-80px", bottom: "-80px", opacity: visible ? 1 : 0, transform: visible ? "scale(1.03)" : "scale(1.08)", transition: "opacity 450ms ease, transform 5s ease-out" }}>
-          <div ref={wrapperRef} style={{ width: "100%", height: "100%" }} />
+    <motion.div
+      className="min-w-0"
+      initial={{ opacity: 0, x: 30 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.8, delay: 0.15 }}
+    >
+      <div className="overflow-hidden border border-white/15 bg-[#080808] shadow-[0_30px_80px_rgba(0,0,0,0.55)]">
+        <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+          <div className="flex items-center gap-2">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-500" />
+            </span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white">AsembleAI Spotlight</span>
+          </div>
+          <span className="text-[10px] tabular-nums text-white/45">
+            {String(activeIndex + 1).padStart(2, "0")} / {HERO_REEL.length}
+          </span>
+        </div>
+
+        <div className="relative aspect-video overflow-hidden bg-black">
+          <img
+            src={`https://i.ytimg.com/vi/${HERO_REEL[activeIndex].videoId}/hqdefault.jpg`}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover opacity-65"
+          />
+          <div
+            className="absolute inset-0 transition-all duration-300"
+            style={{ opacity: visible ? 1 : 0, transform: visible ? "scale(1.01)" : "scale(1.04)" }}
+          >
+            <div ref={wrapperRef} className="h-full w-full" />
+          </div>
+          <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/10" />
+          <div className="pointer-events-none absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-4 pb-4 pt-12">
+            <p className="text-xs font-semibold text-white">{HERO_REEL[activeIndex].label}</p>
+            <p className="text-[10px] uppercase tracking-widest text-white/50">Real podcast moment</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-6 gap-1.5 bg-black p-2">
+          {HERO_REEL.map((clip, index) => (
+            <button
+              key={clip.videoId}
+              type="button"
+              onClick={() => loadClip(index)}
+              className={`group relative aspect-video overflow-hidden border transition-all ${
+                activeIndex === index ? "border-primary opacity-100" : "border-white/10 opacity-55 hover:opacity-100"
+              }`}
+              aria-label={`Play clip ${index + 1}: ${clip.label}`}
+            >
+              <img
+                src={`https://i.ytimg.com/vi/${clip.videoId}/mqdefault.jpg`}
+                alt=""
+                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <span className="absolute bottom-0.5 right-1 text-[8px] font-bold text-white drop-shadow">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+            </button>
+          ))}
         </div>
       </div>
-      <BackgroundOrbs />
-    </div>
+      <p className="mt-3 text-right text-[10px] uppercase tracking-[0.18em] text-white/35">
+        12 conversations. One growing AI community.
+      </p>
+    </motion.div>
   );
-}
-
-function HeroBackground() {
-  return <YouTubeBackground />;
 }
 
 function scrollToSection(id: string) {
@@ -127,10 +174,10 @@ function scrollToSection(id: string) {
 export function Hero() {
   return (
     <section className="relative flex min-h-0 items-center overflow-hidden bg-black md:min-h-[88vh]">
-      <HeroBackground />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_40%,rgba(59,130,246,0.11),transparent_28rem)]" />
 
       <div className="container mx-auto px-6 relative z-10 py-24 md:py-20">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[0.88fr_1.12fr] lg:gap-16">
 
           {/* ── LEFT: Text content ── */}
           <motion.div
@@ -208,17 +255,7 @@ export function Hero() {
               </Button>
             </div>
           </motion.div>
-        </div>
-      </div>
-
-      <div className="absolute bottom-8 right-8 z-10 hidden items-center gap-3 border border-white/15 bg-black/45 px-4 py-3 backdrop-blur-md md:flex">
-        <span className="relative flex h-2.5 w-2.5">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
-          <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-500" />
-        </span>
-        <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white">AsembleAI Reel</p>
-          <p className="text-[10px] text-white/50">Real conversations · Real AI leaders</p>
+          <PodcastReel />
         </div>
       </div>
     </section>
