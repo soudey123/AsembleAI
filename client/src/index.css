@@ -181,14 +181,13 @@
     width: 2rem;
     flex: none;
     border-radius: 0.35rem;
-    filter: grayscale(1);
-    opacity: 0.72;
-    transition: filter 200ms ease, opacity 200ms ease;
+    opacity: 0.9;
+    transition: opacity 200ms ease, transform 200ms ease;
   }
 
   .company-wordmark:hover img {
-    filter: grayscale(0);
     opacity: 1;
+    transform: scale(1.08);
   }
 }
 
