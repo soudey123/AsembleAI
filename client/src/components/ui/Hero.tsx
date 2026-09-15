@@ -24,6 +24,66 @@ const HERO_REEL = [
 ];
 const REEL_CLIP_DURATION = 4.8;
 
+function RevealWords({
+  text,
+  className = "",
+  startDelay = 0,
+}: {
+  text: string;
+  className?: string;
+  startDelay?: number;
+}) {
+  return (
+    <span className={className} aria-label={text}>
+      {text.split(" ").map((word, index) => (
+        <motion.span
+          key={`${word}-${index}`}
+          className="mr-[0.22em] inline-block"
+          aria-hidden="true"
+          initial={{ opacity: 0, y: 28, filter: "blur(10px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          transition={{
+            duration: 0.55,
+            delay: startDelay + index * 0.07,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+        >
+          {word}
+        </motion.span>
+      ))}
+    </span>
+  );
+}
+
+function TechBackdrop() {
+  return (
+    <div className="absolute inset-0 overflow-hidden bg-[#030916]">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_25%,rgba(37,99,235,0.22),transparent_30rem),radial-gradient(circle_at_82%_42%,rgba(6,182,212,0.14),transparent_28rem)]" />
+      <motion.div
+        className="absolute inset-0 opacity-[0.11]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(96,165,250,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(96,165,250,0.35) 1px, transparent 1px)",
+          backgroundSize: "64px 64px",
+        }}
+        animate={{ backgroundPosition: ["0px 0px", "64px 64px"] }}
+        transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,9,22,0.1),rgba(3,9,22,0.42)_48%,rgba(3,9,22,0.12))]" />
+      {[18, 42, 68].map((top, index) => (
+        <motion.div
+          key={top}
+          className="absolute left-0 h-px w-1/3 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent"
+          style={{ top: `${top}%` }}
+          animate={{ x: ["-120%", "420%"] }}
+          transition={{ duration: 7 + index * 2, repeat: Infinity, ease: "linear", delay: index * 1.4 }}
+        />
+      ))}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#030916]" />
+    </div>
+  );
+}
+
 function PodcastReel() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<any>(null);
@@ -173,8 +233,8 @@ function scrollToSection(id: string) {
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-0 items-center overflow-hidden bg-black md:min-h-[88vh]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_40%,rgba(59,130,246,0.11),transparent_28rem)]" />
+    <section className="relative flex min-h-0 items-center overflow-hidden bg-[#030916] md:min-h-[88vh]">
+      <TechBackdrop />
 
       <div className="container mx-auto px-6 relative z-10 py-24 md:py-20">
         <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[0.88fr_1.12fr] lg:gap-16">
@@ -210,17 +270,40 @@ export function Hero() {
 
             {/* Headline */}
             <h1 className="text-5xl font-bold font-heading tracking-[-0.045em] leading-[0.98] text-white sm:text-6xl lg:text-7xl">
-              AI, DeepTech &amp;{" "}
-              <span className="text-primary">
+              <RevealWords text="AI, DeepTech &" startDelay={0.15} />
+              <motion.span
+                className="relative mt-1 block w-fit text-primary"
+                initial={{ opacity: 0, clipPath: "inset(0 100% 0 0)" }}
+                animate={{ opacity: 1, clipPath: "inset(0 0% 0 0)" }}
+                transition={{ duration: 0.8, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
+              >
                 Science
-              </span>{" "}
-              conversations that matter.
+                <motion.span
+                  className="absolute -bottom-1 left-0 h-[3px] bg-gradient-to-r from-blue-500 via-cyan-300 to-transparent"
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: 0.8, delay: 1.1 }}
+                />
+              </motion.span>
+              <span className="mt-2 block">
+                <RevealWords text="conversations that matter." startDelay={0.85} />
+              </span>
             </h1>
 
-            {/* Description */}
-            <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-lg">
-              Hosts Mac &amp; Sam sit down with AI researchers, fast-scaling founders, Fortune 500 executives, and pioneering technologists to reveal how AI is reshaping business strategy and guiding executive decisions.
-            </p>
+            {/* Positioning */}
+            <motion.div
+              className="max-w-lg border-l border-cyan-400/40 pl-4"
+              initial={{ opacity: 0, x: -18 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.65, delay: 1.4 }}
+            >
+              <p className="mb-2 text-lg font-semibold text-white">
+                <RevealWords text="Where Brands Meet Their Niche" startDelay={1.45} />
+              </p>
+              <p className="text-sm leading-relaxed text-blue-100/65 md:text-base">
+                Podcast + YouTube marketing funnels and omnichannel campaigns that turn niche audiences.
+              </p>
+            </motion.div>
 
             {/* Platform links */}
             <div>
