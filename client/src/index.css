@@ -117,11 +117,88 @@
   }
 
   .home-hero { order: 1; }
-  .home-proof { order: 2; }
-  .home-services { order: 3; }
-  .home-topics { order: 4; }
-  .home-episodes { order: 5; }
-  .home-testimonials { order: 6; }
-  .home-audience { order: 7; }
-  .home-newsletter { order: 8; }
+  .home-companies { order: 2; }
+  .home-proof { order: 3; }
+  .home-services { order: 4; }
+  .home-topics { order: 5; }
+  .home-episodes { order: 6; }
+  .home-testimonials { order: 7; }
+  .home-audience { order: 8; }
+  .home-newsletter { order: 9; }
+
+  .company-marquee {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+
+  .company-marquee-track {
+    display: flex;
+    width: max-content;
+    animation: company-marquee 48s linear infinite;
+  }
+
+  .company-marquee:hover .company-marquee-track {
+    animation-play-state: paused;
+  }
+
+  .company-wordmark {
+    display: flex;
+    min-width: 230px;
+    align-items: center;
+    gap: 0.8rem;
+    justify-content: center;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 0.5rem 2rem;
+    color: rgba(255, 255, 255, 0.72);
+    transition: color 200ms ease;
+  }
+
+  .company-wordmark:hover {
+    color: white;
+  }
+
+  .company-wordmark span {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+  }
+
+  .company-wordmark small {
+    display: block;
+    margin-top: 0.25rem;
+    color: rgba(255, 255, 255, 0.38);
+    font-size: 0.68rem;
+    white-space: nowrap;
+  }
+
+  .company-wordmark img {
+    height: 2rem;
+    width: 2rem;
+    flex: none;
+    border-radius: 0.35rem;
+    filter: grayscale(1);
+    opacity: 0.72;
+    transition: filter 200ms ease, opacity 200ms ease;
+  }
+
+  .company-wordmark:hover img {
+    filter: grayscale(0);
+    opacity: 1;
+  }
+}
+
+@keyframes company-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .company-marquee-track {
+    animation-play-state: paused;
+  }
 }

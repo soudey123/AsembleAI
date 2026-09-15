@@ -35,6 +35,30 @@ const COUNTRY_DOWNLOADS = [
   { country: "China", flag: "🇨🇳", downloads: 50, percent: 0.05 },
 ];
 
+const FEATURED_COMPANIES = [
+  { name: "ActualyzeAI", guest: "Sean Lynch & Rafi Khardalian", domain: "actualyze.ai" },
+  { name: "Atera", guest: "Oshri Moyal", domain: "atera.com" },
+  { name: "DTEX Systems", guest: "Rajan Koo", domain: "dtexsystems.com" },
+  { name: "Mind Children", guest: "Chris Kudla", domain: "mindchildren.com" },
+  { name: "Sophos", guest: "Ed Martin", domain: "sophos.com" },
+  { name: "SingularityNET", guest: "Ben Goertzel", domain: "singularitynet.io" },
+  { name: "TrueFoundry", guest: "Nikunj Bajaj", domain: "truefoundry.com" },
+  { name: "Kalk Robotics", guest: "Olle Bergstedt", domain: "kalkrobotics.com" },
+  { name: "LotusPetal AI", guest: "Rohit V Anabheri", domain: "lotuspetal.ai" },
+  { name: "Backblaze", guest: "Troy Liljedahl", domain: "backblaze.com" },
+  { name: "WEX", guest: "Mohamed Battisha", domain: "wexinc.com" },
+  { name: "Inception", guest: "Aditya Grover", domain: "inceptionlabs.ai" },
+  { name: "Designverse", guest: "Andrei Manolache", domain: "designverse.ai" },
+  { name: "Lineaje", guest: "Anand Revashetti", domain: "lineaje.com" },
+  { name: "ARC Document Solutions", guest: "Dilo Wijesuriya", domain: "e-arc.com" },
+  { name: "Insilico Medicine", guest: "Alex Zhavoronkov", domain: "insilico.com" },
+  { name: "AI Ad Studio", guest: "Sam Joos", domain: "aiadstudio.com" },
+  { name: "Brain Wave Collective", guest: "Daniel Ritchie", domain: "brainwavecollective.com" },
+  { name: "Kognitos", guest: "Binny Gill", domain: "kognitos.com" },
+  { name: "BDO USA", guest: "Fred Rica", domain: "bdo.com" },
+  { name: "Concentrix", guest: "Kathryn Harrison", domain: "concentrix.com" },
+];
+
 
 const TOPIC_IMAGES: Array<{ keywords: string[]; image: string }> = [
   { keywords: ["healthcare", "medical", "health", "hospital", "fraud", "pharma", "clinic"], image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=640&q=80" },
@@ -298,6 +322,54 @@ function ProofStrip() {
   );
 }
 
+function FeaturedCompanies() {
+  const marqueeItems = [...FEATURED_COMPANIES, ...FEATURED_COMPANIES];
+
+  return (
+    <section
+      className="home-companies overflow-hidden border-y border-white/10 bg-black py-14 md:py-18"
+      aria-labelledby="featured-companies-title"
+    >
+      <div className="container mx-auto px-6">
+        <p className="mb-3 text-center text-xs font-bold uppercase tracking-[0.22em] text-primary">
+          Our guest network
+        </p>
+        <h2
+          id="featured-companies-title"
+          className="mx-auto mb-10 max-w-3xl text-center text-3xl font-bold text-white md:text-5xl"
+        >
+          We feature AI leaders from these companies
+        </h2>
+      </div>
+
+      <div className="company-marquee" aria-label="Companies represented by podcast guests">
+        <div className="company-marquee-track">
+          {marqueeItems.map((company, index) => (
+            <div
+              key={`${company.name}-${index}`}
+              className="company-wordmark"
+              title={`${company.name} — ${company.guest}`}
+              aria-hidden={index >= FEATURED_COMPANIES.length}
+            >
+              <img
+                src={`https://www.google.com/s2/favicons?domain_url=https://${company.domain}&sz=64`}
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              />
+              <div>
+                <span>{company.name}</span>
+                <small>{company.guest}</small>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ─────────────────────────────────────────────────────────
    SECTION BACKGROUNDS
 ───────────────────────────────────────────────────────── */
@@ -538,6 +610,7 @@ export default function Home() {
           <Hero />
         </div>
 
+        <FeaturedCompanies />
         <ProofStrip />
 
       {/* ── TOPICS / BROWSE BY CATEGORY ── */}
@@ -548,7 +621,7 @@ export default function Home() {
             Explore Our <AnimatedTitle gradient="from-cyan-400 via-blue-500 to-purple-500">Topic Areas</AnimatedTitle>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            49 episodes covering the full spectrum of AI — from frontier research to practical deployment.
+            75 episodes covering the full spectrum of AI — from frontier research to practical deployment.
           </p>
         </div>
 

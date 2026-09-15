@@ -26,22 +26,9 @@ function isMobileDevice() {
 function BackgroundOrbs() {
   return (
     <>
-      <div className="absolute inset-0 bg-[#060b18]/70" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#060b18]/80 via-[#060b18]/50 to-[#060b18]/30" />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#060b18]/40 via-transparent to-[#060b18]" />
-      <motion.div className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(34,211,238,0.12) 0%, transparent 70%)", top: "-100px", left: "-80px", filter: "blur(70px)" }}
-        animate={{ x: [0, 60, 0], y: [0, 40, 0] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div className="absolute w-[400px] h-[400px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(168,85,247,0.12) 0%, transparent 70%)", bottom: "0px", right: "-60px", filter: "blur(70px)" }}
-        animate={{ x: [0, -50, 0], y: [0, -30, 0] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 4 }}
-      />
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
-        style={{ backgroundImage: "linear-gradient(rgba(34,211,238,1) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,1) 1px, transparent 1px)", backgroundSize: "80px 80px" }}
-      />
+      <div className="absolute inset-0 bg-black/75" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/75 to-black/20" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black" />
     </>
   );
 }
@@ -135,11 +122,11 @@ function scrollToSection(id: string) {
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden min-h-screen flex items-center">
+    <section className="relative flex min-h-0 items-center overflow-hidden bg-black md:min-h-[88vh]">
       <HeroBackground />
 
       <div className="container mx-auto px-6 relative z-10 py-24 md:py-20">
-        <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center max-w-6xl mx-auto">
+        <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2 lg:gap-20">
 
           {/* ── LEFT: Text content ── */}
           <motion.div
@@ -150,19 +137,16 @@ export function Hero() {
           >
             {/* Podcast name */}
             <motion.div
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-purple-500/20 border border-cyan-400/30 backdrop-blur-md"
-              animate={{ boxShadow: ["0 0 16px rgba(34,211,238,0.25)", "0 0 28px rgba(168,85,247,0.35)", "0 0 16px rgba(34,211,238,0.25)"] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              className="inline-flex items-center gap-2 border-l-2 border-primary pl-3"
             >
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span className="text-xs font-bold tracking-[0.2em] uppercase bg-gradient-to-r from-cyan-300 to-purple-400 bg-clip-text text-transparent">
+              <span className="text-xs font-bold tracking-[0.2em] uppercase text-white/70">
                 Inside AsembleAI
               </span>
             </motion.div>
 
             {/* Apple Top 10 badge */}
             <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-600/30 to-pink-600/20 border border-purple-400/40 backdrop-blur-md"
+              className="inline-flex items-center gap-2 text-white/80"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.3 }}
@@ -202,15 +186,11 @@ export function Hero() {
             </div>
 
             {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-heading tracking-tight leading-[1.08] text-white">
+            <h1 className="text-5xl font-bold font-heading tracking-[-0.045em] leading-[0.98] text-white sm:text-6xl lg:text-7xl">
               AI, DeepTech &amp;{" "}
-              <motion.span
-                className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent bg-[length:200%_auto] inline-block"
-                animate={{ backgroundPosition: ["0% center", "200% center"] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-              >
+              <span className="text-primary">
                 Science
-              </motion.span>{" "}
+              </span>{" "}
               conversations that matter.
             </h1>
 
@@ -239,13 +219,13 @@ export function Hero() {
             <div className="flex flex-col sm:flex-row gap-3 pt-1">
               <a href="/podcast">
                 <Button size="lg"
-                  className="h-12 px-8 text-sm font-semibold rounded-full bg-primary hover:bg-primary/90 shadow-[0_0_30px_rgba(59,130,246,0.4)] hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] transition-all"
+                  className="h-12 rounded-lg bg-primary px-8 text-sm font-semibold hover:bg-primary/90 transition-all"
                   data-testid="button-hero-listen">
                   🎙 Listen Now
                 </Button>
               </a>
               <Button size="lg" variant="outline"
-                className="h-12 px-8 text-sm font-semibold rounded-full border-white/15 bg-white/5 hover:bg-white/10 backdrop-blur-md text-white transition-all"
+                className="h-12 rounded-lg border-white/20 bg-transparent px-8 text-sm font-semibold text-white transition-all hover:bg-white/10"
                 onClick={() => scrollToSection("services")}
                 data-testid="button-hero-partner">
                 Partner With Us
