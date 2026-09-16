@@ -3,6 +3,8 @@ import { Section } from "@/components/ui/Section";
 import { Card, CardContent } from "@/components/ui/card";
 import { Mic, Globe, Users, Zap, Linkedin } from "lucide-react";
 import { motion } from "framer-motion";
+import samDeyPhoto from "@assets/Sam_Dey_1780840351121.jpg";
+import macGoswamiPhoto from "@assets/image_1780840351121.png";
 
 export default function About() {
   const values = [
@@ -34,14 +36,14 @@ export default function About() {
       role: "Co-Host & Co-Founder",
       bio: "Digital Transformation Leader, IT Consultant, and Financial Services & Payment Technology Consultant, Portfolio Management with 15+ years of enterprise experience across fintech, AI, data, cloud, and platform modernization. Co-founder of AsembleAI media platform, Podcast co-host, Tech Advisor to AI Community, Top 1% Creator on Topmate, speaker, tech writer, startup mentor & advisor at Founder Institute, and featured in NYC Times Square billboard. Graduate of the MIT Sloan AI Executive Program.",
       linkedin: "https://www.linkedin.com/in/macgos/",
-      image: null
+      image: macGoswamiPhoto
     },
     {
-      name: "Soumava 'Sam' Dey",
+      name: "Sam Dey",
       role: "Co-Host & Co-Founder",
       bio: "Data Analytics and AI leader with 15+ years of Fortune 500 experience across healthcare, digital marketing, and financial services. A University of Illinois Urbana-Champaign (Public Ivy) alumnus and published researcher, Soumava extends his influence across education, media, and community - as creator of DataScienceWithSam, co-host of the Inside AssembleAI podcast (featured in Apple's Top 100 Tech Podcasts in 2026), former Coursera instructor and AI coach, and Co-Chair of Denver AI. Featured in Voyage Denver and Business Life Magazine, he advises at OncoNexus AI and speaks on agentic AI and enterprise AI strategy.",
-      linkedin: "https://www.linkedin.com/in/soumava-dey-441294ab/",
-      image: null
+      linkedin: "https://www.linkedin.com/in/sam-dey-441294ab/",
+      image: samDeyPhoto
     }
   ];
 
@@ -93,10 +95,13 @@ export default function About() {
                     <Card className="bg-card/50 border-white/10 hover:border-primary/30 transition-all" data-testid={`card-founder-${index}`}>
                       <CardContent className="p-6">
                         <div className="flex items-start gap-4">
-                          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary/30 to-purple-500/30 flex items-center justify-center flex-shrink-0">
-                            <span className="text-2xl font-bold text-white">
-                              {founder.name.split(' ').map(n => n[0]).join('')}
-                            </span>
+                          <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/30 to-purple-500/30 shadow-[0_10px_30px_rgba(37,99,235,0.18)]">
+                            <img
+                              src={founder.image}
+                              alt={`${founder.name}, ${founder.role} at AsembleAI`}
+                              className="h-full w-full object-cover object-top"
+                            />
+                            <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/10" />
                           </div>
                           <div className="flex-1">
                             <h3 className="text-xl font-bold text-white">{founder.name}</h3>
