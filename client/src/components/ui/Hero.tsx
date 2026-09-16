@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import appleChartsProof from "@assets/apple-podcasts-top-five.png";
+import appleChartsProof from "@assets/apple-podcasts-chart-proof.jpg";
 const PLATFORMS = [
   { label: "Apple Podcasts", href: "https://podcasts.apple.com/search?term=inside+asembleai", icon: "🎵", color: "hover:bg-purple-500/20 hover:text-purple-300 hover:border-purple-500/30" },
   { label: "Spotify", href: "https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU", icon: "♫", color: "hover:bg-green-500/20 hover:text-green-400 hover:border-green-500/30" },
@@ -281,7 +281,7 @@ export function Hero() {
                 <span className="block text-[9px] font-bold uppercase tracking-[0.2em] text-cyan-300">Apple Podcasts · Technology</span>
                 <span className="mt-0.5 flex items-center gap-2 text-sm font-bold text-white">
                   <span className="text-base">🏆</span>
-                  Top 5 chart achievement
+                  Ranked #4 in Technology
                 </span>
                 <span className="block text-[9px] text-white/45 transition-colors group-hover:text-white/70">View chart proof ↗</span>
               </span>
