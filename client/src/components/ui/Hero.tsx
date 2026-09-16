@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import appleChartsProof from "@assets/apple-podcasts-top-five.png";
 const PLATFORMS = [
   { label: "Apple Podcasts", href: "https://podcasts.apple.com/search?term=inside+asembleai", icon: "🎵", color: "hover:bg-purple-500/20 hover:text-purple-300 hover:border-purple-500/30" },
   { label: "Spotify", href: "https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU", icon: "♫", color: "hover:bg-green-500/20 hover:text-green-400 hover:border-green-500/30" },
@@ -256,21 +257,38 @@ export function Hero() {
               </span>
             </motion.div>
 
-            {/* Apple Top 10 badge */}
-            <motion.div
-              className="inline-flex items-center gap-2 text-white/80"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+            {/* Apple chart proof */}
+            <motion.a
+              href={appleChartsProof}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative flex w-fit max-w-full items-center gap-3 overflow-hidden rounded-xl border border-cyan-300/30 bg-gradient-to-r from-blue-600/20 via-cyan-400/10 to-transparent py-2 pl-2 pr-4 shadow-[0_0_28px_rgba(34,211,238,0.12)] backdrop-blur-md"
+              initial={{ opacity: 0, scale: 0.92, x: -12 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              transition={{ duration: 0.65, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
             >
-              <span className="text-base leading-none">🏆</span>
-              <span className="text-xs font-bold text-white">Top 10</span>
-              <span className="w-px h-3 bg-white/30" />
-              <span className="text-[10px] font-semibold text-purple-300 uppercase tracking-wider">Apple Podcasts · Technology</span>
-            </motion.div>
+              <motion.span
+                className="absolute inset-y-0 w-12 bg-gradient-to-r from-transparent via-white/15 to-transparent"
+                animate={{ x: ["-100px", "430px"] }}
+                transition={{ duration: 2.8, repeat: Infinity, repeatDelay: 2.2, ease: "easeInOut" }}
+              />
+              <img
+                src={appleChartsProof}
+                alt="Inside AsembleAI ranked in the Apple Podcasts Technology chart"
+                className="h-12 w-12 shrink-0 rounded-lg border border-white/15 object-cover object-center"
+              />
+              <span className="min-w-0">
+                <span className="block text-[9px] font-bold uppercase tracking-[0.2em] text-cyan-300">Apple Podcasts · Technology</span>
+                <span className="mt-0.5 flex items-center gap-2 text-sm font-bold text-white">
+                  <span className="text-base">🏆</span>
+                  Top 5 chart achievement
+                </span>
+                <span className="block text-[9px] text-white/45 transition-colors group-hover:text-white/70">View chart proof ↗</span>
+              </span>
+            </motion.a>
 
             {/* Headline */}
-            <h1 className="text-5xl font-bold font-heading tracking-[-0.045em] leading-[0.98] text-white sm:text-6xl lg:text-7xl">
+            <h1 className="text-4xl font-bold font-heading tracking-[-0.045em] leading-[1.01] text-white sm:text-5xl lg:text-6xl">
               <RevealWords text="AI, DeepTech &" startDelay={0.15} />
               <motion.span
                 className="relative mt-1 block w-fit text-primary"
