@@ -342,7 +342,7 @@ function FeaturedCompanies() {
           id="featured-companies-title"
           className="mx-auto mb-10 max-w-3xl text-center text-3xl font-bold text-white md:text-5xl"
         >
-          We feature AI leaders from these companies
+          Meet the AI leaders and executives shaping what’s next
         </h2>
       </div>
 
