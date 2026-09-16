@@ -2,7 +2,6 @@ import { Layout } from "@/components/layout/Layout";
 import { Hero } from "@/components/ui/Hero";
 import { Section } from "@/components/ui/Section";
 import {
-  partnershipTiers,
   audienceStats,
   audienceDemographics,
   testimonials,
@@ -10,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "wouter";
-import { ArrowRight, Check, ChevronLeft, ChevronRight, ExternalLink, Loader2 } from "lucide-react";
+import { ArrowRight, CalendarDays, ChevronLeft, ChevronRight, ExternalLink, GraduationCap, Loader2, Megaphone, Mic2, PackageSearch, Youtube } from "lucide-react";
 import { PODCAST_TOPICS, ACCENT_COLORS } from "@/lib/topics";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,18 +21,21 @@ import biologicalComputingImg from "@assets/stock_images/biological_computing_60
 import leadershipImg from "@assets/stock_images/executive_leadership_832b6d86.jpg";
 import audienceMapImg from "@assets/download_1780840409614.png";
 
-const COUNTRY_DOWNLOADS = [
-  { country: "United States", flag: "🇺🇸", downloads: 86889, percent: 93.74 },
-  { country: "Panama", flag: "🇵🇦", downloads: 2015, percent: 2.17 },
-  { country: "Netherlands", flag: "🇳🇱", downloads: 1221, percent: 1.32 },
-  { country: "United Kingdom", flag: "🇬🇧", downloads: 1100, percent: 1.19 },
-  { country: "Germany", flag: "🇩🇪", downloads: 735, percent: 0.79 },
-  { country: "Spain", flag: "🇪🇸", downloads: 300, percent: 0.32 },
-  { country: "Mongolia", flag: "🇲🇳", downloads: 97, percent: 0.10 },
-  { country: "Bangladesh", flag: "🇧🇩", downloads: 90, percent: 0.10 },
-  { country: "Lithuania", flag: "🇱🇹", downloads: 51, percent: 0.06 },
-  { country: "China", flag: "🇨🇳", downloads: 50, percent: 0.05 },
+const SERVICE_CAPABILITIES = [
+  { name: "Podcast Production", description: "From executive positioning and guest strategy to production and distribution.", icon: Mic2, accent: "from-blue-500/25 to-cyan-500/5", number: "01" },
+  { name: "YouTube Marketing", description: "Long-form shows, Shorts and channel systems designed for discoverability.", icon: Youtube, accent: "from-red-500/25 to-orange-500/5", number: "02" },
+  { name: "Campaign Outreach", description: "Targeted guest, partner and audience outreach built around your niche.", icon: Megaphone, accent: "from-purple-500/25 to-pink-500/5", number: "03" },
+  { name: "Educational Content", description: "Complex ideas turned into credible explainers, series and learning assets.", icon: GraduationCap, accent: "from-emerald-500/25 to-teal-500/5", number: "04" },
+  { name: "Product Marketing", description: "Narratives and omnichannel content that connect technical products to buyers.", icon: PackageSearch, accent: "from-amber-500/25 to-orange-500/5", number: "05" },
 ];
+
+type NewsletterArticle = {
+  title: string;
+  date: string;
+  summary: string;
+  link: string;
+  image: string;
+};
 
 const FEATURED_COMPANIES = [
   { name: "ActualyzeAI", guest: "Sean Lynch & Rafi Khardalian", domain: "actualyze.ai" },
@@ -601,7 +603,14 @@ export default function Home() {
     queryKey: ["/api/podcast/videos"],
     staleTime: 5 * 60 * 1000,
   });
+  const { data: newsletterData } = useQuery<{ articles: NewsletterArticle[] }>({
+    queryKey: ["/api/newsletter/articles"],
+    staleTime: 15 * 60 * 1000,
+  });
   const featuredEpisodes = selectFeaturedEpisodes(episodesData?.episodes ?? []);
+  const ai4Article = newsletterData?.articles.find((article) =>
+    `${article.title} ${article.summary}`.toLowerCase().includes("ai4")
+  ) ?? newsletterData?.articles[0];
 
   return (
     <Layout>
@@ -735,7 +744,7 @@ export default function Home() {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             <AnimatedTitle gradient="from-teal-400 via-emerald-500 to-green-400">By the Numbers</AnimatedTitle>
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Half a million downloads in 18 months — on track for 1M.</p>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">600K+ downloads, 75+ episodes and 30+ featured guests — built for a focused global audience.</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-14">
@@ -792,16 +801,16 @@ export default function Home() {
           </motion.div>
         </div>
 
-        {/* ── WHERE OUR AUDIENCE IS ── */}
+        {/* ── GLOBAL FOOTPRINT ── */}
         <motion.div className="max-w-4xl mx-auto mt-16"
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }} viewport={{ once: true }}>
-          <p className="text-center text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">Where Our Audience Is</p>
+          <p className="text-center text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">Global Footprint</p>
           <h3 className="text-center text-2xl md:text-3xl font-bold text-white mb-2">
-            93% United States · 47 Countries
+            Niche influence without borders
           </h3>
           <p className="text-center text-sm text-muted-foreground mb-8 max-w-xl mx-auto">
-            Concentrated in high-intent US tech markets — SF, NYC, Boston, Austin, Seattle. International brands partner with us to reach and expand into the US market.
+            Reaching decision-makers across 47 countries and the technology centers where AI products, research and markets converge.
           </p>
 
           {/* World map */}
@@ -809,33 +818,17 @@ export default function Home() {
             <img src={audienceMapImg} alt="Listener distribution world map showing 47 countries" className="w-full h-auto" />
           </div>
 
-          {/* Country table */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            {COUNTRY_DOWNLOADS.map((c, i) => (
-              <motion.div key={c.country}
-                initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.04 }} viewport={{ once: true }}
-                className="flex items-center gap-3 bg-white/5 hover:bg-white/8 rounded-xl px-4 py-3 border border-white/5 transition-colors"
-                data-testid={`row-country-${i}`}>
-                <span className="text-xs text-muted-foreground/60 w-5 text-right shrink-0">{i + 1}</span>
-                <span className="text-base shrink-0">{c.flag}</span>
-                <span className="text-sm font-medium text-white flex-1 truncate">{c.country}</span>
-                <div className="flex items-center gap-2 shrink-0">
-                  <div className="w-16 h-1.5 rounded-full bg-white/10 overflow-hidden hidden sm:block">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-teal-400 to-emerald-500"
-                      style={{ width: `${Math.max((c.downloads / 86889) * 100, 2)}%` }}
-                    />
-                  </div>
-                  <span className="text-xs font-bold text-teal-400 w-12 text-right">{c.percent.toFixed(2)}%</span>
-                  <span className="text-xs text-muted-foreground w-14 text-right">{c.downloads.toLocaleString()}</span>
-                </div>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {["North America", "Europe", "Asia Pacific", "Emerging Markets"].map((region, i) => (
+              <motion.div key={region}
+                initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.08 }} viewport={{ once: true }}
+                className="rounded-xl border border-white/10 bg-white/5 px-4 py-4 text-center">
+                <div className="mb-1 text-lg">{["◎", "◈", "◇", "✦"][i]}</div>
+                <span className="text-xs font-semibold text-white/75">{region}</span>
               </motion.div>
             ))}
           </div>
-          <p className="text-center text-xs text-muted-foreground mt-5">
-            May 8 – Jun 6, 2026 · Podbean analytics · 47 countries reached
-          </p>
         </motion.div>
       </Section>
 
@@ -853,67 +846,68 @@ export default function Home() {
       {/* ── SERVICES / PARTNER WITH US ── */}
       <Section className="home-section home-services border-y border-white/10" id="services" bg={<ServicesBg />}>
         <div className="text-center mb-14">
-          <p className="text-xs font-bold tracking-widest uppercase text-primary mb-3">Partner With Us</p>
+          <p className="text-xs font-bold tracking-widest uppercase text-primary mb-3">What We Build</p>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Reach AI Buyers Where They{" "}
-            <AnimatedTitle gradient="from-orange-400 via-red-500 to-pink-500">Actually Listen</AnimatedTitle>
+            One story. Every channel.{" "}
+            <AnimatedTitle gradient="from-orange-400 via-red-500 to-pink-500">Built to compound.</AnimatedTitle>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Generic channels don't convert — niche, trusted media does. Advertise where 500K+ AI decision-makers tune in.
+            We turn technical expertise into trusted media, focused outreach and campaigns that move niche audiences.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-10">
-          {partnershipTiers.map((tier, i) => (
-            <motion.div key={tier.name}
+        <div className="grid grid-cols-1 gap-4 max-w-6xl mx-auto mb-10 sm:grid-cols-2 lg:grid-cols-5">
+          {SERVICE_CAPABILITIES.map((service, i) => {
+            const Icon = service.icon;
+            return (
+            <motion.div key={service.name}
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }} viewport={{ once: true }}
-              className="relative" data-testid={`card-tier-${tier.name.toLowerCase()}`}>
-              {tier.popular && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
-                  <span className="bg-primary text-white text-xs font-bold px-4 py-1 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.5)]">Most Popular</span>
-                </div>
-              )}
-              <Card className={`h-full transition-all duration-300 ${tier.popular ? "border-primary/60 bg-primary/5 shadow-[0_0_30px_rgba(59,130,246,0.15)]" : "glass-card border-white/5 hover:border-white/20"}`}>
-                <CardHeader className="pb-4">
-                  <CardTitle className="text-xl text-white">{tier.name}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3 mb-6">
-                    {tier.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
-                        <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />{f}
-                      </li>
-                    ))}
-                  </ul>
-                  <a href="mailto:asembleaimedia@asembleai.com">
-                    <Button className={`w-full ${tier.popular ? "bg-primary hover:bg-primary/90 shadow-[0_0_20px_rgba(59,130,246,0.4)]" : "bg-white/5 hover:bg-white/10 border border-white/10 text-white"}`}
-                      data-testid={`button-tier-cta-${tier.name.toLowerCase()}`}>
-                      Contact Us
-                    </Button>
-                  </a>
-                </CardContent>
-              </Card>
+              className={`group relative min-h-64 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br ${service.accent} p-6 transition-all duration-300 hover:-translate-y-1 hover:border-white/25`}
+              data-testid={`card-service-${i}`}>
+              <span className="absolute right-4 top-3 font-mono text-4xl font-black text-white/[0.05]">{service.number}</span>
+              <div className="mb-10 flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-black/25 text-white transition-transform group-hover:scale-110">
+                <Icon className="h-6 w-6" />
+              </div>
+              <h3 className="mb-3 text-lg font-bold text-white">{service.name}</h3>
+              <p className="text-sm leading-relaxed text-white/55">{service.description}</p>
+              <div className="absolute bottom-0 left-0 h-px w-0 bg-gradient-to-r from-primary to-cyan-300 transition-all duration-500 group-hover:w-full" />
             </motion.div>
-          ))}
+          )})}
         </div>
 
-        <p className="text-center text-xs text-muted-foreground mb-10 max-w-lg mx-auto">
-          All tiers include onboarding call, ad scripting support, monthly reporting, and a 3-month minimum.
-        </p>
-
+        <div className="text-center">
+          <a href="mailto:asembleaimedia@asembleai.com">
+            <Button size="lg" className="h-12 rounded-lg bg-primary px-8 font-semibold hover:bg-primary/90" data-testid="button-services-contact">
+              Contact Us <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </a>
+        </div>
       </Section>
 
       {/* ── NEWSLETTER SIGNUP ── */}
       <Section id="newsletter" className="home-section home-newsletter" bg={<NewsletterBg />}>
-        <div className="max-w-2xl mx-auto text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <p className="text-xs font-bold tracking-widest uppercase text-primary mb-4">Newsletter</p>
+        <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.08fr_0.92fr]">
+          <motion.a href={ai4Article?.link ?? "https://asembleai.substack.com"} target="_blank" rel="noopener noreferrer"
+            className="group relative block min-h-[380px] overflow-hidden rounded-3xl border border-white/10 bg-black"
+            initial={{ opacity: 0, x: -25 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+            {ai4Article?.image && <img src={ai4Article.image} alt="" className="absolute inset-0 h-full w-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-105" />}
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/35 to-transparent" />
+            <div className="absolute left-5 top-5 rounded-full border border-white/20 bg-black/50 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-white backdrop-blur-md">Latest from AI4</div>
+            <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
+              <div className="mb-3 flex items-center gap-2 text-xs text-white/55"><CalendarDays className="h-4 w-4" />{ai4Article?.date ?? "Latest article"}</div>
+              <h3 className="max-w-2xl text-2xl font-bold leading-tight text-white md:text-3xl">{ai4Article?.title ?? "Read the latest AsembleAI analysis"}</h3>
+              <p className="mt-3 text-sm text-white/60">{ai4Article?.summary}</p>
+              <span className="mt-5 inline-flex items-center text-sm font-semibold text-cyan-300">Read the field notes <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" /></span>
+            </div>
+          </motion.a>
+          <motion.div className="text-left" initial={{ opacity: 0, x: 25 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+            <p className="text-xs font-bold tracking-widest uppercase text-primary mb-4">The AsembleAI Brief</p>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Stay at the <AnimatedTitle gradient="from-yellow-400 via-orange-500 to-red-500">Frontier</AnimatedTitle>
+              Signal from the <AnimatedTitle gradient="from-yellow-400 via-orange-500 to-red-500">frontier.</AnimatedTitle>
             </h2>
-            <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
-              AI, DeepTech &amp; Science insights — delivered weekly. Join the decision-makers who read AsembleAI every week.
+            <p className="text-lg text-muted-foreground mb-8">
+              Conference intelligence, technical conversations and practical lessons for people building what comes next.
             </p>
             <NewsletterForm />
             <p className="text-xs text-muted-foreground mt-4">

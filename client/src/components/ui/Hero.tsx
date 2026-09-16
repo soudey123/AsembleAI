@@ -21,6 +21,7 @@ const HERO_REEL = [
   { videoId: "_bCV2xm3TC8", startSeconds: 10, label: "LotusPetal AI" },
   { videoId: "nWCP19vGxIE", startSeconds: 6, label: "Inside AsembleAI" },
   { videoId: "gacscV1XtUc", startSeconds: 8, label: "Backblaze" },
+  { videoId: "TmrLDj1MpqM", startSeconds: 5, label: "Conference Coverage" },
 ];
 const REEL_CLIP_DURATION = 4.8;
 
@@ -159,9 +160,9 @@ function PodcastReel() {
   return (
     <motion.div
       className="min-w-0"
-      initial={{ opacity: 0, x: 30 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.8, delay: 0.15 }}
+      initial={{ opacity: 0, x: 55, scale: 0.96, clipPath: "inset(0 0 0 100%)" }}
+      animate={{ opacity: 1, x: 0, scale: 1, clipPath: "inset(0 0 0 0%)" }}
+      transition={{ duration: 1.1, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
     >
       <div className="overflow-hidden border border-white/15 bg-[#080808] shadow-[0_30px_80px_rgba(0,0,0,0.55)]">
         <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
@@ -220,7 +221,7 @@ function PodcastReel() {
         </div>
       </div>
       <p className="mt-3 text-right text-[10px] uppercase tracking-[0.18em] text-white/35">
-        12 conversations. One growing AI community.
+        {HERO_REEL.length} stories. One growing AI community.
       </p>
     </motion.div>
   );
@@ -330,15 +331,29 @@ export function Hero() {
                   🎙 Listen Now
                 </Button>
               </a>
-              <Button size="lg" variant="outline"
-                className="h-12 rounded-lg border-white/20 bg-transparent px-8 text-sm font-semibold text-white transition-all hover:bg-white/10"
-                onClick={() => scrollToSection("services")}
-                data-testid="button-hero-partner">
-                Partner With Us
-              </Button>
+              <a href="/contact">
+                <Button size="lg" variant="outline"
+                  className="h-12 rounded-lg border-white/20 bg-transparent px-8 text-sm font-semibold text-white transition-all hover:bg-white/10"
+                  data-testid="button-hero-contact">
+                  Contact Us
+                </Button>
+              </a>
             </div>
           </motion.div>
-          <PodcastReel />
+          <motion.div
+            className="relative"
+            initial={{ filter: "blur(14px)" }}
+            animate={{ filter: "blur(0px)" }}
+            transition={{ duration: 1, delay: 0.35 }}
+          >
+            <motion.span
+              className="pointer-events-none absolute -left-8 top-1/2 z-20 hidden h-px w-16 bg-gradient-to-r from-cyan-300 to-transparent lg:block"
+              initial={{ scaleX: 0, transformOrigin: "left" }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.7, delay: 0.9 }}
+            />
+            <PodcastReel />
+          </motion.div>
         </div>
       </div>
     </section>
