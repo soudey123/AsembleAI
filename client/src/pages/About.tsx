@@ -74,7 +74,7 @@ export default function About() {
                   Founded in 2025 by Mac Goswami and Sam Dey, AsembleAI began as a podcast exploring the real-world frontier of artificial intelligence — and grew into something much larger.
                 </p>
                 <p>
-                  In 18 months, we built a multi-channel media platform reaching 300K+ listeners across Apple Podcasts, Spotify, YouTube and Podbean. Our audience isn't just curious — they're technical decision-makers, engineers, founders, CTOs, and architects who make things happen.
+                  In 18 months, we built a multi-channel media platform reaching 300K+ listeners across Apple Podcasts, Spotify, YouTube and our RSS feed. Our audience isn't just curious — they're technical decision-makers, engineers, founders, CTOs, and architects who make things happen.
                 </p>
                 <p>
                   We partner with organizations who want to reach this audience authentically: through host-read integrations, co-branded content, sponsored research, and executive events. Trusted media converts where generic channels don't.

@@ -2,6 +2,8 @@ import { Link } from "wouter";
 import { Linkedin, Mail, Youtube } from "lucide-react";
 import logoImage from "@assets/Logo_1_1765679359359.png";
 
+const PODCAST_RSS_FEED_URL = "https://media.rss.com/asemble-mac-and-sam/feed.xml";
+
 export function Footer() {
   return (
     <footer className="bg-background border-t border-white/10 pt-20 pb-10">
@@ -43,8 +45,8 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="https://asembleaisocial.podbean.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                  Podbean
+                <a href={PODCAST_RSS_FEED_URL} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                  RSS Feed
                 </a>
               </li>
               <li>

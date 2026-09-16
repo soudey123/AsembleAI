@@ -316,12 +316,33 @@
     width: 2rem;
     flex: none;
     border-radius: 0.35rem;
-    opacity: 0.9;
+    background: white;
+    object-fit: contain;
+    padding: 0.2rem;
+    opacity: 1;
     transition: opacity 200ms ease, transform 200ms ease;
+  }
+
+  .company-logo-fallback {
+    height: 2rem;
+    width: 2rem;
+    flex: none;
+    border-radius: 0.35rem;
+    background: linear-gradient(135deg, rgb(37 99 235), rgb(6 182 212));
+    color: white;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 2rem;
+    text-align: center;
   }
 
   .company-wordmark:hover img {
     opacity: 1;
+    transform: scale(1.08);
+  }
+
+  .company-wordmark:hover .company-logo-fallback {
     transform: scale(1.08);
   }
 }

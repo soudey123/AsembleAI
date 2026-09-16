@@ -61,6 +61,8 @@ const FEATURED_COMPANIES = [
   { name: "Concentrix", guest: "Kathryn Harrison", domain: "concentrix.com" },
 ];
 
+const PODCAST_RSS_FEED_URL = "https://media.rss.com/asemble-mac-and-sam/feed.xml";
+
 
 const TOPIC_IMAGES: Array<{ keywords: string[]; image: string }> = [
   { keywords: ["healthcare", "medical", "health", "hospital", "fraud", "pharma", "clinic"], image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=640&q=80" },
@@ -355,11 +357,18 @@ function FeaturedCompanies() {
             >
               <img
                 src={`https://www.google.com/s2/favicons?domain_url=https://${company.domain}&sz=64`}
-                alt=""
+                alt={`${company.name} logo`}
                 width="32"
                 height="32"
-                loading="lazy"
+                loading="eager"
+                onError={(event) => {
+                  event.currentTarget.hidden = true;
+                  event.currentTarget.nextElementSibling?.removeAttribute("hidden");
+                }}
               />
+              <span className="company-logo-fallback" hidden aria-hidden="true">
+                {company.name.charAt(0)}
+              </span>
               <div>
                 <span>{company.name}</span>
                 <small>{company.guest}</small>
@@ -714,10 +723,8 @@ export default function Home() {
                       <h3 className="text-base font-bold text-white mb-1 line-clamp-2 group-hover:text-primary transition-colors">{ep.title}</h3>
                       <p className="text-xs text-muted-foreground mb-3">{ep.guest ? `with ${ep.guest} · ` : ""}{ep.duration}</p>
                       <div className="flex gap-2">
-                        {ep.spotifyUrl && (
-                          <a href={ep.spotifyUrl} target="_blank" rel="noopener noreferrer"
-                            className="text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-orange-500/20 hover:text-orange-400 border border-white/10 transition-all text-muted-foreground">RSS</a>
-                        )}
+                        <a href={PODCAST_RSS_FEED_URL} target="_blank" rel="noopener noreferrer"
+                          className="text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-orange-500/20 hover:text-orange-400 border border-white/10 transition-all text-muted-foreground">RSS Feed</a>
                         <a href={matchYoutubeUrl(ep.title, videosData?.videos ?? [])} target="_blank" rel="noopener noreferrer"
                           className="text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-red-500/20 hover:text-red-400 border border-white/10 transition-all text-muted-foreground">YouTube</a>
                       </div>
