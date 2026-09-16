@@ -80,7 +80,9 @@ const TOPIC_IMAGES: Array<{ keywords: string[]; image: string }> = [
   { keywords: ["ai", "artificial", "intelligence", "deep tech", "machine learning", "deeptech", "science"], image: aiImg },
 ];
 
-function getEpisodeThumbnail(title: string, _tags: string[], videos: any[]): string {
+function getEpisodeThumbnail(title: string, rssThumbnail: string, videos: any[]): string {
+  if (rssThumbnail) return rssThumbnail;
+
   if (videos?.length) {
     const epWords = new Set(title.toLowerCase().split(/\W+/).filter((w) => w.length > 3));
     let best = { thumbnail: "", score: 0 };
@@ -737,7 +739,7 @@ export default function Home() {
                   transition={{ delay: i * 0.1 }} viewport={{ once: true }}>
                   <Card className="h-full glass-card border-white/5 hover:border-primary/30 transition-all duration-300 group overflow-hidden" data-testid={`card-episode-${i}`}>
                     <div className="aspect-video overflow-hidden">
-                      <img src={getEpisodeThumbnail(ep.title, ep.tags ?? [], videosData?.videos ?? [])} alt={ep.title}
+                       <img src={getEpisodeThumbnail(ep.title, ep.thumbnail ?? "", videosData?.videos ?? [])} alt={ep.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
                     </div>
                     <CardContent className="p-5">
