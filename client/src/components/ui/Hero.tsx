@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import appleChartsProof from "@assets/apple-podcasts-chart-proof.jpg";
+const ROTATING_WORDS = ["Science", "Robotics", "Biotech", "Quantum", "Space"];
 const PLATFORMS = [
   { label: "Apple Podcasts", href: "https://podcasts.apple.com/search?term=inside+asembleai", icon: "🎵", color: "hover:bg-purple-500/20 hover:text-purple-300 hover:border-purple-500/30" },
   { label: "Spotify", href: "https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU", icon: "♫", color: "hover:bg-green-500/20 hover:text-green-400 hover:border-green-500/30" },
@@ -45,20 +46,14 @@ function RevealWords({
   return (
     <span className={className} aria-label={text}>
       {text.split(" ").map((word, index) => (
-        <motion.span
+        <span
           key={`${word}-${index}`}
-          className="mr-[0.22em] inline-block"
+          className="hero-word-mask mr-[0.22em]"
           aria-hidden="true"
-          initial={{ opacity: 0, y: 28, filter: "blur(10px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{
-            duration: 0.55,
-            delay: startDelay + index * 0.07,
-            ease: [0.16, 1, 0.3, 1],
-          }}
+          style={{ "--hero-word-delay": `${startDelay + index * 0.09}s` } as CSSProperties}
         >
-          {word}
-        </motion.span>
+          <span className="hero-word">{word}</span>
+        </span>
       ))}
     </span>
   );
@@ -68,24 +63,22 @@ function TechBackdrop() {
   return (
     <div className="absolute inset-0 overflow-hidden bg-[#030916]">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_25%,rgba(37,99,235,0.22),transparent_30rem),radial-gradient(circle_at_82%_42%,rgba(6,182,212,0.14),transparent_28rem)]" />
-      <motion.div
-        className="absolute inset-0 opacity-[0.11]"
+      <div
+        className="hero-tech-grid absolute inset-0 opacity-[0.11]"
         style={{
           backgroundImage:
             "linear-gradient(rgba(96,165,250,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(96,165,250,0.35) 1px, transparent 1px)",
-          backgroundSize: "64px 64px",
+          backgroundSize: "72px 72px",
         }}
-        animate={{ backgroundPosition: ["0px 0px", "64px 64px"] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
       />
+      <div className="hero-breathing-glow absolute -right-32 -top-32 h-[42rem] w-[42rem] rounded-full bg-blue-500/15 blur-[110px]" />
+      <div className="hero-top-scanline absolute left-0 top-0 h-px w-1/3 bg-gradient-to-r from-transparent via-cyan-200 to-transparent" />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,9,22,0.1),rgba(3,9,22,0.42)_48%,rgba(3,9,22,0.12))]" />
       {[18, 42, 68].map((top, index) => (
-        <motion.div
+        <div
           key={top}
-          className="absolute left-0 h-px w-1/3 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent"
-          style={{ top: `${top}%` }}
-          animate={{ x: ["-120%", "420%"] }}
-          transition={{ duration: 7 + index * 2, repeat: Infinity, ease: "linear", delay: index * 1.4 }}
+          className="hero-data-line absolute left-0 h-px w-1/3 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent"
+          style={{ top: `${top}%`, "--line-duration": `${7 + index * 2}s`, "--line-delay": `${index * 1.4}s` } as CSSProperties}
         />
       ))}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#030916]" />
@@ -241,6 +234,17 @@ function scrollToSection(id: string) {
 }
 
 export function Hero() {
+  const [rotatingIndex, setRotatingIndex] = useState(0);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(
+      () => setRotatingIndex((current) => (current + 1) % ROTATING_WORDS.length),
+      2600,
+    );
+    return () => window.clearInterval(timer);
+  }, []);
+
   return (
     <section className="relative flex min-h-0 items-center overflow-hidden bg-[#030916] md:min-h-[88vh]">
       <TechBackdrop />
@@ -297,47 +301,44 @@ export function Hero() {
             {/* Headline */}
             <h1 className="text-4xl font-bold font-heading tracking-[-0.045em] leading-[1.01] text-white sm:text-5xl lg:text-6xl">
               <RevealWords text="AI, DeepTech &" startDelay={0.15} />
-              <motion.span
-                className="relative mt-1 block w-fit text-primary"
-                initial={{ opacity: 0, clipPath: "inset(0 100% 0 0)" }}
-                animate={{ opacity: 1, clipPath: "inset(0 0% 0 0)" }}
-                transition={{ duration: 0.8, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
-              >
-                Science
-                <motion.span
-                  className="absolute -bottom-1 left-0 h-[3px] bg-gradient-to-r from-blue-500 via-cyan-300 to-transparent"
-                  initial={{ width: 0 }}
-                  animate={{ width: "100%" }}
-                  transition={{ duration: 0.8, delay: 1.1 }}
-                />
-              </motion.span>
+              <span className="relative mt-1 flex items-center gap-4 text-primary">
+                <span className="inline-block min-w-[5.9em] overflow-hidden pb-[0.08em]">
+                  <span key={ROTATING_WORDS[rotatingIndex]} className="hero-rotating-word inline-block">
+                    {ROTATING_WORDS[rotatingIndex]}
+                  </span>
+                </span>
+                <span className="hero-accent-rule hidden h-[3px] flex-1 bg-gradient-to-r from-blue-500 via-cyan-300 to-transparent sm:block" />
+              </span>
               <span className="mt-2 block">
-                <RevealWords text="conversations that matter." startDelay={0.85} />
+                <RevealWords text="conversations that" startDelay={0.78} />
+                <span className="hero-matter-sheen inline-block">matter.</span>
               </span>
             </h1>
 
             {/* Positioning */}
-            <motion.div
-              className="max-w-lg border-l border-cyan-400/40 pl-4"
-              initial={{ opacity: 0, x: -18 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.65, delay: 1.4 }}
-            >
+            <div className="hero-subhead max-w-lg border-l border-cyan-400/40 pl-4">
               <p className="mb-2 text-lg font-semibold text-white">
-                <RevealWords text="Where Brands Meet Their Niche" startDelay={1.45} />
+                Where Brands Meet Their Niche
               </p>
-              <p className="text-sm leading-relaxed text-blue-100/65 md:text-base">
+              <p className="text-sm leading-relaxed text-blue-100 md:text-base">
                 Podcast + YouTube marketing funnels and omnichannel campaigns that turn niche audiences.
               </p>
-            </motion.div>
+            </div>
 
             {/* Platform links */}
-            <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60 mb-3">Listen on</p>
+            <div className="hero-listen-row">
+              <div className="mb-3 flex items-center gap-3">
+                <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60">Listen on</p>
+                <span className="hero-equalizer flex h-4 items-end gap-[2px]" aria-hidden="true">
+                  {Array.from({ length: 12 }, (_, index) => (
+                    <span key={index} style={{ "--bar-delay": `${index * 0.08}s` } as CSSProperties} />
+                  ))}
+                </span>
+              </div>
               <div className="flex flex-wrap gap-2">
                 {PLATFORMS.map((p) => (
                   <a key={p.label} href={p.href} target="_blank" rel="noopener noreferrer"
-                    className={`inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition-all border border-white/10 rounded-full px-3.5 py-2 bg-white/5 backdrop-blur-sm ${p.color}`}
+                    className={`hero-platform-pill inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition-all border border-white/10 rounded-full px-3.5 py-2 bg-white/5 backdrop-blur-sm ${p.color}`}
                     data-testid={`link-platform-${p.label.toLowerCase().replace(/\s/g, "-")}`}
                   >
                     <span className="text-sm leading-none">{p.icon}</span>
@@ -348,10 +349,10 @@ export function Hero() {
             </div>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-3 pt-1">
+            <div className="hero-cta-row flex flex-col sm:flex-row gap-3 pt-1">
               <a href="/podcast">
                 <Button size="lg"
-                  className="h-12 rounded-lg bg-primary px-8 text-sm font-semibold hover:bg-primary/90 transition-all"
+                  className="hero-primary-cta relative h-12 overflow-hidden rounded-lg bg-primary px-8 text-sm font-semibold hover:bg-primary/90 transition-all"
                   data-testid="button-hero-listen">
                   🎙 Listen Now
                 </Button>
@@ -365,12 +366,7 @@ export function Hero() {
               </a>
             </div>
           </motion.div>
-          <motion.div
-            className="relative"
-            initial={{ filter: "blur(14px)" }}
-            animate={{ filter: "blur(0px)" }}
-            transition={{ duration: 1, delay: 0.35 }}
-          >
+          <div className="hero-spotlight-enter relative">
             <motion.span
               className="pointer-events-none absolute -left-8 top-1/2 z-20 hidden h-px w-16 bg-gradient-to-r from-cyan-300 to-transparent lg:block"
               initial={{ scaleX: 0, transformOrigin: "left" }}
@@ -378,7 +374,7 @@ export function Hero() {
               transition={{ duration: 0.7, delay: 0.9 }}
             />
             <PodcastReel />
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
