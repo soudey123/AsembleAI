@@ -4,10 +4,10 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import appleChartsProof from "@assets/apple-podcasts-chart-proof.jpg";
 const ROTATING_WORDS = ["Science", "Robotics", "Biotech", "Quantum", "Space"];
 const PLATFORMS = [
-  { label: "Apple Podcasts", href: "https://podcasts.apple.com/search?term=inside+asembleai", icon: "🎵", color: "hover:bg-purple-500/20 hover:text-purple-300 hover:border-purple-500/30" },
-  { label: "Spotify", href: "https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU", icon: "♫", color: "hover:bg-green-500/20 hover:text-green-400 hover:border-green-500/30" },
-  { label: "iHeartRadio", href: "https://www.iheart.com/search/?q=inside+asembleai", icon: "♥", color: "hover:bg-pink-500/20 hover:text-pink-400 hover:border-pink-500/30" },
-  { label: "YouTube", href: "https://www.youtube.com/@asembleaiyt", icon: "▶", color: "hover:bg-red-500/20 hover:text-red-400 hover:border-red-500/30" },
+  { label: "Apple Podcasts", href: "https://podcasts.apple.com/search?term=inside+asembleai", logo: "https://cdn.simpleicons.org/applepodcasts/9933CC", color: "hover:bg-purple-500/20 hover:text-purple-200 hover:border-purple-400/50" },
+  { label: "Spotify", href: "https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU", logo: "https://cdn.simpleicons.org/spotify/1ED760", color: "hover:bg-green-500/20 hover:text-green-300 hover:border-green-400/50" },
+  { label: "iHeartRadio", href: "https://www.iheart.com/search/?q=inside+asembleai", logo: "https://cdn.simpleicons.org/iheartradio/ED1C24", color: "hover:bg-red-500/20 hover:text-red-300 hover:border-red-400/50" },
+  { label: "YouTube", href: "https://www.youtube.com/@asembleaiyt", logo: "https://cdn.simpleicons.org/youtube/FF0000", color: "hover:bg-red-500/20 hover:text-red-300 hover:border-red-400/50" },
 ];
 
 const HERO_REEL = [
@@ -261,11 +261,24 @@ export function Hero() {
           >
             {/* Podcast name */}
             <motion.div
-              className="inline-flex items-center gap-2 border-l-2 border-primary pl-3"
+              className="flex flex-wrap items-center gap-3 border-l-2 border-primary pl-3"
             >
               <span className="text-xs font-bold tracking-[0.2em] uppercase text-white/70">
                 Inside AsembleAI
               </span>
+              <motion.span
+                className="inline-flex items-center gap-1.5 rounded-full border border-purple-400/40 bg-purple-500/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-purple-200 shadow-[0_0_18px_rgba(168,85,247,0.2)]"
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.4, duration: 0.45 }}
+              >
+                <img
+                  src="https://cdn.simpleicons.org/applepodcasts/9933CC"
+                  alt=""
+                  className="h-3.5 w-3.5"
+                />
+                Top 5 Apple Podcast
+              </motion.span>
             </motion.div>
 
             {/* Apple chart proof */}
@@ -341,7 +354,7 @@ export function Hero() {
                     className={`hero-platform-pill inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition-all border border-white/10 rounded-full px-3.5 py-2 bg-white/5 backdrop-blur-sm ${p.color}`}
                     data-testid={`link-platform-${p.label.toLowerCase().replace(/\s/g, "-")}`}
                   >
-                    <span className="text-sm leading-none">{p.icon}</span>
+                    <img src={p.logo} alt="" className="h-4 w-4 shrink-0" />
                     {p.label}
                   </a>
                 ))}
