@@ -11,18 +11,25 @@ const PLATFORMS = [
 
 const HERO_REEL = [
   { videoId: "eZtXVs1XIe8", startSeconds: 8, label: "ActualyzeAI" },
+  { videoId: "TmrLDj1MpqM", startSeconds: 5, label: "AI4 · On the Ground" },
   { videoId: "hti_8AM_mBg", startSeconds: 10, label: "Atera" },
   { videoId: "rhvY5p1UkLg", startSeconds: 7, label: "DTEX" },
+  { videoId: "TmrLDj1MpqM", startSeconds: 22, label: "AI4 · Field Notes" },
   { videoId: "Q0dcB15m8Ns", startSeconds: 9, label: "Mind Children" },
   { videoId: "GOBtXqJMfIU", startSeconds: 12, label: "SingularityNET" },
+  { videoId: "TmrLDj1MpqM", startSeconds: 39, label: "AI4 · Conference Voices" },
   { videoId: "BoLde-FY_Bg", startSeconds: 8, label: "Sophos" },
   { videoId: "U2AIQnF5dxc", startSeconds: 10, label: "TrueFoundry" },
+  { videoId: "TmrLDj1MpqM", startSeconds: 56, label: "AI4 · Live Insight" },
   { videoId: "BoJuiUX-nB0", startSeconds: 7, label: "Kalk Robotics" },
   { videoId: "FoTjTTFnHlw", startSeconds: 8, label: "Douglas Swatski" },
+  { videoId: "TmrLDj1MpqM", startSeconds: 73, label: "AI4 · Industry Pulse" },
   { videoId: "_bCV2xm3TC8", startSeconds: 10, label: "LotusPetal AI" },
   { videoId: "nWCP19vGxIE", startSeconds: 6, label: "Inside AsembleAI" },
+  { videoId: "TmrLDj1MpqM", startSeconds: 90, label: "AI4 · Expert Take" },
   { videoId: "gacscV1XtUc", startSeconds: 8, label: "Backblaze" },
-  { videoId: "TmrLDj1MpqM", startSeconds: 5, label: "Conference Coverage" },
+  { videoId: "TmrLDj1MpqM", startSeconds: 107, label: "AI4 · From the Floor" },
+  { videoId: "TmrLDj1MpqM", startSeconds: 124, label: "AI4 · Next Signal" },
 ];
 const REEL_CLIP_DURATION = 4.8;
 
@@ -198,10 +205,10 @@ function PodcastReel() {
           </div>
         </div>
 
-        <div className="grid grid-cols-6 gap-1.5 bg-black p-2">
+        <div className="grid grid-cols-5 gap-1.5 bg-black p-2">
           {HERO_REEL.map((clip, index) => (
             <button
-              key={clip.videoId}
+              key={`${clip.videoId}-${clip.startSeconds}`}
               type="button"
               onClick={() => loadClip(index)}
               className={`group relative aspect-video overflow-hidden border transition-all ${
