@@ -139,7 +139,7 @@ export const enterprisePackages = [
 
 export const audienceStats = [
   { value: 600000, label: "Podcast Downloads", display: "600K+", suffix: "", description: "Across Apple, Spotify & RSS" },
-  { value: 7000, label: "YouTube Subscribers", display: "7K+", suffix: "", description: "Growing 15%+ month-over-month" },
+  { value: 7000, label: "YouTube Subscribers", display: "7K+", suffix: "", description: "Across AI, DeepTech & Science content" },
   { value: 75, label: "Episodes Published", display: "75+", suffix: "", description: "Weekly multi-channel publishing" },
   { value: 30, label: "Featured Guests", display: "30+", suffix: "", description: "AI pioneers, CTOs & researchers" },
   { value: 100, label: "Newsletter Subscribers", display: "100+", suffix: "", description: "Growing community of practitioners" },

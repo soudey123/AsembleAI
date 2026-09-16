@@ -327,7 +327,11 @@ function ProofStrip() {
 }
 
 function FeaturedCompanies() {
-  const marqueeItems = [...FEATURED_COMPANIES, ...FEATURED_COMPANIES];
+  const headline = "We featured the AI leaders and executives shaping what’s next";
+  const companyRows = [
+    FEATURED_COMPANIES.filter((_, index) => index % 2 === 0),
+    FEATURED_COMPANIES.filter((_, index) => index % 2 === 1),
+  ];
 
   return (
     <section
@@ -342,40 +346,62 @@ function FeaturedCompanies() {
           id="featured-companies-title"
           className="mx-auto mb-10 max-w-3xl text-center text-3xl font-bold text-white md:text-5xl"
         >
-          We featured the AI leaders and executives shaping what’s next
+          {headline.split(" ").map((word, index) => (
+            <motion.span
+              key={`${word}-${index}`}
+              className="mr-[0.24em] inline-block"
+              initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.45, delay: index * 0.06, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.8 }}
+            >
+              {word}
+            </motion.span>
+          ))}
         </h2>
       </div>
 
-      <div className="company-marquee" aria-label="Companies represented by podcast guests">
-        <div className="company-marquee-track">
-          {marqueeItems.map((company, index) => (
+      <div className="space-y-4">
+        {companyRows.map((companies, rowIndex) => {
+          const marqueeItems = [...companies, ...companies];
+          return (
             <div
-              key={`${company.name}-${index}`}
-              className="company-wordmark"
-              title={`${company.name} — ${company.guest}`}
-              aria-hidden={index >= FEATURED_COMPANIES.length}
+              key={rowIndex}
+              className={`company-marquee company-marquee-row-${rowIndex + 1}`}
+              aria-label={`Companies represented by podcast guests, row ${rowIndex + 1}`}
             >
-              <img
-                src={`https://www.google.com/s2/favicons?domain_url=https://${company.domain}&sz=64`}
-                alt={`${company.name} logo`}
-                width="32"
-                height="32"
-                loading="eager"
-                onError={(event) => {
-                  event.currentTarget.hidden = true;
-                  event.currentTarget.nextElementSibling?.removeAttribute("hidden");
-                }}
-              />
-              <span className="company-logo-fallback" hidden aria-hidden="true">
-                {company.name.charAt(0)}
-              </span>
-              <div>
-                <span>{company.name}</span>
-                <small>{company.guest}</small>
+              <div className="company-marquee-track">
+                {marqueeItems.map((company, index) => (
+                  <div
+                    key={`${company.name}-${index}`}
+                    className="company-wordmark"
+                    title={`${company.name} — ${company.guest}`}
+                    aria-hidden={index >= companies.length}
+                  >
+                    <img
+                      src={`https://www.google.com/s2/favicons?domain_url=https://${company.domain}&sz=64`}
+                      alt={`${company.name} logo`}
+                      width="32"
+                      height="32"
+                      loading="eager"
+                      onError={(event) => {
+                        event.currentTarget.hidden = true;
+                        event.currentTarget.nextElementSibling?.removeAttribute("hidden");
+                      }}
+                    />
+                    <span className="company-logo-fallback" hidden aria-hidden="true">
+                      {company.name.charAt(0)}
+                    </span>
+                    <div>
+                      <span>{company.name}</span>
+                      <small>{company.guest}</small>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </section>
   );

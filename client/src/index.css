@@ -271,7 +271,13 @@
   .company-marquee-track {
     display: flex;
     width: max-content;
-    animation: company-marquee 48s linear infinite;
+    animation: company-marquee-left-to-right 48s linear infinite;
+    will-change: transform;
+  }
+
+  .company-marquee-row-2 .company-marquee-track {
+    animation-duration: 56s;
+    animation-delay: -24s;
   }
 
   .company-marquee:hover .company-marquee-track {
@@ -347,9 +353,9 @@
   }
 }
 
-@keyframes company-marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+@keyframes company-marquee-left-to-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
