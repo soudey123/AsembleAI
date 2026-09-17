@@ -139,16 +139,16 @@ export const enterprisePackages = [
 
 export const audienceStats = [
   { value: 600000, label: "Podcast Downloads", display: "600K+", suffix: "", description: "Across Apple, Spotify & RSS" },
-  { value: 7000, label: "YouTube Subscribers", display: "7K+", suffix: "", description: "Across AI, DeepTech & Science content" },
+  { value: 8000, label: "YouTube Subscribers", display: "8K", suffix: "", description: "Across AI, DeepTech & Science content" },
   { value: 75, label: "Episodes Published", display: "75+", suffix: "", description: "Weekly multi-channel publishing" },
-  { value: 30, label: "Featured Guests", display: "30+", suffix: "", description: "AI pioneers, CTOs & researchers" },
-  { value: 100, label: "Newsletter Subscribers", display: "100+", suffix: "", description: "Growing community of practitioners" },
-  { value: 47, label: "Countries Reached", display: "47", suffix: "", description: "A focused audience with global reach" }
+  { value: 50, label: "Featured Guests", display: "50+", suffix: "", description: "AI pioneers, CTOs & researchers" },
+  { value: 500, label: "Newsletter Subscribers", display: "500", suffix: "", description: "Growing community of practitioners" },
+  { value: 50, label: "Countries Reached", display: "50", suffix: "", description: "A focused audience with global reach" }
 ];
 
 export const audienceDemographics = [
-  { stat: "68%", label: "Technical Decision-Makers", detail: "Engineers, founders, CTOs & architects" },
-  { stat: "41%", label: "Have Budget Authority", detail: "Up to $50K purchasing power" },
+  { stat: "90%", label: "Technical Decision-Makers", detail: "Engineers, founders, CTOs & architects" },
+  { stat: "75%", label: "Have Budget Authority", detail: "Up to $50K purchasing power" },
   { stat: "Top Metros", label: "Audience Reach", detail: "SF · NYC · Boston · Austin · Philadelphia · Denver · Seattle" }
 ];
 

@@ -252,9 +252,9 @@
   }
 
   .home-hero { order: 1; }
-  .home-companies { order: 2; }
-  .home-proof { order: 3; }
-  .home-services { order: 4; }
+  .home-services { order: 2; }
+  .home-companies { order: 3; }
+  .home-proof { order: 4; }
   .home-topics { order: 5; }
   .home-episodes { order: 6; }
   .home-testimonials { order: 7; }
@@ -361,5 +361,24 @@
 @media (prefers-reduced-motion: reduce) {
   .company-marquee-track {
     animation-play-state: paused;
+  }
+}
+
+.sponsor-widget {
+  animation: sponsor-widget-pulse 3.2s ease-in-out infinite;
+}
+
+@keyframes sponsor-widget-pulse {
+  0%, 100% {
+    box-shadow: 0 10px 40px rgba(6, 182, 212, 0.18);
+  }
+  50% {
+    box-shadow: 0 10px 48px rgba(6, 182, 212, 0.38);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sponsor-widget {
+    animation: none;
   }
 }

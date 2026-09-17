@@ -628,6 +628,52 @@ function NewsletterBg() {
   );
 }
 
+function ServicesSection() {
+  return (
+    <Section className="home-section home-services border-y border-white/10" id="services" bg={<ServicesBg />}>
+      <div className="text-center mb-14">
+        <p className="text-xs font-bold tracking-widest uppercase text-primary mb-3">What We Offer</p>
+        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          One story. Every channel.{" "}
+          <AnimatedTitle gradient="from-orange-400 via-red-500 to-pink-500">Built to compound.</AnimatedTitle>
+        </h2>
+        <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          We turn technical expertise into trusted media, focused outreach and campaigns that move niche audiences.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 max-w-6xl mx-auto mb-10 sm:grid-cols-2 lg:grid-cols-5">
+        {SERVICE_CAPABILITIES.map((service, i) => {
+          const Icon = service.icon;
+          return (
+            <motion.div key={service.name}
+              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }} viewport={{ once: true }}
+              className={`group relative min-h-64 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br ${service.accent} p-6 transition-all duration-300 hover:-translate-y-1 hover:border-white/25`}
+              data-testid={`card-service-${i}`}>
+              <span className="absolute right-4 top-3 font-mono text-4xl font-black text-white/[0.05]">{service.number}</span>
+              <div className="mb-10 flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-black/25 text-white transition-transform group-hover:scale-110">
+                <Icon className="h-6 w-6" />
+              </div>
+              <h3 className="mb-3 text-lg font-bold text-white">{service.name}</h3>
+              <p className="text-sm leading-relaxed text-white/55">{service.description}</p>
+              <div className="absolute bottom-0 left-0 h-px w-0 bg-gradient-to-r from-primary to-cyan-300 transition-all duration-500 group-hover:w-full" />
+            </motion.div>
+          );
+        })}
+      </div>
+
+      <div className="text-center">
+        <a href="mailto:asembleaimedia@asembleai.com">
+          <Button size="lg" className="h-12 rounded-lg bg-primary px-8 font-semibold hover:bg-primary/90" data-testid="button-services-contact">
+            Contact Us <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </a>
+      </div>
+    </Section>
+  );
+}
+
 /* ─────────────────────────────────────────────────────────
    HOME PAGE
 ───────────────────────────────────────────────────────── */
@@ -656,13 +702,14 @@ export default function Home() {
           <Hero />
         </div>
 
+        <ServicesSection />
         <FeaturedCompanies />
         <ProofStrip />
 
       {/* ── TOPICS / BROWSE BY CATEGORY ── */}
       <Section id="topics" className="home-section home-topics border-y border-white/10">
         <div className="text-center mb-12">
-          <p className="text-xs font-bold tracking-widest uppercase text-primary mb-3">Browse by Topic</p>
+          <p className="text-xs font-bold tracking-widest uppercase text-primary mb-3">Browse by Podcast Topic</p>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Explore Our <AnimatedTitle gradient="from-cyan-400 via-blue-500 to-purple-500">Topic Areas</AnimatedTitle>
           </h2>
@@ -779,7 +826,7 @@ export default function Home() {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             <AnimatedTitle gradient="from-teal-400 via-emerald-500 to-green-400">By the Numbers</AnimatedTitle>
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">600K+ downloads, 75+ episodes and 30+ featured guests — built for a focused global audience.</p>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">600K+ downloads, 75+ episodes and 50+ featured guests — built for a focused global audience.</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-14">
@@ -845,12 +892,12 @@ export default function Home() {
             Niche influence without borders
           </h3>
           <p className="text-center text-sm text-muted-foreground mb-8 max-w-xl mx-auto">
-            Reaching decision-makers across 47 countries and the technology centers where AI products, research and markets converge.
+            Reaching decision-makers across 50 countries and the technology centers where AI products, research and markets converge.
           </p>
 
           {/* World map */}
           <div className="rounded-2xl overflow-hidden border border-white/10 bg-black mb-8">
-            <img src={audienceMapImg} alt="Listener distribution world map showing 47 countries" className="w-full h-auto" />
+            <img src={audienceMapImg} alt="Listener distribution world map showing 50 countries" className="w-full h-auto" />
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -876,48 +923,6 @@ export default function Home() {
           </h2>
         </div>
         <TestimonialsCarousel />
-      </Section>
-
-      {/* ── SERVICES / PARTNER WITH US ── */}
-      <Section className="home-section home-services border-y border-white/10" id="services" bg={<ServicesBg />}>
-        <div className="text-center mb-14">
-          <p className="text-xs font-bold tracking-widest uppercase text-primary mb-3">What We Build</p>
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            One story. Every channel.{" "}
-            <AnimatedTitle gradient="from-orange-400 via-red-500 to-pink-500">Built to compound.</AnimatedTitle>
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            We turn technical expertise into trusted media, focused outreach and campaigns that move niche audiences.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-4 max-w-6xl mx-auto mb-10 sm:grid-cols-2 lg:grid-cols-5">
-          {SERVICE_CAPABILITIES.map((service, i) => {
-            const Icon = service.icon;
-            return (
-            <motion.div key={service.name}
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }} viewport={{ once: true }}
-              className={`group relative min-h-64 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br ${service.accent} p-6 transition-all duration-300 hover:-translate-y-1 hover:border-white/25`}
-              data-testid={`card-service-${i}`}>
-              <span className="absolute right-4 top-3 font-mono text-4xl font-black text-white/[0.05]">{service.number}</span>
-              <div className="mb-10 flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-black/25 text-white transition-transform group-hover:scale-110">
-                <Icon className="h-6 w-6" />
-              </div>
-              <h3 className="mb-3 text-lg font-bold text-white">{service.name}</h3>
-              <p className="text-sm leading-relaxed text-white/55">{service.description}</p>
-              <div className="absolute bottom-0 left-0 h-px w-0 bg-gradient-to-r from-primary to-cyan-300 transition-all duration-500 group-hover:w-full" />
-            </motion.div>
-          )})}
-        </div>
-
-        <div className="text-center">
-          <a href="mailto:asembleaimedia@asembleai.com">
-            <Button size="lg" className="h-12 rounded-lg bg-primary px-8 font-semibold hover:bg-primary/90" data-testid="button-services-contact">
-              Contact Us <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </a>
-        </div>
       </Section>
 
       {/* ── NEWSLETTER SIGNUP ── */}

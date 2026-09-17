@@ -1,0 +1,42 @@
+I need several updates made to the AsembleAI marketing site (asembleai.com). Please implement all of the following:
+
+1. SECTION REORDER
+   Move the "What We Build" section (the one with the heading "One story. Every channel. Built to compound." and the 5 numbered service items: Podcast Production, YouTube Marketing, Campaign Outreach, Educational Content, Product Marketing) so it appears immediately after the Hero section and before the "Our Guest Network" section. It currently sits near the bottom of the page, right before the "Latest from AI4 / Newsletter" section — remove it from there.
+
+2. RENAME "WHAT WE BUILD" TO "WHAT WE OFFER"
+   Update the eyebrow label from "What We Build" to "What We Offer". Keep the heading "One story. Every channel. Built to compound." and all 5 service items unchanged.
+
+3. RENAME "BROWSE BY TOPIC"
+   Change the eyebrow label "Browse by Topic" (above "Explore Our Topic Areas") to "Browse by Podcast Topic" everywhere it appears on the page, so it's unambiguous that these are podcast episode topics.
+
+4. UPDATE "BY THE NUMBERS" STATS
+   In the "By the Numbers" / "The AsembleAI Audience" section, update these values:
+   - YouTube Subscribers: → 8K
+   - Featured Guests: → 50+
+   - Newsletter Subscribers: → 500
+   - Countries Reached: → 50
+   Leave "Podcast Downloads" (600K+) and "Episodes Published" (75+) as they are.
+   Also update the supporting summary line "600K+ downloads, 75+ episodes and 30+ featured guests — built for a focused global audience." so "30+ featured guests" becomes "50+ featured guests".
+   Check the smaller stats strip that repeats "Podcast Downloads / YouTube Subscribers / Episodes Published" further up the page (right after the Guest Network section) and update its YouTube Subscribers figure to 8K too, for consistency.
+   In the "Global Footprint" section, the text "Reaching decision-makers across 47 countries..." should also update to 50 countries to stay consistent with the new Countries Reached number.
+
+5. UPDATE AUDIENCE DEMOGRAPHICS
+   In the Audience Demographics block:
+   - "68% Technical Decision-Makers" → 90%
+   - "41% Have Budget Authority" → 75%
+   Leave the descriptive subtext under each ("Engineers, founders, CTOs & architects" / "Up to $50K purchasing power") as is unless it needs adjusting to stay accurate — flag it to me if the $50K line should change too.
+
+6. FOOTER: ADD PLATFORM LOGOS
+   In the footer's "Listen" column (Apple Podcasts, Spotify, iHeartRadio, RSS Feed, YouTube), add each platform's small official icon/logo next to its text link, matching the icon size and style already used in the "Connect" row (X, Instagram, LinkedIn, YouTube, Email) so both rows feel visually consistent. Keep them monochrome/outline style to fit the dark footer background.
+
+7. ADD A PERSISTENT "SPONSOR US" WIDGET
+   Add a small floating widget that stays visible on screen at all times while scrolling (fixed position, bottom-right corner, above any chat/newsletter elements), across all pages of the site. Design direction:
+   - A rounded pill/badge, collapsed state shows something like "🎙 Sponsor This Show"
+   - Subtle pulse/glow animation so it draws the eye without being obnoxious
+   - On hover/tap, it can expand slightly to show a short line like "Reach 8K+ AI decision-makers →"
+   - Clicking it opens a mailto link to asembleaimedia@asembleai.com (or links to a sponsor/contact section if one exists) 
+   - On mobile, collapse it to just an icon so it doesn't block content
+   - Should not be a popup/modal or intercept scrolling — it's a persistent corner element, not an interruption
+   - Make sure it doesn't visually collide with the existing newsletter signup form or the "Contact Us" buttons elsewhere on the page
+
+Please implement these changes carefully, preserve all existing functionality (links, animations, carousels), and let me know if any of the section reordering requires restructuring shared layout components rather than just moving JSX/content blocks.

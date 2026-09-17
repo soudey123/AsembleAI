@@ -1,8 +1,15 @@
 import { Link } from "wouter";
-import { Linkedin, Mail, Youtube } from "lucide-react";
+import { Linkedin, Mail, Rss, Youtube } from "lucide-react";
 import logoImage from "@assets/Logo_1_1765679359359.png";
 
 const PODCAST_RSS_FEED_URL = "https://media.rss.com/asemble-mac-and-sam/feed.xml";
+const FOOTER_PLATFORMS = [
+  { label: "Apple Podcasts", href: "https://podcasts.apple.com/search?term=inside+asembleai", logo: "https://cdn.simpleicons.org/applepodcasts/A1A1AA" },
+  { label: "Spotify", href: "https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU", logo: "https://cdn.simpleicons.org/spotify/A1A1AA" },
+  { label: "iHeartRadio", href: "https://www.iheart.com/search/?q=inside+asembleai", logo: "https://cdn.simpleicons.org/iheartradio/A1A1AA" },
+  { label: "RSS Feed", href: PODCAST_RSS_FEED_URL, logo: null },
+  { label: "YouTube", href: "https://www.youtube.com/@asembleaiyt", logo: "https://cdn.simpleicons.org/youtube/A1A1AA" },
+];
 
 export function Footer() {
   return (
@@ -29,31 +36,20 @@ export function Footer() {
           <div>
             <h4 className="font-heading font-bold text-white mb-6">Listen</h4>
             <ul className="space-y-3">
-              <li>
-                <a href="https://podcasts.apple.com/search?term=inside+asembleai" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                  Apple Podcasts
-                </a>
-              </li>
-              <li>
-                <a href="https://open.spotify.com/show/4BpXMVsNVd7MtbX2dTg7qU" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                  Spotify
-                </a>
-              </li>
-              <li>
-                <a href="https://www.iheart.com/search/?q=inside+asembleai" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                  iHeartRadio
-                </a>
-              </li>
-              <li>
-                <a href={PODCAST_RSS_FEED_URL} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                  RSS Feed
-                </a>
-              </li>
-              <li>
-                <a href="https://www.youtube.com/@asembleaiyt" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                  YouTube
-                </a>
-              </li>
+              {FOOTER_PLATFORMS.map((platform) => (
+                <li key={platform.label}>
+                  <a href={platform.href} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2.5 text-sm text-muted-foreground transition-colors hover:text-white">
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-white/5 transition-colors group-hover:border-white/25 group-hover:bg-white/10">
+                      {platform.logo ? (
+                        <img src={platform.logo} alt="" className="h-3.5 w-3.5 opacity-80 group-hover:opacity-100" />
+                      ) : (
+                        <Rss className="h-3.5 w-3.5" aria-hidden="true" />
+                      )}
+                    </span>
+                    {platform.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
