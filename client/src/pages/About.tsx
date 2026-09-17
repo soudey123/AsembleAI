@@ -41,7 +41,7 @@ export default function About() {
     {
       name: "Sam Dey",
       role: "Co-Host & Co-Founder",
-      bio: "Data Analytics and AI leader with 15+ years of Fortune 500 experience across healthcare, digital marketing, and financial services. A University of Illinois Urbana-Champaign (Public Ivy) alumnus and published researcher, Sam extends his influence across education, media, and community as creator of DataScienceWithSam, co-host of the Inside AssembleAI podcast (featured in Apple's Top 100 Tech Podcasts in 2026), former Coursera instructor and AI coach, and Co-Chair of Denver AI. A graduate of the Sayge Executive Coaching Program, Sam also serves as an advisor to Brandeis University's Applied Data Science program. Featured in Voyage Denver and Business Life Magazine, Sam speaks on agentic AI and enterprise AI strategy.",
+      bio: "Data Analytics and AI leader with 15+ years of Fortune 500 experience in healthcare, digital marketing, and financial services. University of Illinois Urbana-Champaign (Public Ivy) alumnus, published researcher; DataScienceWithSam creator; Inside AsembleAI co-host (Apple Top 100 Tech Podcasts, 2026); former Coursera instructor, AI coach; Denver AI Co-Chair; Sayge Executive Coaching graduate; Brandeis Applied Data Science advisor; Voyage Denver and Business Life Magazine feature; speaker on agentic and enterprise AI strategy.",
       linkedin: "https://www.linkedin.com/in/sam-dey-441294ab/",
       image: samDeyPhoto
     }
