@@ -160,7 +160,16 @@ export default function Podcast() {
     <Layout>
       <div className="pt-20">
         {/* ── HEADER ── */}
-        <Section className="pb-10 text-center">
+        <Section
+          className="podcast-page-hero pb-14 text-center"
+          bg={
+            <div className="podcast-page-hero-bg" aria-hidden="true">
+              <div className="podcast-page-hero-orbit podcast-page-hero-orbit-left" />
+              <div className="podcast-page-hero-orbit podcast-page-hero-orbit-right" />
+              <div className="podcast-page-hero-beam" />
+            </div>
+          }
+        >
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-6">
             <Mic className="w-8 h-8 text-primary" />
           </div>
