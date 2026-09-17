@@ -678,6 +678,28 @@ function ServicesSection() {
    HOME PAGE
 ───────────────────────────────────────────────────────── */
 export default function Home() {
+  useEffect(() => {
+    const sectionId = window.location.hash.slice(1);
+    if (!sectionId) return;
+
+    const scrollToHashSection = () => {
+      document.getElementById(sectionId)?.scrollIntoView({
+        behavior: "auto",
+        block: "start",
+      });
+    };
+
+    const frame = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(scrollToHashSection);
+    });
+    const retry = window.setTimeout(scrollToHashSection, 250);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(retry);
+    };
+  }, []);
+
   const { data: episodesData, isLoading: episodesLoading } = useQuery<{ episodes: any[] }>({
     queryKey: ["/api/podcast/audio"],
     staleTime: 5 * 60 * 1000,
@@ -820,7 +842,7 @@ export default function Home() {
       </Section>
 
       {/* ── BY THE NUMBERS / AUDIENCE ── */}
-      <Section className="home-section home-audience border-y border-white/10" id="audience" bg={<AudienceBg />}>
+      <Section className="home-section home-audience scroll-mt-24 border-y border-white/10" id="audience" bg={<AudienceBg />}>
         <div className="text-center mb-14">
           <p className="text-xs font-bold tracking-widest uppercase text-primary mb-3">The AsembleAI Audience</p>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
