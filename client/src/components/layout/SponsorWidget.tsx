@@ -17,7 +17,7 @@ export function SponsorWidget() {
           Sponsor This Show
         </span>
         <span className="hidden max-w-0 overflow-hidden whitespace-nowrap text-xs text-cyan-200 opacity-0 transition-all duration-300 group-hover:max-w-[15rem] group-hover:opacity-100 md:block">
-          Reach 8K+ AI decision-makers
+          Reach AI leaders &amp; decision-makers
         </span>
         <ArrowRight className="hidden h-4 w-4 shrink-0 text-cyan-300 sm:block" />
       </span>

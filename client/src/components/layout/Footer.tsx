@@ -29,7 +29,7 @@ export function Footer() {
               <li><Link href="/about"><span className="text-muted-foreground hover:text-primary transition-colors cursor-pointer text-sm">About</span></Link></li>
               <li><Link href="/podcast"><span className="text-muted-foreground hover:text-primary transition-colors cursor-pointer text-sm">Podcast</span></Link></li>
               <li><Link href="/newsletter"><span className="text-muted-foreground hover:text-primary transition-colors cursor-pointer text-sm">Newsletter</span></Link></li>
-              <li><a href="/#services"><span className="text-muted-foreground hover:text-primary transition-colors cursor-pointer text-sm">Partner With Us</span></a></li>
+              <li><a href="/#services"><span className="text-muted-foreground hover:text-primary transition-colors cursor-pointer text-sm">Partnerships &amp; Sponsorships</span></a></li>
             </ul>
           </div>
 

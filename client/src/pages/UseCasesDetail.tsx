@@ -12,7 +12,7 @@ export default function UseCasesDetail() {
           <p className="text-muted-foreground mb-8">This page has been updated. Explore our podcast or learn about partnership opportunities.</p>
           <div className="flex gap-4 justify-center">
             <Link href="/#services">
-              <Button className="bg-primary hover:bg-primary/90">Partner With Us</Button>
+              <Button className="bg-primary hover:bg-primary/90">Partnerships &amp; Sponsorships</Button>
             </Link>
             <Link href="/podcast">
               <Button variant="outline" className="border-white/10 text-white hover:bg-white/5">Listen to Podcast</Button>

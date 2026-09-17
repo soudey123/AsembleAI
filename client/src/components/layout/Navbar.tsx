@@ -81,7 +81,7 @@ export function Navbar() {
               variant="default"
               className="bg-primary hover:bg-primary/90 text-white shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] transition-all"
             >
-              Partner With Us
+              Partnerships &amp; Sponsorships
             </Button>
           </a>
         </div>
@@ -109,7 +109,7 @@ export function Navbar() {
                   </a>
                 ))}
                 <a href="/#services" onClick={(e) => { if (location === "/" || location === "") { e.preventDefault(); scrollToSection("services"); } }}>
-                  <Button className="w-full bg-primary hover:bg-primary/90">Partner With Us</Button>
+                  <Button className="w-full bg-primary hover:bg-primary/90">Partnerships &amp; Sponsorships</Button>
                 </a>
               </div>
             </SheetContent>
