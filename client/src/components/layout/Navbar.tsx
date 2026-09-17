@@ -30,6 +30,7 @@ export function Navbar() {
     { href: "/#services", label: "Services", sectionId: "services" },
     { href: "/about", label: "About", sectionId: null },
     { href: "/newsletter", label: "Newsletter", sectionId: null },
+    { href: "/conference-coverage", label: "Conference Coverage", sectionId: null },
   ];
 
   const isActive = (href: string) => {
@@ -42,9 +43,18 @@ export function Navbar() {
       // If already on home page, just smooth-scroll; otherwise navigate then scroll
       if (location === "/" || location === "") {
         e.preventDefault();
+        window.history.pushState(null, "", `/#${link.sectionId}`);
         scrollToSection(link.sectionId);
       }
       // If on another page, let the normal href navigation happen; the hash will scroll on load
+    }
+  };
+
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (location === "/" || location === "") {
+      e.preventDefault();
+      window.history.replaceState(null, "", "/");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -56,14 +66,14 @@ export function Navbar() {
       )}
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
-        <a href="/">
+        <a href="/" onClick={handleLogoClick}>
           <div className="flex items-center gap-2 cursor-pointer group">
             <img src={logoImage} alt="AsembleAI" className="h-10 w-auto" />
           </div>
         </a>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-7">
+        <div className="hidden md:flex items-center gap-5">
           {links.map((link) => (
             <a key={link.href} href={link.href} onClick={(e) => handleLinkClick(e, link)}>
               <span

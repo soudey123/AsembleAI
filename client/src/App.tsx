@@ -11,6 +11,7 @@ import Newsletter from "@/pages/Newsletter";
 import UseCases from "@/pages/UseCases";
 import UseCasesDetail from "@/pages/UseCasesDetail";
 import Contact from "@/pages/Contact";
+import ConferenceCoverage from "@/pages/ConferenceCoverage";
 
 function Router() {
   return (
@@ -22,6 +23,7 @@ function Router() {
       <Route path="/use-cases" component={UseCases} />
       <Route path="/use-cases/:slug" component={UseCasesDetail} />
       <Route path="/contact" component={Contact} />
+      <Route path="/conference-coverage" component={ConferenceCoverage} />
       <Route component={NotFound} />
     </Switch>
   );

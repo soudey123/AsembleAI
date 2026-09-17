@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "wouter";
-import { ArrowRight, CalendarDays, Camera, ChevronLeft, ChevronRight, ExternalLink, GraduationCap, Loader2, MapPin, Megaphone, Mic2, PackageSearch, Play, Youtube } from "lucide-react";
+import { ArrowRight, CalendarDays, Camera, ChevronLeft, ChevronRight, ExternalLink, GraduationCap, Loader2, Megaphone, Mic2, PackageSearch, Youtube } from "lucide-react";
 import { PODCAST_TOPICS, ACCENT_COLORS } from "@/lib/topics";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
@@ -680,24 +680,34 @@ function ServicesSection() {
 ───────────────────────────────────────────────────────── */
 export default function Home() {
   useEffect(() => {
-    const sectionId = window.location.hash.slice(1);
-    if (!sectionId) return;
+    const previousScrollRestoration = window.history.scrollRestoration;
+    window.history.scrollRestoration = "manual";
 
     const scrollToHashSection = () => {
-      document.getElementById(sectionId)?.scrollIntoView({
-        behavior: "auto",
-        block: "start",
-      });
+      const sectionId = window.location.hash.slice(1);
+      if (sectionId) {
+        document.getElementById(sectionId)?.scrollIntoView({
+          behavior: "auto",
+          block: "start",
+        });
+      } else {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      }
     };
 
     const frame = window.requestAnimationFrame(() => {
       window.requestAnimationFrame(scrollToHashSection);
     });
     const retry = window.setTimeout(scrollToHashSection, 250);
+    window.addEventListener("hashchange", scrollToHashSection);
+    window.addEventListener("popstate", scrollToHashSection);
 
     return () => {
       window.cancelAnimationFrame(frame);
       window.clearTimeout(retry);
+      window.removeEventListener("hashchange", scrollToHashSection);
+      window.removeEventListener("popstate", scrollToHashSection);
+      window.history.scrollRestoration = previousScrollRestoration;
     };
   }, []);
 
@@ -717,12 +727,6 @@ export default function Home() {
   const ai4Article = newsletterData?.articles.find((article) =>
     `${article.title} ${article.summary}`.toLowerCase().includes("ai4")
   ) ?? newsletterData?.articles[0];
-  const conferenceVideos = (videosData?.videos ?? [])
-    .filter((video: any) => /\bai4\b|conference|summit|expo/i.test(video.title))
-    .slice(0, 2);
-  const featuredConferenceVideos = conferenceVideos.length
-    ? conferenceVideos
-    : (videosData?.videos ?? []).slice(0, 2);
 
   return (
     <Layout>
@@ -990,91 +994,6 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* ── CONFERENCE COVERAGE ── */}
-      <Section id="conference-coverage" className="home-section home-conference-coverage">
-        <div className="conference-grid-bg" aria-hidden="true" />
-        <div className="relative z-10 mx-auto max-w-6xl">
-          <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <div className="max-w-3xl">
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-400/[0.07] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-cyan-300">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)]" />
-                From the conference floor
-              </div>
-              <h2 className="text-4xl font-bold leading-tight text-white md:text-6xl">
-                Where emerging ideas become{" "}
-                <AnimatedTitle gradient="from-cyan-300 via-blue-400 to-violet-400">real conversations.</AnimatedTitle>
-              </h2>
-            </div>
-            <p className="max-w-sm text-sm leading-relaxed text-white/55 md:text-right">
-              On-site interviews, fast-turnaround social content and firsthand reporting from the events shaping AI and enterprise technology.
-            </p>
-          </div>
-
-          <div className="grid gap-5 lg:grid-cols-[0.72fr_1.28fr]">
-            <motion.article
-              className="conference-lead-card group relative overflow-hidden rounded-3xl border border-white/10"
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-            >
-              <video
-                className="aspect-[9/13] h-full max-h-[650px] w-full object-cover"
-                controls
-                playsInline
-                preload="metadata"
-                poster="/media/brainstorm-denver-poster.jpg"
-                aria-label="Brainstorm conference coverage from Denver"
-              >
-                <source src="/media/brainstorm-denver.mp4" type="video/mp4" />
-              </video>
-              <div className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between bg-gradient-to-b from-black/75 to-transparent p-5">
-                <div>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/45 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur-md">
-                    <MapPin className="h-3 w-3 text-cyan-300" />
-                    Denver
-                  </span>
-                  <h3 className="mt-3 text-2xl font-bold text-white">Brainstorm Conference</h3>
-                  <p className="mt-1 text-sm text-white/65">A recent dispatch from the floor</p>
-                </div>
-              </div>
-            </motion.article>
-
-            <div className="grid gap-5">
-              {featuredConferenceVideos.map((video: any, index: number) => (
-                <motion.a
-                  key={video.youtubeUrl ?? video.slug ?? index}
-                  href={video.youtubeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="conference-video-card group relative min-h-[245px] overflow-hidden rounded-3xl border border-white/10 bg-[#07101f]"
-                  initial={{ opacity: 0, x: 24 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ delay: index * 0.12 }}
-                >
-                  <img
-                    src={video.thumbnail}
-                    alt=""
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/10" />
-                  <div className="absolute inset-0 flex max-w-[72%] flex-col justify-end p-6 md:p-8">
-                    <span className="mb-auto inline-flex w-fit items-center gap-2 rounded-full border border-red-400/25 bg-red-500/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.17em] text-red-200 backdrop-blur-md">
-                      <Youtube className="h-3.5 w-3.5" />
-                      AI4 Coverage
-                    </span>
-                    <h3 className="line-clamp-2 text-xl font-bold leading-snug text-white md:text-2xl">{video.title}</h3>
-                    <span className="mt-4 inline-flex items-center text-sm font-semibold text-cyan-300">
-                      Watch from the floor
-                      <Play className="ml-2 h-4 w-4 fill-current transition-transform group-hover:translate-x-1" />
-                    </span>
-                  </div>
-                </motion.a>
-              ))}
-            </div>
-          </div>
-        </div>
-      </Section>
       </div>
     </Layout>
   );
