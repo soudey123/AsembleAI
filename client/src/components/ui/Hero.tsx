@@ -338,6 +338,31 @@ export function Hero() {
               </p>
             </div>
 
+            {/* Sponsorship signal */}
+            <motion.a
+              href="mailto:asembleaimedia@asembleai.com?subject=Partnership%20or%20Sponsorship%20Inquiry"
+              className="hero-sponsor-signal group flex w-fit max-w-full items-center gap-3 rounded-xl border border-emerald-300/25 bg-emerald-400/[0.07] px-3.5 py-2.5 transition-all duration-200 hover:border-emerald-300/55 hover:bg-emerald-400/[0.12]"
+              initial={{ opacity: 0, x: -12 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.05, duration: 0.5 }}
+            >
+              <span className="relative flex h-2.5 w-2.5 shrink-0">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-50 motion-reduce:animate-none" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-300">
+                  Sponsorships Open
+                </span>
+                <span className="block truncate text-xs font-medium text-white/75 transition-colors group-hover:text-white sm:text-sm">
+                  Put your brand inside conversations shaping what’s next
+                </span>
+              </span>
+              <span className="shrink-0 text-emerald-300 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">
+                →
+              </span>
+            </motion.a>
+
             {/* Platform links */}
             <div className="hero-listen-row">
               <div className="mb-3 flex items-center gap-3">
@@ -370,11 +395,11 @@ export function Hero() {
                   🎙 Listen Now
                 </Button>
               </a>
-              <a href="/contact">
+              <a href="mailto:asembleaimedia@asembleai.com?subject=Partnership%20or%20Sponsorship%20Inquiry">
                 <Button size="lg" variant="outline"
                   className="h-12 rounded-lg border-white/20 bg-transparent px-8 text-sm font-semibold text-white transition-all hover:bg-white/10"
                   data-testid="button-hero-contact">
-                  Contact Us
+                  Sponsor or Partner
                 </Button>
               </a>
             </div>

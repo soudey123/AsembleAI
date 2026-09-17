@@ -375,6 +375,14 @@
   animation: sponsor-widget-glow 2.5s ease-in-out infinite;
 }
 
+.hero-sponsor-signal {
+  box-shadow: 0 0 0 rgba(52, 211, 153, 0);
+}
+
+.hero-sponsor-signal:hover {
+  box-shadow: 0 8px 28px rgba(52, 211, 153, 0.14);
+}
+
 .sponsor-widget:hover {
   animation-play-state: paused;
   transform: scale(1.05);
