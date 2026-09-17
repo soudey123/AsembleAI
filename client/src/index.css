@@ -458,6 +458,123 @@
   box-shadow: 0 0 18px rgba(34, 211, 238, 0.18);
 }
 
+.about-page {
+  background:
+    radial-gradient(circle at 8% 42%, rgba(6, 182, 212, 0.08), transparent 24%),
+    radial-gradient(circle at 92% 72%, rgba(79, 70, 229, 0.09), transparent 26%),
+    #030712;
+}
+
+.about-hero {
+  isolation: isolate;
+  min-height: 38rem;
+  display: flex;
+  align-items: center;
+  background:
+    radial-gradient(circle at 76% 45%, rgba(37, 99, 235, 0.24), transparent 26%),
+    radial-gradient(circle at 12% 72%, rgba(6, 182, 212, 0.12), transparent 28%),
+    linear-gradient(135deg, #051126 0%, #050816 55%, #100724 100%);
+}
+
+.about-hero-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.about-hero-bg::before {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(56, 189, 248, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.045) 1px, transparent 1px);
+  background-size: 62px 62px;
+  content: "";
+  mask-image: linear-gradient(90deg, black, transparent 88%);
+}
+
+.about-hero-ring {
+  position: absolute;
+  border: 1px solid rgba(103, 232, 249, 0.12);
+  border-radius: 50%;
+}
+
+.about-hero-ring-one {
+  top: -18rem;
+  right: -10rem;
+  width: 42rem;
+  height: 42rem;
+  box-shadow: 0 0 90px rgba(59, 130, 246, 0.1);
+}
+
+.about-hero-ring-two {
+  right: 10rem;
+  bottom: -20rem;
+  width: 30rem;
+  height: 30rem;
+  border-color: rgba(167, 139, 250, 0.1);
+}
+
+.about-hero-line {
+  position: absolute;
+  right: 6%;
+  bottom: 18%;
+  width: 32%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.5), transparent);
+  box-shadow: 0 0 22px rgba(34, 211, 238, 0.25);
+}
+
+.about-story {
+  background:
+    linear-gradient(90deg, rgba(14, 165, 233, 0.045), transparent 42%),
+    rgba(4, 10, 24, 0.82);
+}
+
+.about-story-callout {
+  margin-top: 1.75rem;
+  border-left: 2px solid rgb(34 211 238);
+  padding: 0.85rem 1rem;
+  color: rgba(207, 250, 254, 0.9);
+  background: linear-gradient(90deg, rgba(6, 182, 212, 0.1), transparent);
+  font-weight: 600;
+}
+
+.about-hosts {
+  background:
+    radial-gradient(circle at 50% 45%, rgba(37, 99, 235, 0.08), transparent 42%),
+    transparent;
+}
+
+.about-founder-card {
+  background: linear-gradient(145deg, rgba(15, 30, 56, 0.88), rgba(7, 12, 27, 0.92));
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.about-founder-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(103, 232, 249, 0.3);
+  box-shadow: 0 24px 70px rgba(6, 182, 212, 0.09);
+}
+
+.about-values {
+  background:
+    linear-gradient(180deg, rgba(13, 20, 42, 0.88), rgba(3, 7, 18, 0.9));
+}
+
+.about-value-card {
+  background: rgba(8, 17, 35, 0.72);
+  transition: transform 220ms ease, border-color 220ms ease, background-color 220ms ease;
+}
+
+.about-value-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(96, 165, 250, 0.42);
+  background: rgba(11, 25, 50, 0.9);
+}
+
 .sponsor-widget:hover {
   animation-play-state: paused;
   transform: scale(1.05);
