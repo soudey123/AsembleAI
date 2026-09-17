@@ -365,20 +365,88 @@
 }
 
 .sponsor-widget {
-  animation: sponsor-widget-pulse 3.2s ease-in-out infinite;
+  cursor: pointer;
+  box-shadow: 0 10px 38px rgba(6, 182, 212, 0.4);
+  transition:
+    transform 180ms ease-out,
+    border-color 180ms ease-out,
+    background-color 180ms ease-out,
+    box-shadow 180ms ease-out;
+  animation: sponsor-widget-glow 2.5s ease-in-out infinite;
 }
 
-@keyframes sponsor-widget-pulse {
+.sponsor-widget:hover {
+  animation-play-state: paused;
+  transform: scale(1.05);
+  border-color: rgba(103, 232, 249, 0.68);
+  background-color: rgba(10, 25, 48, 0.98);
+  box-shadow:
+    0 12px 52px rgba(6, 182, 212, 0.62),
+    0 0 24px rgba(59, 130, 246, 0.42);
+}
+
+.sponsor-widget-inner {
+  animation: sponsor-widget-idle 9s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+}
+
+.sponsor-live-dot::after {
+  position: absolute;
+  inset: -3px;
+  border: 1px solid rgb(52 211 153);
+  border-radius: 9999px;
+  content: "";
+  animation: sponsor-live-ring 1.8s ease-out infinite;
+}
+
+.sponsor-widget-label::after {
+  position: absolute;
+  inset: -50% auto -50% -45%;
+  width: 28%;
+  background: linear-gradient(
+    115deg,
+    transparent,
+    rgba(255, 255, 255, 0.5),
+    transparent
+  );
+  content: "";
+  transform: translateX(-180%) skewX(-18deg);
+  animation: sponsor-shimmer 6s ease-in-out infinite;
+}
+
+@keyframes sponsor-widget-glow {
   0%, 100% {
-    box-shadow: 0 10px 40px rgba(6, 182, 212, 0.18);
+    box-shadow: 0 10px 38px rgba(6, 182, 212, 0.4);
   }
   50% {
-    box-shadow: 0 10px 48px rgba(6, 182, 212, 0.38);
+    box-shadow:
+      0 12px 50px rgba(6, 182, 212, 0.8),
+      0 0 20px rgba(59, 130, 246, 0.35);
   }
+}
+
+@keyframes sponsor-widget-idle {
+  0%, 86%, 100% { transform: translateY(0); }
+  89% { transform: translateY(-4px); }
+  92% { transform: translateY(2px); }
+  95% { transform: translateY(-2px); }
+  98% { transform: translateY(0); }
+}
+
+@keyframes sponsor-live-ring {
+  0% { opacity: 0.75; transform: scale(0.7); }
+  75%, 100% { opacity: 0; transform: scale(1.7); }
+}
+
+@keyframes sponsor-shimmer {
+  0%, 72% { transform: translateX(-180%) skewX(-18deg); }
+  88%, 100% { transform: translateX(620%) skewX(-18deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sponsor-widget {
+  .sponsor-widget,
+  .sponsor-widget-inner,
+  .sponsor-live-dot::after,
+  .sponsor-widget-label::after {
     animation: none;
   }
 }
